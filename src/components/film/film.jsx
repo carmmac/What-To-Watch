@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Film = () => {
-  return <>
+  return (
     <article className="small-movie-card catalog__movies-card">
       <div className="small-movie-card__image">
         <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
@@ -10,7 +10,7 @@ const Film = () => {
         <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
       </h3>
     </article>
-  </>;
+  );
 };
 
 export default Film;

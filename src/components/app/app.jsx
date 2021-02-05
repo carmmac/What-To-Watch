@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import Main from '../main/main.jsx';
 
 const App = ({props}) => {
-  return <>
-    <Main props={props}/>
-  </>;
+  return (<Main {...props}/>);
 };
 
 App.propTypes = {

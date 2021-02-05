@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Film from '../film/film.jsx';
 
-const Main = ({props}) => {
+const Main = (props) => {
   const {CARDS_VISIBLE} = props;
   const {title, genre, year} = props.PROMO;
-
-  const filmElement = <Film/>;
-  const filmsList = new Array(CARDS_VISIBLE).fill().map(() => filmElement);
 
   return <>
     <section className="movie-card">
@@ -104,7 +101,7 @@ const Main = ({props}) => {
         </ul>
 
         <div className="catalog__movies-list">
-          {filmsList}
+          {new Array(CARDS_VISIBLE).fill().map((_, i) => <Film key={title + i}/>)}
         </div>
 
         <div className="catalog__more">
@@ -130,13 +127,12 @@ const Main = ({props}) => {
 };
 
 Main.propTypes = {
-  props: PropTypes.object.isRequired,
   CARDS_VISIBLE: PropTypes.number.isRequired,
   PROMO: PropTypes.shape({
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-  })
+  }),
 };
 
 export default Main;
