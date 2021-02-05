@@ -1,15 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Film from '../film/film.jsx';
 
-const Main = (props) => {
-  const {cardsNum} = props;
+const Main = ({props}) => {
+  const {CARDS_VISIBLE} = props;
+  const {title, genre, year} = props.PROMO;
+
   const filmElement = <Film/>;
-  const filmsList = new Array(cardsNum).fill().map(() => filmElement);
+  const filmsList = new Array(CARDS_VISIBLE).fill().map(() => filmElement);
 
   return <>
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+        <img src="img/bg-the-grand-budapest-hotel.jpg" alt={title} />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -33,15 +36,15 @@ const Main = (props) => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+            <img src="img/the-grand-budapest-hotel-poster.jpg" alt={title + ` poster`} width="218"
               height="327" />
           </div>
 
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+            <h2 className="movie-card__title">{title}</h2>
             <p className="movie-card__meta">
-              <span className="movie-card__genre">Drama</span>
-              <span className="movie-card__year">2014</span>
+              <span className="movie-card__genre">{genre}</span>
+              <span className="movie-card__year">{year}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -124,6 +127,16 @@ const Main = (props) => {
       </footer>
     </div>
   </>;
+};
+
+Main.propTypes = {
+  props: PropTypes.object.isRequired,
+  CARDS_VISIBLE: PropTypes.number.isRequired,
+  PROMO: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+  })
 };
 
 export default Main;
