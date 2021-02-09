@@ -23,12 +23,8 @@ const App = ({props}) => {
           <UserListPage />
         </Route>
         <Route exact path="/films/:id" component={FilmPage} />
-        <Route exact path="/films/:id/review">
-          <ReviewPage />
-        </Route>
-        <Route exact path="/player/:id">
-          <Player />
-        </Route>
+        <Route exact path="/films/:id/review" component={ReviewPage} />
+        <Route exact path="/player/:id" component={Player} />
         <Route>
           <NotFoundScreen />
         </Route>
