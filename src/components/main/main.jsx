@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Film from '../film/film.jsx';
+import Film from '../film-card/film-card.jsx';
 
 const Main = (props) => {
   const {CARDS_VISIBLE} = props;
