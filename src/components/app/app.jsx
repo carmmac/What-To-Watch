@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Main from '../main/main.jsx';
-import Film from '../film-card/film-card.jsx';
+import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
 import LoginPage from '../login/login.jsx';
 import UserListPage from '../user-list/user-list.jsx';
@@ -22,9 +22,7 @@ const App = ({props}) => {
         <Route exact path="/mylist">
           <UserListPage />
         </Route>
-        <Route exact path="/films/:id">
-          <Film />
-        </Route>
+        <Route exact path="/films/:id" component={FilmPage} />
         <Route exact path="/films/:id/review">
           <ReviewPage />
         </Route>
