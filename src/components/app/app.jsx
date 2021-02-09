@@ -4,10 +4,10 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
-import LoginPage from '../login/login.jsx';
-import UserListPage from '../user-list/user-list.jsx';
-import ReviewPage from '../review/review.jsx';
-import NotFoundScreen from '../not-found/not-found.jsx';
+import LoginPage from '../login/login-page.jsx';
+import UserListPage from '../user-list/user-list-page.jsx';
+import ReviewPage from '../review/review-page.jsx';
+import NotFoundScreen from '../not-found/not-found-screen.jsx';
 
 const App = ({props}) => {
   return (

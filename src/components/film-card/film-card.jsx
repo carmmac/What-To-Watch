@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Film = () => {
+const FilmCard = () => {
   return (
     <article className="small-movie-card catalog__movies-card">
       <div className="small-movie-card__image">
@@ -13,4 +13,4 @@ const Film = () => {
   );
 };
 
-export default Film;
+export default FilmCard;
