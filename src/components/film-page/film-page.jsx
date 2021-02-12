@@ -1,11 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import FilmsList from '../films-list/films-list';
+import {mockPropTypes} from '../../prop-types';
 
-const FilmPage = () => {
-  return (
+const FilmPage = (props) => {
+  const {films} = props;
+  const {id: filmId} = props.match.params;
+  const film = films.find((item) => item.id === parseInt(filmId, 10));
+  return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -28,10 +34,10 @@ const FilmPage = () => {
 
         <div className="movie-card__wrap">
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+            <h2 className="movie-card__title">{film.name}</h2>
             <p className="movie-card__meta">
-              <span className="movie-card__genre">Drama</span>
-              <span className="movie-card__year">2014</span>
+              <span className="movie-card__genre">{film.genre}</span>
+              <span className="movie-card__year">{film.released}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -56,7 +62,7 @@ const FilmPage = () => {
       <div className="movie-card__wrap movie-card__translate-top">
         <div className="movie-card__info">
           <div className="movie-card__poster movie-card__poster--big">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+            <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
 
@@ -76,31 +82,52 @@ const FilmPage = () => {
             </nav>
 
             <div className="movie-rating">
-              <div className="movie-rating__score">8,9</div>
+              <div className="movie-rating__score">{film.rating}</div>
               <p className="movie-rating__meta">
                 <span className="movie-rating__level">Very good</span>
-                <span className="movie-rating__count">240 ratings</span>
+                <span className="movie-rating__count">{`${film.scoresCount} ratings`}</span>
               </p>
             </div>
 
             <div className="movie-card__text">
-              <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge
-                Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&#39s friend and protege.</p>
+              <p>{film.description}</p>
 
-              <p>Gustave prides himself on providing first-className service to the hotel&#39s guests, including satisfying the
-                sexual needs of the many elderly women who stay there. When one of Gustave&#39s lovers dies mysteriously,
-                Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
+              <p className="movie-card__director"><strong>{`Director: ${film.director}`}</strong></p>
 
-              <p className="movie-card__director"><strong>Director: Wes Andreson</strong></p>
-
-              <p className="movie-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and
-                  other</strong></p>
+              <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => star)} and others`}</strong></p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
+
+    <div className="page-content">
+      <section className="catalog catalog--like-this">
+        <h2 className="catalog__title">More like this</h2>
+        {<FilmsList {...props} />}
+      </section>
+
+      <footer className="page-footer">
+        <div className="logo">
+          <a href="main.html" className="logo__link logo__link--light">
+            <span className="logo__letter logo__letter--1">W</span>
+            <span className="logo__letter logo__letter--2">T</span>
+            <span className="logo__letter logo__letter--3">W</span>
+          </a>
+        </div>
+
+        <div className="copyright">
+          <p>© 2019 What to watch Ltd.</p>
+        </div>
+      </footer>
+    </div>
+  </>;
+};
+
+FilmPage.propTypes = {
+  films: mockPropTypes,
+  filmId: PropTypes.string.isRequired,
+  match: PropTypes.object
 };
 
 export default FilmPage;
