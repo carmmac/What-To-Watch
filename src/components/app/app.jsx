@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {appPropTypes} from '../../prop-types.js';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -9,7 +9,11 @@ import UserListPage from '../user-list/user-list-page.jsx';
 import ReviewPage from '../review/review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 
-const App = ({props}) => {
+const App = (props) => {
+  const mockData = {
+    films: [...props.films],
+    reviews: [...props.reviews],
+  };
   return (
     <BrowserRouter>
       <Switch>
@@ -20,11 +24,11 @@ const App = ({props}) => {
           <LoginPage />
         </Route>
         <Route exact path="/mylist">
-          <UserListPage />
+          <UserListPage {...mockData} />
         </Route>
-        <Route exact path="/films/:id" component={FilmPage} />
-        <Route exact path="/films/:id/review" component={ReviewPage} />
-        <Route exact path="/player/:id" component={Player} />
+        <Route exact path="/films/:id" render={(props) => <FilmPage {...mockData} {...props} />} />
+        <Route exact path="/films/:id/review" render={(props) => <ReviewPage {...mockData} {...props} />} />
+        <Route exact path="/player/:id" render={(props) => <Player {...mockData} {...props} />} />
         <Route>
           <NotFoundScreen />
         </Route>
@@ -33,15 +37,6 @@ const App = ({props}) => {
   );
 };
 
-App.propTypes = {
-  props: PropTypes.shape({
-    CARDS_VISIBLE: PropTypes.number.isRequired,
-    PROMO: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      genre: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-    })
-  })
-};
+App.propTypes = appPropTypes;
 
 export default App;
