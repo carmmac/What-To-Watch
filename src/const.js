@@ -5,7 +5,7 @@ const MockFilmsNum = {
 };
 const RatingScore = {
   MIN: 1,
-  MAX: 9,
+  MAX: 10,
 };
 
 export {
