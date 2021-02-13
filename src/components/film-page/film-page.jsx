@@ -126,7 +126,6 @@ const FilmPage = (props) => {
 
 FilmPage.propTypes = {
   films: mockPropTypes,
-  filmId: PropTypes.string.isRequired,
   match: PropTypes.object
 };
 

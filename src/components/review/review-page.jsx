@@ -100,7 +100,6 @@ const ReviewPage = (props) => {
 
 ReviewPage.propTypes = {
   films: mockPropTypes,
-  filmId: PropTypes.string.isRequired,
   match: PropTypes.object
 };
 
