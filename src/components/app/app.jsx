@@ -27,7 +27,13 @@ const App = (props) => {
           <UserListPage {...mockData} />
         </Route>
         <Route exact path="/films/:id" render={(renderProps) => <FilmPage {...mockData} {...renderProps} />} />
-        <Route exact path="/films/:id/review" render={(renderProps) => <ReviewAddPage {...mockData} {...renderProps} />} />
+        <Route exact path="/films/:id/review" render={(renderProps) =>
+          <ReviewAddPage
+            {...mockData}
+            {...renderProps}
+            onPost={()=>{}}
+          />}
+        />
         <Route exact path="/player/:id" render={(renderProps) => <Player {...mockData} {...renderProps} />} />
         <Route>
           <NotFoundScreen />
