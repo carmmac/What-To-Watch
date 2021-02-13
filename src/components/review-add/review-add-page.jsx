@@ -4,7 +4,7 @@ import {mockPropTypes} from '../../prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
-import RatingForm from '../rating/rating-form';
+import CommentForm from '../rating/comment-form';
 
 const ReviewAddPage = (props) => {
   const {films, onPost} = props;
@@ -41,7 +41,7 @@ const ReviewAddPage = (props) => {
       </div>
 
       <div className="add-review">
-        {<RatingForm onPost={onPost} />}
+        {<CommentForm onPost={onPost} />}
       </div>
 
     </section>
