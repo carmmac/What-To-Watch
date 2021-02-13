@@ -1,6 +1,9 @@
 import React from 'react';
 import FilmsList from '../films-list/films-list.jsx';
 import {appPropTypes} from '../../prop-types.js';
+import Logo from '../logo/logo.jsx';
+import UserBlock from '../user-block/user-block.jsx';
+import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 
 const Main = (props) => {
   const {
@@ -17,26 +20,14 @@ const Main = (props) => {
 
   return <>
     <section className="movie-card">
-      <div className="movie-card__bg">
-        <img src={backgroundImage} alt={name} />
-      </div>
+      {<FilmBackgroundBlock backgroundImage={backgroundImage} />}
 
       <h1 className="visually-hidden">WTW</h1>
 
       <header className="page-header movie-card__head">
-        <div className="logo">
-          <a className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        {<Logo/>}
 
-        <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
-        </div>
+        {<UserBlock/>}
       </header>
 
       <div className="movie-card__wrap">
