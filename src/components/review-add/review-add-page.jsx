@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {mockPropTypes} from '../../prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
-import RatingBlock from '../rating/rating-block';
+import RatingForm from '../rating/rating-form';
 
 const ReviewAddPage = (props) => {
-  const [userRating, setUserRating] = useState(3);
-  const {films} = props;
+  const {films, onPost} = props;
   const {id: filmId} = props.match.params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
+
   return (
     <section className="movie-card movie-card--full">
       <div className="movie-card__header">
@@ -41,25 +41,17 @@ const ReviewAddPage = (props) => {
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
-
-          {<RatingBlock state={userRating} setState={setUserRating} />}
-
-          <div className="add-review__text">
-            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
-            <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
-            </div>
-          </div>
-        </form>
+        {<RatingForm onPost={onPost} />}
       </div>
+
     </section>
   );
 };
 
 ReviewAddPage.propTypes = {
   films: mockPropTypes,
-  match: PropTypes.object
+  match: PropTypes.object,
+  onPost: PropTypes.func.isRequired,
 };
 
 export default ReviewAddPage;
