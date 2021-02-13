@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {mockPropTypes} from '../../prop-types';
 
-const Player = () => {
+const Player = (props) => {
+  const {films} = props;
+  const {id: filmId} = props.match.params;
+  const film = films.find((item) => item.id === parseInt(filmId, 10));
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -35,6 +40,12 @@ const Player = () => {
       </div>
     </div>
   );
+};
+
+Player.propTypes = {
+  films: mockPropTypes,
+  filmId: PropTypes.string.isRequired,
+  match: PropTypes.object
 };
 
 export default Player;

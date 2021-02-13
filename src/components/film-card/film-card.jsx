@@ -1,16 +1,21 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import {filmMockPropTypes} from '../../prop-types';
 
-const FilmCard = () => {
+const FilmCard = (props) => {
+  const {id, name, previewImage} = props.filmData;
   return (
     <article className="small-movie-card catalog__movies-card">
       <div className="small-movie-card__image">
-        <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
+        <img src={previewImage} alt={name} width="280" height="175" />
       </div>
       <h3 className="small-movie-card__title">
-        <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
+        <Link className="small-movie-card__link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
 };
+
+FilmCard.propTypes = filmMockPropTypes;
 
 export default FilmCard;

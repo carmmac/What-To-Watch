@@ -1,15 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Film from '../film-card/film-card.jsx';
+import FilmsList from '../films-list/films-list.jsx';
+import {appPropTypes} from '../../prop-types.js';
 
 const Main = (props) => {
-  const {CARDS_VISIBLE} = props;
-  const {title, genre, year} = props.PROMO;
+  const {
+    name,
+    genre,
+    released,
+    posterImage,
+    backgroundImage
+  } = props.promoFilm;
+  const mockData = {
+    films: [...props.films],
+    reviews: [...props.reviews],
+  };
 
   return <>
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src="img/bg-the-grand-budapest-hotel.jpg" alt={title} />
+        <img src={backgroundImage} alt={name} />
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -33,15 +42,15 @@ const Main = (props) => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt={title + ` poster`} width="218"
+            <img src={posterImage} alt={name + ` poster`} width="218"
               height="327" />
           </div>
 
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">{title}</h2>
+            <h2 className="movie-card__title">{name}</h2>
             <p className="movie-card__meta">
               <span className="movie-card__genre">{genre}</span>
-              <span className="movie-card__year">{year}</span>
+              <span className="movie-card__year">{released}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -100,9 +109,7 @@ const Main = (props) => {
           </li>
         </ul>
 
-        <div className="catalog__movies-list">
-          {new Array(CARDS_VISIBLE).fill().map((_, i) => <Film key={title + i}/>)}
-        </div>
+        {<FilmsList {...mockData} />}
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -126,13 +133,6 @@ const Main = (props) => {
   </>;
 };
 
-Main.propTypes = {
-  CARDS_VISIBLE: PropTypes.number.isRequired,
-  PROMO: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-  }),
-};
+Main.propTypes = appPropTypes;
 
 export default Main;
