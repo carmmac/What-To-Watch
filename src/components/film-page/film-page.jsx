@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
 import {mockPropTypes} from '../../prop-types';
+import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
@@ -44,7 +45,7 @@ const FilmPage = (props) => {
                 </svg>
                 <span>My list</span>
               </button>
-              <a href="add-review.html" className="btn movie-card__button">Add review</a>
+              <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>
             </div>
           </div>
         </div>
