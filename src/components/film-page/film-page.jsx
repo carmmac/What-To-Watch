@@ -86,7 +86,7 @@ const FilmPage = (props) => {
 
               <p className="movie-card__director"><strong>{`Director: ${film.director}`}</strong></p>
 
-              <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => star)} and others`}</strong></p>
+              <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => ` ${star}`)} and others`}</strong></p>
             </div>
           </div>
         </div>
