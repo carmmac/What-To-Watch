@@ -4,9 +4,9 @@ import {mockPropTypes} from '../../prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
-import CommentForm from '../rating/comment-form';
+import ReviewForm from '../review-form/review-form';
 
-const ReviewAddPage = (props) => {
+const AddReviewPage = (props) => {
   const {films, onPost} = props;
   const {id: filmId} = props.match.params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
@@ -41,17 +41,17 @@ const ReviewAddPage = (props) => {
       </div>
 
       <div className="add-review">
-        {<CommentForm onPost={onPost} />}
+        {<ReviewForm onPost={onPost} />}
       </div>
 
     </section>
   );
 };
 
-ReviewAddPage.propTypes = {
+AddReviewPage.propTypes = {
   films: mockPropTypes,
   match: PropTypes.object,
   onPost: PropTypes.func.isRequired,
 };
 
-export default ReviewAddPage;
+export default AddReviewPage;
