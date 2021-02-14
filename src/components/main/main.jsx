@@ -5,18 +5,14 @@ import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 
-const Main = (props) => {
+const Main = ({promoFilm, films, reviews}) => {
   const {
     name,
     genre,
     released,
     posterImage,
     backgroundImage
-  } = props.promoFilm;
-  const mockData = {
-    films: [...props.films],
-    reviews: [...props.reviews],
-  };
+  } = promoFilm;
 
   return <>
     <section className="movie-card">
@@ -100,7 +96,7 @@ const Main = (props) => {
           </li>
         </ul>
 
-        {<FilmsList {...mockData} />}
+        {<FilmsList films={films} reviews={reviews} />}
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>

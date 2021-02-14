@@ -1,10 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {filmMockPropTypes} from '../../prop-types';
 
-const FilmCard = (props) => {
-  const {id, name, previewImage} = props.filmData;
+const FilmCard = ({id, name, previewImage}) => {
   return (
     <article className="small-movie-card catalog__movies-card">
       <div className="small-movie-card__image">
@@ -16,8 +14,7 @@ const FilmCard = (props) => {
     </article>
   );
 };
-FilmCard.propTypes = {
-  filmData: PropTypes.shape(filmMockPropTypes)
-};
+
+FilmCard.propTypes = filmMockPropTypes;
 
 export default FilmCard;

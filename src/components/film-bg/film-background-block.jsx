@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FilmBackgroundBlock = (props) => {
-  const {backgroundImage} = props;
+const FilmBackgroundBlock = ({backgroundImage}) => {
   return (
     <div className="movie-card__bg">
       <img src={backgroundImage} alt="The Grand Budapest Hotel" />
