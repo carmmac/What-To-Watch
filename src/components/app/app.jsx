@@ -6,35 +6,50 @@ import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
 import LoginPage from '../login/login-page.jsx';
 import UserListPage from '../user-list/user-list-page.jsx';
-import ReviewAddPage from '../review-add/review-add-page.jsx';
+import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 
-const App = (props) => {
-  const mockData = {
-    films: [...props.films],
-    reviews: [...props.reviews],
-  };
+const App = ({promoFilm, films, reviews}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main {...props} />
+          <Main
+            promoFilm={promoFilm}
+            films={films}
+            reviews={reviews} />
         </Route>
         <Route exact path="/login">
           <LoginPage />
         </Route>
         <Route exact path="/mylist">
-          <UserListPage {...mockData} />
+          <UserListPage
+            films={films}
+            reviews={reviews}
+          />
         </Route>
-        <Route exact path="/films/:id" render={(renderProps) => <FilmPage {...mockData} {...renderProps} />} />
-        <Route exact path="/films/:id/review" render={(renderProps) =>
-          <ReviewAddPage
-            {...mockData}
-            {...renderProps}
+        <Route exact path="/films/:id" render={(routerProps) =>
+          <FilmPage
+            films={films}
+            reviews={reviews}
+            {...routerProps}
+          />}
+        />
+        <Route exact path="/films/:id/review" render={(routerProps) =>
+          <AddReviewPage
+            films={films}
+            reviews={reviews}
+            {...routerProps}
             onPost={()=>{}}
           />}
         />
-        <Route exact path="/player/:id" render={(renderProps) => <Player {...mockData} {...renderProps} />} />
+        <Route exact path="/player/:id" render={(routerProps) =>
+          <Player
+            films={films}
+            reviews={reviews}
+            {...routerProps}
+          />}
+        />
         <Route>
           <NotFoundScreen />
         </Route>
