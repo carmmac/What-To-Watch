@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {RatingScore} from '../../const';
-import RatingInput from './rating-input';
+import RatingInput from '../rating/rating-input';
 
-const CommentForm = (props) => {
+const ReviewForm = (props) => {
   const {onPost} = props;
   const [userRating, setUserRating] = useState(3);
 
@@ -38,6 +38,6 @@ const CommentForm = (props) => {
   );
 };
 
-CommentForm.propTypes = {onPost: PropTypes.func.isRequired};
+ReviewForm.propTypes = {onPost: PropTypes.func.isRequired};
 
-export default CommentForm;
+export default ReviewForm;
