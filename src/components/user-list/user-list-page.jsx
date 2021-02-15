@@ -7,7 +7,7 @@ const UserListPage = (props) => {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        {<Logo/>}
+        <Logo/>
 
         <h1 className="page-title user-page__title">My list</h1>
 
@@ -20,7 +20,7 @@ const UserListPage = (props) => {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        {<FilmsList {...props} />}
+        <FilmsList {...props} />
       </section>
 
       <footer className="page-footer">

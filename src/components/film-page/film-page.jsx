@@ -14,14 +14,14 @@ const FilmPage = (props) => {
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
-        {<FilmBackgroundBlock backgroundImage={film.backgroundImage} />}
+        <FilmBackgroundBlock backgroundImage={film.backgroundImage} />
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header movie-card__head">
-          {<Logo/>}
+          <Logo/>
 
-          {<UserBlock/>}
+          <UserBlock/>
         </header>
 
         <div className="movie-card__wrap">
@@ -96,7 +96,7 @@ const FilmPage = (props) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        {<FilmsList {...props} />}
+        <FilmsList {...props} />
       </section>
 
       <footer className="page-footer">

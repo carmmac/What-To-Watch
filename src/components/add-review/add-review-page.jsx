@@ -14,12 +14,12 @@ const AddReviewPage = (props) => {
   return (
     <section className="movie-card movie-card--full">
       <div className="movie-card__header">
-        {<FilmBackgroundBlock backgroundImage={film.backgroundImage} />}
+        <FilmBackgroundBlock backgroundImage={film.backgroundImage} />
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
-          {<Logo/>}
+          <Logo/>
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
@@ -32,7 +32,7 @@ const AddReviewPage = (props) => {
             </ul>
           </nav>
 
-          {<UserBlock/>}
+          <UserBlock/>
         </header>
 
         <div className="movie-card__poster movie-card__poster--small">
@@ -41,7 +41,7 @@ const AddReviewPage = (props) => {
       </div>
 
       <div className="add-review">
-        {<ReviewForm onPost={onPost} />}
+        <ReviewForm onPost={onPost} />
       </div>
 
     </section>

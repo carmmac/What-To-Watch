@@ -16,14 +16,14 @@ const Main = ({promoFilm, films, reviews}) => {
 
   return <>
     <section className="movie-card">
-      {<FilmBackgroundBlock backgroundImage={backgroundImage} />}
+      <FilmBackgroundBlock backgroundImage={backgroundImage} />
 
       <h1 className="visually-hidden">WTW</h1>
 
       <header className="page-header movie-card__head">
-        {<Logo/>}
+        <Logo/>
 
-        {<UserBlock/>}
+        <UserBlock/>
       </header>
 
       <div className="movie-card__wrap">
@@ -96,7 +96,7 @@ const Main = ({promoFilm, films, reviews}) => {
           </li>
         </ul>
 
-        {<FilmsList films={films} reviews={reviews} />}
+        <FilmsList films={films} reviews={reviews} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>

@@ -13,9 +13,9 @@ const NotFoundScreen = () => {
       <h1 className="visually-hidden">WTW</h1>
 
       <header className="page-header movie-card__head">
-        {<Logo/>}
+        <Logo/>
 
-        {<UserBlock/>}
+        <UserBlock/>
       </header>
 
       <div className="movie-card__wrap" style={{height: `100vh`}}>
