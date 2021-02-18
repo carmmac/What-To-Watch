@@ -5,11 +5,8 @@ const PlayerPreview = ({previewImage, previewVideoLink}) => {
   const videoRef = useRef();
 
   useEffect(() => {
-    let timeoutId = setTimeout(() => {
-      videoRef.current.play();
-    }, 1000);
+    videoRef.current.play();
     return () => {
-      clearTimeout(timeoutId);
       videoRef.current.pause();
       videoRef.current = null;
     };

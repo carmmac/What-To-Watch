@@ -1,18 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {filmMockPropTypes} from '../../prop-types';
 import PlayerPreview from '../player-preview/player-preview';
 
 const FilmCard = ({id, name, previewImage, previewVideoLink}) => {
   const [startPlayer, setStartPlayer] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+    };
+  });
 
   return (
     <article
       className="small-movie-card catalog__movies-card"
-      onMouseOver={() => {
-        setStartPlayer(true);
+      onMouseEnter={() => {
+        setTimerId(() => setTimeout(() => setStartPlayer(true), 1000));
       }}
       onMouseLeave={() => {
+        clearTimeout(timerId);
+        setTimerId(null);
         setStartPlayer(false);
       }}
     >
