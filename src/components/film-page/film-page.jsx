@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
 import {mockPropTypes} from '../../prop-types';
@@ -11,6 +11,7 @@ const FilmPage = (props) => {
   const {films} = props;
   const {id: filmId} = props.match.params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
+  useEffect(() => window.scrollTo(0, 0));
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
