@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
+import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 
 const FilmPage = (props) => {
   const {films} = props;
@@ -58,8 +59,9 @@ const FilmPage = (props) => {
             <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
+          {<FilmPageTabs/>}
 
-          <div className="movie-card__desc">
+          {/* <div className="movie-card__desc">
             <nav className="movie-nav movie-card__nav">
               <ul className="movie-nav__list">
                 <li className="movie-nav__item movie-nav__item--active">
@@ -89,7 +91,7 @@ const FilmPage = (props) => {
 
               <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => ` ${star}`)} and others`}</strong></p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
