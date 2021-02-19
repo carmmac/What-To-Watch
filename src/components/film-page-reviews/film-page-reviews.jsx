@@ -1,6 +1,6 @@
 import React from "react";
 
-const FilmReviewsPage = () => {
+const FilmPageReviews = () => {
   return (
     <div className="movie-card__reviews movie-card__row">
       <div className="movie-card__reviews-col">
@@ -122,4 +122,4 @@ const FilmReviewsPage = () => {
   );
 };
 
-export default FilmReviewsPage;
+export default FilmPageReviews;
