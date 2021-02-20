@@ -9,10 +9,17 @@ import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 
 const FilmPage = (props) => {
-  const {films} = props;
+  const {films, reviews} = props;
   const {id: filmId} = props.match.params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
+  const similarFilms = films.filter((item) => item.genre === film.genre && item.id !== film.id);
+
+  const currentReviews = reviews
+    .filter((review) => review.id === film.id)
+    .sort((left, right) => right.rating - left.rating);
+
   useEffect(() => window.scrollTo(0, 0));
+
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
@@ -59,39 +66,14 @@ const FilmPage = (props) => {
             <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
-          {<FilmPageTabs/>}
 
-          {/* <div className="movie-card__desc">
-            <nav className="movie-nav movie-card__nav">
-              <ul className="movie-nav__list">
-                <li className="movie-nav__item movie-nav__item--active">
-                  <a href="#" className="movie-nav__link">Overview</a>
-                </li>
-                <li className="movie-nav__item">
-                  <a href="#" className="movie-nav__link">Details</a>
-                </li>
-                <li className="movie-nav__item">
-                  <a href="#" className="movie-nav__link">Reviews</a>
-                </li>
-              </ul>
-            </nav>
+          {<FilmPageTabs
+            film={film}
+            reviews={currentReviews}
+            filmPageTab={props.filmPageTab}
+            defaultTab={defaultTab}
+          />}
 
-            <div className="movie-rating">
-              <div className="movie-rating__score">{film.rating}</div>
-              <p className="movie-rating__meta">
-                <span className="movie-rating__level">Very good</span>
-                <span className="movie-rating__count">{`${film.scoresCount} ratings`}</span>
-              </p>
-            </div>
-
-            <div className="movie-card__text">
-              <p>{film.description}</p>
-
-              <p className="movie-card__director"><strong>{`Director: ${film.director}`}</strong></p>
-
-              <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => ` ${star}`)} and others`}</strong></p>
-            </div>
-          </div> */}
         </div>
       </div>
     </section>

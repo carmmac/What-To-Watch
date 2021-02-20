@@ -1,28 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {FilmPageTab} from '../../const.js';
 
 const FilmPageNav = ({selectedTab, handleTabSelect}) => {
-  const tabNames = Object.keys(FilmPageTab);
+  const tabNames = Object.values(FilmPageTab);
 
   return (
     <ul className="movie-nav__list">
       {tabNames.map((name, i) => {
         return (
-          <li className="movie-nav__item" key={i}>
+          <li
+            className={`movie-nav__item ${selectedTab === name ? `movie-nav__item--active` : ``}`}
+            key={name + i}>
             <span
               className="movie-nav__link"
+              style={{cursor: `pointer`}}
               onClick={({target}) => {
-                console.log(target.textContent);
                 handleTabSelect(target.textContent);
-              }}
-            >
-              {FilmPageTab[name]}
+              }}>
+              {name}
             </span>
           </li>
         );
       })}
     </ul>
   );
+};
+
+FilmPageNav.propTypes = {
+  selectedTab: PropTypes.string.isRequired,
+  handleTabSelect: PropTypes.func.isRequired,
 };
 
 export default FilmPageNav;

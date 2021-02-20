@@ -9,7 +9,7 @@ import UserListPage from '../user-list/user-list-page.jsx';
 import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 
-const App = ({promoFilm, films, reviews}) => {
+const App = ({promoFilm, films, reviews, filmPageTab}) => {
   return (
     <BrowserRouter>
       <Switch>
@@ -32,6 +32,7 @@ const App = ({promoFilm, films, reviews}) => {
           <FilmPage
             films={films}
             reviews={reviews}
+            filmPageTab={filmPageTab}
             {...routerProps}
           />}
         />

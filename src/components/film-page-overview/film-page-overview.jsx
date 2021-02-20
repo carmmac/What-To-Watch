@@ -1,4 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {filmMockPropTypes} from '../../prop-types';
 
 const FilmPageOverview = ({film}) => {
   return <>
@@ -18,6 +20,10 @@ const FilmPageOverview = ({film}) => {
       <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => ` ${star}`)} and others`}</strong></p>
     </div>
   </>;
+};
+
+FilmPageOverview.propTypes = {
+  film: PropTypes.shape(filmMockPropTypes)
 };
 
 export default FilmPageOverview;
