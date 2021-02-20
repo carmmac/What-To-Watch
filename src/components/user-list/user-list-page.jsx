@@ -1,5 +1,5 @@
 import React from 'react';
-import {mockPropTypes} from '../../prop-types.js';
+import {filmsMockPropTypes} from '../../prop-types.js';
 import FilmsList from '../films-list/films-list.jsx';
 import Logo from '../logo/logo.jsx';
 
@@ -40,6 +40,6 @@ const UserListPage = (props) => {
   );
 };
 
-UserListPage.propTypes = mockPropTypes;
+UserListPage.propTypes = filmsMockPropTypes;
 
 export default UserListPage;

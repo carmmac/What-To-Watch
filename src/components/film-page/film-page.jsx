@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {mockPropTypes} from '../../prop-types';
+import {filmsMockPropTypes, reviewsMockPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
@@ -102,8 +102,10 @@ const FilmPage = (props) => {
 };
 
 FilmPage.propTypes = {
-  films: mockPropTypes,
-  match: PropTypes.object
+  films: filmsMockPropTypes,
+  reviews: reviewsMockPropTypes,
+  match: PropTypes.object.isRequired,
+  filmPageTab: PropTypes.object.isRequired
 };
 
 export default FilmPage;

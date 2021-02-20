@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {filmMockPropTypes} from '../../prop-types';
 import PlayerPreview from '../player-preview/player-preview';
@@ -49,6 +50,8 @@ const FilmCard = ({id, name, previewImage, previewVideoLink}) => {
   );
 };
 
-FilmCard.propTypes = filmMockPropTypes;
+FilmCard.propTypes = FilmCard.propTypes = {
+  filmData: PropTypes.shape(filmMockPropTypes)
+};
 
 export default FilmCard;

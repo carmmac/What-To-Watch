@@ -10,8 +10,6 @@ const appPropTypes = {
   reviews: PropTypes.array.isRequired
 };
 
-const mockPropTypes = PropTypes.arrayOf(PropTypes.object).isRequired;
-
 const filmMockPropTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -38,14 +36,18 @@ const reviewMockPropTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   }),
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.string.isRequired,
   comment: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired
 };
 
+const filmsMockPropTypes = PropTypes.arrayOf(PropTypes.shape(filmMockPropTypes)).isRequired;
+const reviewsMockPropTypes = PropTypes.arrayOf(PropTypes.shape(reviewMockPropTypes)).isRequired;
+
 export {
   appPropTypes,
-  mockPropTypes,
   filmMockPropTypes,
   reviewMockPropTypes,
+  filmsMockPropTypes,
+  reviewsMockPropTypes,
 };
