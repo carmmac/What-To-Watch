@@ -6,7 +6,7 @@ import FilmPageDetails from '../film-page-details/film-page-details.jsx';
 import FilmPageReviews from '../film-page-reviews/film-page-reviews.jsx';
 import {filmMockPropTypes, reviewsMockPropTypes} from '../../prop-types.js';
 
-const FilmPageTabs = ({film, filmPageTab}) => {
+const FilmPageTabs = ({film, reviews, filmPageTab}) => {
   const [selectedTab, setSelectedTab] = useState(filmPageTab.OVERVIEW);
 
   const handleTabSelect = (tabName) => {
