@@ -71,7 +71,6 @@ const FilmPage = (props) => {
             film={film}
             reviews={currentReviews}
             filmPageTab={props.filmPageTab}
-            defaultTab={defaultTab}
           />}
 
         </div>
@@ -81,7 +80,7 @@ const FilmPage = (props) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList {...props} />
+        <FilmsList films={similarFilms} />
       </section>
 
       <footer className="page-footer">
