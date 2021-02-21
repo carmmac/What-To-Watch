@@ -35,7 +35,6 @@ FilmPageTabs.propTypes = {
   film: PropTypes.shape(filmMockPropTypes),
   reviews: reviewsMockPropTypes,
   filmPageTab: PropTypes.object.isRequired,
-  defaultTab: PropTypes.string.isRequired,
 };
 
 export default FilmPageTabs;
