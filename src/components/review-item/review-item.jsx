@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {reviewMockPropTypes} from "../../prop-types";
+import {reviewPropTypes} from "../../prop-types";
 import {humanizeDate} from "../../utils";
 
 const ReviewItem = ({review}) => {
@@ -26,7 +26,7 @@ const ReviewItem = ({review}) => {
 };
 
 ReviewItem.propTypes = {
-  review: PropTypes.shape(reviewMockPropTypes),
+  review: PropTypes.shape(reviewPropTypes),
 };
 
 export default ReviewItem;

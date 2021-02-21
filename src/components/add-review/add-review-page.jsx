@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {filmsMockPropTypes} from '../../prop-types';
+import {filmsPropTypes} from '../../prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
@@ -49,7 +49,7 @@ const AddReviewPage = (props) => {
 };
 
 AddReviewPage.propTypes = {
-  films: filmsMockPropTypes,
+  films: filmsPropTypes,
   match: PropTypes.object,
   onPost: PropTypes.func.isRequired,
 };

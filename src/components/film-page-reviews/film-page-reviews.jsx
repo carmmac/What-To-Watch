@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {filmMockPropTypes, reviewsMockPropTypes} from "../../prop-types";
+import {filmPropTypes, reviewsPropTypes} from "../../prop-types";
 import ReviewItem from "../review-item/review-item";
 
 const FilmPageReviews = ({reviews}) => {
@@ -17,8 +17,8 @@ const FilmPageReviews = ({reviews}) => {
 };
 
 FilmPageReviews.propTypes = {
-  film: PropTypes.shape(filmMockPropTypes),
-  reviews: reviewsMockPropTypes,
+  film: PropTypes.shape(filmPropTypes),
+  reviews: reviewsPropTypes,
 };
 
 export default FilmPageReviews;

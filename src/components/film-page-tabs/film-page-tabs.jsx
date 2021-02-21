@@ -4,7 +4,7 @@ import FilmPageNav from '../film-page-nav/film-page-nav.jsx';
 import FilmPageOverview from '../film-page-overview/film-page-overview.jsx';
 import FilmPageDetails from '../film-page-details/film-page-details.jsx';
 import FilmPageReviews from '../film-page-reviews/film-page-reviews.jsx';
-import {filmMockPropTypes, reviewsMockPropTypes} from '../../prop-types.js';
+import {filmPropTypes, reviewsPropTypes} from '../../prop-types.js';
 
 const FilmPageTabs = ({film, reviews, filmPageTab}) => {
   const [selectedTab, setSelectedTab] = useState(filmPageTab.OVERVIEW);
@@ -32,8 +32,8 @@ const FilmPageTabs = ({film, reviews, filmPageTab}) => {
 };
 
 FilmPageTabs.propTypes = {
-  film: PropTypes.shape(filmMockPropTypes),
-  reviews: reviewsMockPropTypes,
+  film: PropTypes.shape(filmPropTypes),
+  reviews: reviewsPropTypes,
   filmPageTab: PropTypes.object.isRequired,
 };
 

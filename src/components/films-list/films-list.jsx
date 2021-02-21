@@ -1,5 +1,5 @@
 import React from 'react';
-import {filmsMockPropTypes} from '../../prop-types';
+import {filmsPropTypes} from '../../prop-types';
 import FilmCard from '../film-card/film-card';
 
 const FilmsList = ({films}) => {
@@ -15,6 +15,6 @@ const FilmsList = ({films}) => {
   );
 };
 
-FilmsList.propTypes = filmsMockPropTypes;
+FilmsList.propTypes = filmsPropTypes;
 
 export default FilmsList;

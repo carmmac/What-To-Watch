@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {filmMockPropTypes} from '../../prop-types';
+import {filmPropTypes} from '../../prop-types';
 
 const FilmPageOverview = ({film}) => {
   return <>
@@ -23,7 +23,7 @@ const FilmPageOverview = ({film}) => {
 };
 
 FilmPageOverview.propTypes = {
-  film: PropTypes.shape(filmMockPropTypes)
+  film: PropTypes.shape(filmPropTypes)
 };
 
 export default FilmPageOverview;
