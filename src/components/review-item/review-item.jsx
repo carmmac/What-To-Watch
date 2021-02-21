@@ -6,7 +6,7 @@ import {humanizeDate} from "../../utils";
 const ReviewItem = ({review}) => {
   const {user} = review;
   return (
-    <div className="review">
+    <li className="review" style={{listStyle: `none`}}>
       <blockquote className="review__quote">
         <p className="review__text">
           {review.comment}
@@ -21,7 +21,7 @@ const ReviewItem = ({review}) => {
       </blockquote>
 
       <div className="review__rating">{review.rating}</div>
-    </div>
+    </li>
   );
 };
 
