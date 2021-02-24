@@ -4,9 +4,9 @@ const ActionType = {
 };
 
 const ActionCreator = {
-  genreSelect: (genreValue) => ({
+  genreSelect: (genre) => ({
     type: ActionType.GENRE_SELECT,
-    payload: genreValue,
+    payload: genre,
   })
 };
 
