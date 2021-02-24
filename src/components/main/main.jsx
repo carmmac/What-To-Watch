@@ -19,6 +19,8 @@ const Main = (props) => {
     return acc;
   }, [defaultGenreTab]);
 
+  const filmsToShow = (selectedGenreTab === defaultGenreTab) ? films : films.filter((film) => film.genre === selectedGenreTab);
+
   return <>
     <section className="movie-card">
       <FilmBackgroundBlock backgroundImage={promoFilm.backgroundImage} />
@@ -75,7 +77,7 @@ const Main = (props) => {
             />)}
         </ul>
 
-        <FilmsList films={films} reviews={reviews} />
+        <FilmsList films={filmsToShow} reviews={reviews} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
