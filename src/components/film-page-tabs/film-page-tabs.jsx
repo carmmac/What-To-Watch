@@ -5,9 +5,10 @@ import FilmPageOverview from '../film-page-overview/film-page-overview.jsx';
 import FilmPageDetails from '../film-page-details/film-page-details.jsx';
 import FilmPageReviews from '../film-page-reviews/film-page-reviews.jsx';
 import {filmPropTypes, reviewsPropTypes} from '../../prop-types.js';
+import {FilmPageTab} from '../../const.js';
 
-const FilmPageTabs = ({film, reviews, filmPageTab}) => {
-  const [selectedTab, setSelectedTab] = useState(filmPageTab.OVERVIEW);
+const FilmPageTabs = ({film, reviews}) => {
+  const [selectedTab, setSelectedTab] = useState(FilmPageTab.OVERVIEW);
 
   const handleTabSelect = (tabName) => {
     setSelectedTab(tabName);
@@ -23,9 +24,9 @@ const FilmPageTabs = ({film, reviews, filmPageTab}) => {
       </nav>
 
       {
-        (selectedTab === filmPageTab.OVERVIEW && <FilmPageOverview film={film} />) ||
-        (selectedTab === filmPageTab.DETAILS && <FilmPageDetails film={film} />) ||
-        (selectedTab === filmPageTab.REVIEWS && <FilmPageReviews reviews={reviews}/>)
+        (selectedTab === FilmPageTab.OVERVIEW && <FilmPageOverview film={film} />) ||
+        (selectedTab === FilmPageTab.DETAILS && <FilmPageDetails film={film} />) ||
+        (selectedTab === FilmPageTab.REVIEWS && <FilmPageReviews reviews={reviews}/>)
       }
     </div>
   );
@@ -34,7 +35,6 @@ const FilmPageTabs = ({film, reviews, filmPageTab}) => {
 FilmPageTabs.propTypes = {
   film: PropTypes.shape(filmPropTypes),
   reviews: reviewsPropTypes,
-  filmPageTab: PropTypes.object.isRequired,
 };
 
 export default FilmPageTabs;

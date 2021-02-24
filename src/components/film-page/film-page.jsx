@@ -70,7 +70,6 @@ const FilmPage = (props) => {
           {<FilmPageTabs
             film={film}
             reviews={currentReviews}
-            filmPageTab={props.filmPageTab}
           />}
 
         </div>
@@ -104,7 +103,6 @@ FilmPage.propTypes = {
   films: filmsPropTypes,
   reviews: reviewsPropTypes,
   match: PropTypes.object.isRequired,
-  filmPageTab: PropTypes.object.isRequired
 };
 
 export default FilmPage;
