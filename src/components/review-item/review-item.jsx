@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {reviewPropTypes} from "../../prop-types";
 import {humanizeDate} from "../../utils";
 
-const ReviewItem = ({review}) => {
-  const {user} = review;
+const ReviewItem = ({review, review: {user}}) => {
   return (
     <li className="review" style={{listStyle: `none`}}>
       <blockquote className="review__quote">
