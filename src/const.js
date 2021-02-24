@@ -7,9 +7,15 @@ const RatingScore = {
   MIN: 1,
   MAX: 10,
 };
+const FilmPageTab = {
+  OVERVIEW: `Overview`,
+  DETAILS: `Details`,
+  REVIEWS: `Reviews`,
+};
 
 export {
   CARDS_VISIBLE,
   MockFilmsNum,
   RatingScore,
+  FilmPageTab,
 };

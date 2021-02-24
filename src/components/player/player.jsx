@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {mockPropTypes} from '../../prop-types';
+import {filmsPropTypes} from '../../prop-types';
 
 const Player = (props) => {
   const {films} = props;
@@ -43,7 +43,7 @@ const Player = (props) => {
 };
 
 Player.propTypes = {
-  films: mockPropTypes,
+  films: filmsPropTypes,
   filmId: PropTypes.string.isRequired,
   match: PropTypes.object
 };

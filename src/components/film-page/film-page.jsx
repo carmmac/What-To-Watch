@@ -1,17 +1,25 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {mockPropTypes} from '../../prop-types';
+import {filmsPropTypes, reviewsPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
+import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 
 const FilmPage = (props) => {
-  const {films} = props;
+  const {films, reviews} = props;
   const {id: filmId} = props.match.params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
+  const similarFilms = films.filter((item) => item.genre === film.genre && item.id !== film.id);
+
+  const currentReviews = reviews
+    .filter((review) => review.id === film.id)
+    .sort((left, right) => right.rating - left.rating);
+
   useEffect(() => window.scrollTo(0, 0));
+
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
@@ -59,37 +67,11 @@ const FilmPage = (props) => {
               height="327" />
           </div>
 
-          <div className="movie-card__desc">
-            <nav className="movie-nav movie-card__nav">
-              <ul className="movie-nav__list">
-                <li className="movie-nav__item movie-nav__item--active">
-                  <a href="#" className="movie-nav__link">Overview</a>
-                </li>
-                <li className="movie-nav__item">
-                  <a href="#" className="movie-nav__link">Details</a>
-                </li>
-                <li className="movie-nav__item">
-                  <a href="#" className="movie-nav__link">Reviews</a>
-                </li>
-              </ul>
-            </nav>
+          {<FilmPageTabs
+            film={film}
+            reviews={currentReviews}
+          />}
 
-            <div className="movie-rating">
-              <div className="movie-rating__score">{film.rating}</div>
-              <p className="movie-rating__meta">
-                <span className="movie-rating__level">Very good</span>
-                <span className="movie-rating__count">{`${film.scoresCount} ratings`}</span>
-              </p>
-            </div>
-
-            <div className="movie-card__text">
-              <p>{film.description}</p>
-
-              <p className="movie-card__director"><strong>{`Director: ${film.director}`}</strong></p>
-
-              <p className="movie-card__starring"><strong>{`Starring: ${film.starring.map((star) => ` ${star}`)} and others`}</strong></p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -97,7 +79,7 @@ const FilmPage = (props) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList {...props} />
+        <FilmsList films={similarFilms} />
       </section>
 
       <footer className="page-footer">
@@ -118,8 +100,9 @@ const FilmPage = (props) => {
 };
 
 FilmPage.propTypes = {
-  films: mockPropTypes,
-  match: PropTypes.object
+  films: filmsPropTypes,
+  reviews: reviewsPropTypes,
+  match: PropTypes.object.isRequired,
 };
 
 export default FilmPage;
