@@ -5,14 +5,16 @@ import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 
-const Main = ({promoFilm, films, reviews}) => {
-  const {
+const Main = ({
+  promoFilm: {
     name,
     genre,
     released,
     posterImage,
     backgroundImage
-  } = promoFilm;
+  },
+  films, reviews
+}) => {
 
   return <>
     <section className="movie-card">
