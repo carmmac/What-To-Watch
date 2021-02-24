@@ -12,6 +12,7 @@ const FilmPageTab = {
   DETAILS: `Details`,
   REVIEWS: `Reviews`,
 };
+const defaultGenreTab = `All genres`;
 const genres = [
   `Action`,
   `Drama`,
@@ -27,5 +28,6 @@ export {
   MockFilmsNum,
   RatingScore,
   FilmPageTab,
+  defaultGenreTab,
   genres,
 };
