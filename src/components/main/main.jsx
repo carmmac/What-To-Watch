@@ -4,7 +4,7 @@ import {appPropTypes} from '../../prop-types.js';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
-import GenreItem from '../genre-item/genre-item.jsx';
+import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action.js';
 
@@ -56,17 +56,12 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-        <ul className="catalog__genres-list">
-          {genres.map((genreItem, i) =>
-            <GenreItem
-              key={genreItem + i}
-              genre={genreItem}
-              films={films}
-              selectedGenreTab={selectedGenreTab}
-              handleGenreSelect={onGenreSelect}
-            />)}
-        </ul>
+        {<GenreList
+          genres={genres}
+          films={films}
+          selectedGenreTab={selectedGenreTab}
+          handleGenreSelect={onGenreSelect}
+        />}
 
         <FilmsList films={filmsToShow} reviews={reviews} />
 
