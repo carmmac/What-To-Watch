@@ -4,10 +4,19 @@ import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
 import {defaultGenreTab} from "../const";
 
+const genres = films.reduce((acc, film) => {
+  if (!acc.some((item) => item === film.genre)) {
+    acc.push(film.genre);
+  }
+  return acc;
+}, [defaultGenreTab]);
+
 const initialState = {
   promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
   selectedGenreTab: defaultGenreTab,
   films,
+  genres,
+  filmsToShow: films,
   reviews,
 };
 
@@ -18,10 +27,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedGenreTab: action.payload
       };
-    case ActionType.GET_FILMS:
+    case ActionType.FILTER_FILMS:
+      if (state.selectedGenreTab === defaultGenreTab) {
+        return {
+          ...initialState,
+        };
+      }
       return {
         ...state,
-        films: action.payload
+        filmsToShow: action.payload
       };
   }
   return state;

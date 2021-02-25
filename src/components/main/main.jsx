@@ -5,21 +5,11 @@ import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreItem from '../genre-item/genre-item.jsx';
-import {defaultGenreTab} from '../../const.js';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action.js';
 
 const Main = (props) => {
-  const {selectedGenreTab, promoFilm, films, reviews, onGenreSelect} = props;
-
-  const genres = films.reduce((acc, film) => {
-    if (!acc.some((item) => item === film.genre)) {
-      acc.push(film.genre);
-    }
-    return acc;
-  }, [defaultGenreTab]);
-
-  const filmsToShow = (selectedGenreTab === defaultGenreTab) ? films : films.filter((film) => film.genre === selectedGenreTab);
+  const {selectedGenreTab, promoFilm, films, reviews, genres, filmsToShow, onGenreSelect} = props;
 
   return <>
     <section className="movie-card">
@@ -72,6 +62,7 @@ const Main = (props) => {
             <GenreItem
               key={genreItem + i}
               genre={genreItem}
+              films={films}
               selectedGenreTab={selectedGenreTab}
               handleGenreSelect={onGenreSelect}
             />)}
@@ -104,14 +95,17 @@ const Main = (props) => {
 const mapStateToProps = (state) => ({
   selectedGenreTab: state.selectedGenreTab,
   promoFilm: state.promoFilm,
+  genres: state.genres,
   films: state.films,
   reviews: state.reviews,
+  filmsToShow: state.filmsToShow,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onGenreSelect(genre) {
+  onGenreSelect(films, genre) {
     dispatch(ActionCreator.genreSelect(genre));
-  }
+    dispatch(ActionCreator.filterFilmsByGenre(films, genre));
+  },
 });
 
 Main.propTypes = appPropTypes;
