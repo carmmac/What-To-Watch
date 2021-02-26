@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
-import {appPropTypes} from '../../prop-types.js';
+import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
@@ -87,7 +88,11 @@ const mapStateToProps = (state) => ({
   filmsToShow: state.filmsToShow,
 });
 
-Main.propTypes = appPropTypes;
+Main.propTypes = {
+  promoFilm: PropTypes.shape(filmPropTypes),
+  filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
+};
 
 export {Main};
 export default connect(mapStateToProps, null)(Main);
