@@ -6,10 +6,9 @@ import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action.js';
 
 const Main = (props) => {
-  const {selectedGenreTab, promoFilm, films, reviews, genres, filmsToShow, onGenreSelect} = props;
+  const {promoFilm, reviews, filmsToShow} = props;
 
   return <>
     <section className="movie-card">
@@ -56,12 +55,7 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        {<GenreList
-          genres={genres}
-          films={films}
-          selectedGenreTab={selectedGenreTab}
-          handleGenreSelect={onGenreSelect}
-        />}
+        {<GenreList />}
 
         <FilmsList films={filmsToShow} reviews={reviews} />
 
@@ -88,22 +82,12 @@ const Main = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  selectedGenreTab: state.selectedGenreTab,
   promoFilm: state.promoFilm,
-  genres: state.genres,
-  films: state.films,
   reviews: state.reviews,
   filmsToShow: state.filmsToShow,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onGenreSelect(films, genre) {
-    dispatch(ActionCreator.genreSelect(genre));
-    dispatch(ActionCreator.filterFilmsByGenre(films, genre));
-  },
 });
 
 Main.propTypes = appPropTypes;
 
 export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null)(Main);
