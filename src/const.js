@@ -1,7 +1,7 @@
 const CARDS_VISIBLE = 20;
 const MockFilmsNum = {
   MIN: 1,
-  MAX: 8,
+  MAX: 12,
 };
 const RatingScore = {
   MIN: 1,
