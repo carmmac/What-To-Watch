@@ -2,18 +2,18 @@ import films from "../mock/films-mock";
 import reviews from '../mock/reviews-mock.js';
 import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
-import {defaultGenreTab} from "../const";
+import {DEFAULT_GENRE} from "../const";
 
 const genres = films.reduce((acc, film) => {
   if (!acc.some((item) => item === film.genre)) {
     acc.push(film.genre);
   }
   return acc;
-}, [defaultGenreTab]);
+}, [DEFAULT_GENRE]);
 
 const initialState = {
   promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
-  selectedGenreTab: defaultGenreTab,
+  currentGenre: DEFAULT_GENRE,
   films,
   genres,
   filmsToShow: films,
@@ -25,17 +25,12 @@ const reducer = (state = initialState, action) => {
     case ActionType.GENRE_SELECT:
       return {
         ...state,
-        selectedGenreTab: action.payload
+        currentGenre: action.payload
       };
     case ActionType.FILTER_FILMS:
-      if (state.selectedGenreTab === defaultGenreTab) {
-        return {
-          ...initialState,
-        };
-      }
       return {
         ...state,
-        filmsToShow: action.payload
+        filmsToShow: state.currentGenre === DEFAULT_GENRE ? films : films.filter((film) => film.genre === action.payload),
       };
   }
   return state;
