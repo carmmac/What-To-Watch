@@ -12,10 +12,22 @@ const FilmPageTab = {
   DETAILS: `Details`,
   REVIEWS: `Reviews`,
 };
+const DEFAULT_GENRE = `All genres`;
+const genres = [
+  `Action`,
+  `Drama`,
+  `Adventure`,
+  `Crime`,
+  `Comedy`,
+  `Fantasy`,
+  `Thriller`,
+];
 
 export {
   CARDS_VISIBLE,
   MockFilmsNum,
   RatingScore,
   FilmPageTab,
+  DEFAULT_GENRE,
+  genres,
 };

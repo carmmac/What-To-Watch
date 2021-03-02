@@ -1,43 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
-import {appPropTypes} from '../../prop-types.js';
+import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
+import GenreList from '../genre-list/genre-list.jsx';
+import {connect} from 'react-redux';
 
-const Main = ({promoFilm, films, reviews}) => {
-  const {
-    name,
-    genre,
-    released,
-    posterImage,
-    backgroundImage
-  } = promoFilm;
+const Main = (props) => {
+  const {promoFilm, reviews, filmsToShow} = props;
 
   return <>
     <section className="movie-card">
-      <FilmBackgroundBlock backgroundImage={backgroundImage} />
-
+      <FilmBackgroundBlock backgroundImage={promoFilm.backgroundImage} />
       <h1 className="visually-hidden">WTW</h1>
-
       <header className="page-header movie-card__head">
         <Logo/>
-
         <UserBlock/>
       </header>
 
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src={posterImage} alt={name + ` poster`} width="218"
+            <img src={promoFilm.posterImage} alt={promoFilm.name + ` poster`} width="218"
               height="327" />
           </div>
 
           <div className="movie-card__desc">
-            <h2 className="movie-card__title">{name}</h2>
+            <h2 className="movie-card__title">{promoFilm.name}</h2>
             <p className="movie-card__meta">
-              <span className="movie-card__genre">{genre}</span>
-              <span className="movie-card__year">{released}</span>
+              <span className="movie-card__genre">{promoFilm.genre}</span>
+              <span className="movie-card__year">{promoFilm.released}</span>
             </p>
 
             <div className="movie-card__buttons">
@@ -62,41 +56,9 @@ const Main = ({promoFilm, films, reviews}) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
+        {<GenreList />}
 
-        <ul className="catalog__genres-list">
-          <li className="catalog__genres-item catalog__genres-item--active">
-            <a href="#" className="catalog__genres-link">All genres</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Comedies</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Crime</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Documentary</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Dramas</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Horror</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Kids & Family</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Romance</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Sci-Fi</a>
-          </li>
-          <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Thrillers</a>
-          </li>
-        </ul>
-
-        <FilmsList films={films} reviews={reviews} />
+        <FilmsList films={filmsToShow} reviews={reviews} />
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
@@ -120,6 +82,17 @@ const Main = ({promoFilm, films, reviews}) => {
   </>;
 };
 
-Main.propTypes = appPropTypes;
+const mapStateToProps = (state) => ({
+  promoFilm: state.promoFilm,
+  reviews: state.reviews,
+  filmsToShow: state.filmsToShow,
+});
 
-export default Main;
+Main.propTypes = {
+  promoFilm: PropTypes.shape(filmPropTypes),
+  filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
+};
+
+export {Main};
+export default connect(mapStateToProps, null)(Main);

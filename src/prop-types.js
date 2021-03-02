@@ -1,15 +1,5 @@
 import PropTypes from 'prop-types';
 
-const appPropTypes = {
-  promoFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-  }),
-  films: PropTypes.array.isRequired,
-  reviews: PropTypes.array.isRequired
-};
-
 const filmPropTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -43,6 +33,16 @@ const reviewPropTypes = {
 
 const filmsPropTypes = PropTypes.arrayOf(PropTypes.shape(filmPropTypes)).isRequired;
 const reviewsPropTypes = PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired;
+
+const appPropTypes = {
+  promoFilm: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+  }),
+  films: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
+};
 
 export {
   appPropTypes,

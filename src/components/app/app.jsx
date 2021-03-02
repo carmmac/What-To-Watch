@@ -9,15 +9,12 @@ import UserListPage from '../user-list/user-list-page.jsx';
 import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 
-const App = ({promoFilm, films, reviews}) => {
+const App = ({films, reviews}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Main
-            promoFilm={promoFilm}
-            films={films}
-            reviews={reviews} />
+          <Main />
         </Route>
         <Route exact path="/login">
           <LoginPage />
