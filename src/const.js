@@ -1,7 +1,7 @@
-const CARDS_VISIBLE = 20;
+const FILMS_TO_SHOW = 8;
 const MockFilmsNum = {
   MIN: 1,
-  MAX: 8,
+  MAX: 12,
 };
 const RatingScore = {
   MIN: 1,
@@ -24,7 +24,7 @@ const genres = [
 ];
 
 export {
-  CARDS_VISIBLE,
+  FILMS_TO_SHOW,
   MockFilmsNum,
   RatingScore,
   FilmPageTab,

@@ -18,6 +18,7 @@ const initialState = {
   genres,
   filmsToShow: films,
   reviews,
+  filmsVisibleNum: 8,
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filmsToShow: state.currentGenre === DEFAULT_GENRE ? films : films.filter((film) => film.genre === action.payload),
+      };
+    case ActionType.LOAD_MORE_FILMS:
+      return {
+        ...state,
+        filmsVisibleNum: state.filmsVisibleNum + action.payload,
       };
   }
   return state;
