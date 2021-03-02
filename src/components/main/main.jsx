@@ -61,7 +61,7 @@ const Main = (props) => {
 
         <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
 
-        {filmsToShow.length > filmsVisibleNum && <LoadMoreButton films={filmsToShow} />}
+        {filmsToShow.length > filmsVisibleNum && <LoadMoreButton />}
       </section>
 
       <footer className="page-footer">
