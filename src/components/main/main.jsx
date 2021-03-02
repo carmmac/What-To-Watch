@@ -14,7 +14,7 @@ const Main = (props) => {
 
   return <>
     <section className="movie-card">
-      <FilmBackgroundBlock backgroundImage={promoFilm.backgroundImage} />
+      <FilmBackgroundBlock {...promoFilm} />
       <h1 className="visually-hidden">WTW</h1>
       <header className="page-header movie-card__head">
         <Logo/>
