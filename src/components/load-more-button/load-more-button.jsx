@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 
-const LoadMoreButton = (props) => {
-  const {onLoadMoreFilmsClick} = props;
+const LoadMoreButton = ({onLoadMoreFilmsClick}) => {
   return (
     <div className="catalog__more">
       <button
