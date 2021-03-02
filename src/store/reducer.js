@@ -4,18 +4,16 @@ import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
 import {DEFAULT_GENRE} from "../const";
 
-const genres = films.reduce((acc, film) => {
-  if (!acc.some((item) => item === film.genre)) {
-    acc.push(film.genre);
-  }
+const genres = new Set(films.reduce((acc, film) => {
+  acc.push(film.genre);
   return acc;
-}, [DEFAULT_GENRE]);
+}, []));
 
 const initialState = {
   promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
   currentGenre: DEFAULT_GENRE,
   films,
-  genres,
+  genres: [DEFAULT_GENRE, ...genres],
   filmsToShow: films,
   reviews,
   filmsVisibleNum: 8,
