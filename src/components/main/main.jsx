@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
@@ -10,7 +10,12 @@ import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 
 const Main = (props) => {
-  const {promoFilm, reviews, filmsToShow, filmsVisibleNum} = props;
+  const {promoFilm, reviews, filmsToShow, initialFilmsVisibleNum} = props;
+  const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
+
+  const handleLoadMoreFilmsClick = (filmsToShowNum) => {
+    setFilmsVisibleNum(filmsToShowNum);
+  };
 
   return <>
     <section className="movie-card">
@@ -61,7 +66,10 @@ const Main = (props) => {
 
         <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
 
-        {filmsToShow.length > filmsVisibleNum && <LoadMoreButton />}
+        {
+          filmsToShow.length > filmsVisibleNum &&
+          <LoadMoreButton filmsVisibleNum={filmsVisibleNum} handleLoadMoreFilmsClick={handleLoadMoreFilmsClick} />
+        }
       </section>
 
       <footer className="page-footer">
@@ -85,14 +93,14 @@ const mapStateToProps = (state) => ({
   promoFilm: state.promoFilm,
   reviews: state.reviews,
   filmsToShow: state.filmsToShow,
-  filmsVisibleNum: state.filmsVisibleNum,
+  initialFilmsVisibleNum: state.initialFilmsVisibleNum,
 });
 
 Main.propTypes = {
   promoFilm: PropTypes.shape(filmPropTypes),
   filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
-  filmsVisibleNum: PropTypes.number.isRequired,
+  initialFilmsVisibleNum: PropTypes.number.isRequired,
 };
 
 export {Main};

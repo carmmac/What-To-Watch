@@ -1,30 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
 
-const LoadMoreButton = ({onLoadMoreFilmsClick}) => {
+const LoadMoreButton = ({filmsToLoadNum, filmsVisibleNum, handleLoadMoreFilmsClick}) => {
   return (
     <div className="catalog__more">
       <button
         className="catalog__button"
         type="button"
-        onClick={() => onLoadMoreFilmsClick()}
+        onClick={() => handleLoadMoreFilmsClick(filmsVisibleNum + filmsToLoadNum)}
       >Show more
       </button>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadMoreFilmsClick() {
-    dispatch(ActionCreator.loadMoreFilms());
-  }
+const mapStateToProps = (state) => ({
+  filmsToLoadNum: state.filmsToLoadNum,
 });
 
 LoadMoreButton.propTypes = {
-  onLoadMoreFilmsClick: PropTypes.func.isRequired,
+  filmsToLoadNum: PropTypes.number.isRequired,
+  filmsVisibleNum: PropTypes.number.isRequired,
+  handleLoadMoreFilmsClick: PropTypes.func.isRequired,
 };
 
 export {LoadMoreButton};
-export default connect(null, mapDispatchToProps)(LoadMoreButton);
+export default connect(mapStateToProps, null)(LoadMoreButton);
