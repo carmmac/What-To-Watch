@@ -1,4 +1,4 @@
-import {FILMS_TO_SHOW} from "../const";
+import {FILMS_TO_LOAD_NUM} from "../const";
 
 const ActionType = {
   GENRE_SELECT: `main/genreSelect`,
@@ -17,7 +17,7 @@ const ActionCreator = {
   }),
   loadMoreFilms: () => ({
     type: ActionType.LOAD_MORE_FILMS,
-    payload: FILMS_TO_SHOW,
+    payload: FILMS_TO_LOAD_NUM,
   })
 };
 

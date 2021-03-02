@@ -1,4 +1,5 @@
-const FILMS_TO_SHOW = 8;
+const INITIAL_FILMS_VISIBLE_NUM = 8;
+const FILMS_TO_LOAD_NUM = 8;
 const MockFilmsNum = {
   MIN: 1,
   MAX: 12,
@@ -24,7 +25,8 @@ const genres = [
 ];
 
 export {
-  FILMS_TO_SHOW,
+  INITIAL_FILMS_VISIBLE_NUM,
+  FILMS_TO_LOAD_NUM,
   MockFilmsNum,
   RatingScore,
   FilmPageTab,

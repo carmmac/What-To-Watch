@@ -2,7 +2,7 @@ import films from "../mock/films-mock";
 import reviews from '../mock/reviews-mock.js';
 import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
-import {DEFAULT_GENRE as ALL_GENRES} from "../const";
+import {DEFAULT_GENRE as ALL_GENRES, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
 const genres = new Set(films.reduce((acc, film) => {
   acc.push(film.genre);
@@ -16,7 +16,7 @@ const initialState = {
   genres: [ALL_GENRES, ...genres],
   filmsToShow: films,
   reviews,
-  filmsVisibleNum: 8,
+  filmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
 };
 
 const reducer = (state = initialState, action) => {
