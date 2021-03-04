@@ -6,7 +6,6 @@ const FilmsList = ({films, filmsVisibleNum}) => {
   return (
     <div className="catalog__movies-list">
       {
-        films.length <= filmsVisibleNum && films.map((film) => <FilmCard key={film.id} {...film} />) ||
         films.slice(0, filmsVisibleNum).map((film) => <FilmCard key={film.id} {...film} />)
       }
     </div>
