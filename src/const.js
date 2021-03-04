@@ -1,5 +1,5 @@
 const INITIAL_FILMS_VISIBLE_NUM = 8;
-const FILMS_TO_LOAD_NUM = 8;
+const FILMS_TO_SHOW_NUM = 8;
 const MockFilmsNum = {
   MIN: 1,
   MAX: 12,
@@ -13,7 +13,8 @@ const FilmPageTab = {
   DETAILS: `Details`,
   REVIEWS: `Reviews`,
 };
-const DEFAULT_GENRE = `All genres`;
+const ALL_GENRES = `All genres`;
+const DEFAULT_GENRE = ALL_GENRES;
 const genres = [
   `Action`,
   `Drama`,
@@ -26,7 +27,7 @@ const genres = [
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
-  FILMS_TO_LOAD_NUM,
+  FILMS_TO_SHOW_NUM,
   MockFilmsNum,
   RatingScore,
   FilmPageTab,
