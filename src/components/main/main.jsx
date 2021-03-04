@@ -10,11 +10,11 @@ import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 
 const Main = (props) => {
-  const {promoFilm, reviews, filmsToShow, initialFilmsVisibleNum} = props;
+  const {promoFilm, reviews, filmsToShow, initialFilmsVisibleNum, filmsToShowNum} = props;
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
 
-  const handleLoadMoreFilmsClick = (filmsToShowNum) => {
-    setFilmsVisibleNum(filmsToShowNum);
+  const handleLoadMoreFilmsClick = () => {
+    setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
   };
 
   return <>
@@ -68,7 +68,7 @@ const Main = (props) => {
 
         {
           filmsToShow.length > filmsVisibleNum &&
-          <LoadMoreButton filmsVisibleNum={filmsVisibleNum} handleLoadMoreFilmsClick={handleLoadMoreFilmsClick} />
+          <LoadMoreButton handleLoadMoreFilmsClick={handleLoadMoreFilmsClick} />
         }
       </section>
 
@@ -94,6 +94,7 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews,
   filmsToShow: state.filmsToShow,
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
+  filmsToShowNum: state.filmsToShowNum,
 });
 
 Main.propTypes = {
@@ -101,6 +102,7 @@ Main.propTypes = {
   filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
   initialFilmsVisibleNum: PropTypes.number.isRequired,
+  filmsToShowNum: PropTypes.number.isRequired,
 };
 
 export {Main};
