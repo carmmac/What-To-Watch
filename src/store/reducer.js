@@ -12,12 +12,12 @@ const genres = new Set(films.reduce((acc, film) => {
 const initialState = {
   promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
   currentGenre: DEFAULT_GENRE,
-  films,
+  films: [],
   genres: [DEFAULT_GENRE, ...genres],
-  filmsToShow: films,
   reviews,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
+  isDataLoadFinished: false,
 };
 
 const reducer = (state = initialState, action) => {
