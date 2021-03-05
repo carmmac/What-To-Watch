@@ -4,16 +4,12 @@ import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
 import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
-const genres = new Set(films.reduce((acc, film) => {
-  acc.push(film.genre);
-  return acc;
-}, []));
-
 const initialState = {
   promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
+  defaultGenre: DEFAULT_GENRE,
   currentGenre: DEFAULT_GENRE,
   films: [],
-  genres: [DEFAULT_GENRE, ...genres],
+  genres: [],
   reviews,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
@@ -37,6 +33,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         films: action.payload,
         isDataLoadFinished: true,
+      };
+    case ActionType.GET_GENRES:
+      return {
+        ...state,
+        genres: [DEFAULT_GENRE, ...new Set(action.payload.reduce((acc, film) => {
+          acc.push(film.genre);
+          return acc;
+        }, []))],
       };
   }
   return state;

@@ -2,6 +2,7 @@ const ActionType = {
   GENRE_SELECT: `main/genreSelect`,
   FILTER_FILMS: `main/filterFilms`,
   LOAD_FILMS: `data/loadFilms`,
+  GET_GENRES: `data/getGenres`,
 };
 
 const ActionCreator = {
@@ -17,6 +18,10 @@ const ActionCreator = {
     type: ActionType.LOAD_FILMS,
     payload: films,
   }),
+  getGenresFromFilms: (films) => ({
+    type: ActionType.GET_GENRES,
+    payload: films,
+  })
 };
 
 export {

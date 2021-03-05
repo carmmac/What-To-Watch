@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 import {fetchFilmsList} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
+import {ActionCreator} from '../../store/action.js';
 
 const Main = (props) => {
   const {
@@ -19,7 +20,9 @@ const Main = (props) => {
     initialFilmsVisibleNum,
     filmsToShowNum,
     isDataLoadFinished,
-    onLoadData
+    onLoadData,
+    defaultGenre,
+    getGenresFromFilms,
   } = props;
 
   const [filmsToShow, setFilmsToShow] = useState(films);
@@ -29,11 +32,18 @@ const Main = (props) => {
     setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
   };
 
+  const handleGenreSelect = (newGenre) => {
+    setFilmsToShow(
+        newGenre === defaultGenre ? films : films.filter((film) => film.genre === newGenre)
+    );
+  };
+
   useEffect(() => {
     if (!isDataLoadFinished) {
       onLoadData();
     } else {
       setFilmsToShow(films);
+      getGenresFromFilms(films);
     }
   }, [isDataLoadFinished]);
 
@@ -86,7 +96,7 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <GenreList />
+        <GenreList handleGenreSelect={handleGenreSelect} />
 
         <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
 
@@ -120,11 +130,16 @@ const mapStateToProps = (state) => ({
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
   filmsToShowNum: state.filmsToShowNum,
   isDataLoadFinished: state.isDataLoadFinished,
+  currentGenre: state.currentGenre,
+  defaultGenre: state.defaultGenre,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
     dispatch(fetchFilmsList());
+  },
+  getGenresFromFilms(films) {
+    dispatch(ActionCreator.getGenresFromFilms(films));
   }
 });
 
@@ -136,6 +151,8 @@ Main.propTypes = {
   filmsToShowNum: PropTypes.number.isRequired,
   isDataLoadFinished: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
+  defaultGenre: PropTypes.string.isRequired,
+  getGenresFromFilms: PropTypes.func.isRequired,
 };
 
 export {Main};
