@@ -1,6 +1,7 @@
 const ActionType = {
   GENRE_SELECT: `main/genreSelect`,
   FILTER_FILMS: `main/filterFilms`,
+  LOAD_FILMS: `data/loadFilms`,
 };
 
 const ActionCreator = {
@@ -11,6 +12,10 @@ const ActionCreator = {
   filterFilmsByGenre: (genre) => ({
     type: ActionType.FILTER_FILMS,
     payload: genre,
+  }),
+  fetchFilmsList: (films) => ({
+    type: ActionType.LOAD_FILMS,
+    payload: films,
   }),
 };
 

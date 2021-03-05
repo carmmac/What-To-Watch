@@ -32,6 +32,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         filmsToShow: state.currentGenre === DEFAULT_GENRE ? films : films.filter((film) => film.genre === action.payload),
       };
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: action.payload,
+        isDataLoadFinished: true,
+      };
   }
   return state;
 };
