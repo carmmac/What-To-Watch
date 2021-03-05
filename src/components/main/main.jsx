@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
@@ -7,13 +7,19 @@ import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
+import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 
 const Main = (props) => {
-  const {promoFilm, reviews, filmsToShow} = props;
+  const {promoFilm, reviews, filmsToShow, initialFilmsVisibleNum, filmsToShowNum} = props;
+  const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
+
+  const handleLoadMoreFilmsClick = () => {
+    setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
+  };
 
   return <>
     <section className="movie-card">
-      <FilmBackgroundBlock backgroundImage={promoFilm.backgroundImage} />
+      <FilmBackgroundBlock backgroundImage={promoFilm.backgroundImage} name={promoFilm.name} />
       <h1 className="visually-hidden">WTW</h1>
       <header className="page-header movie-card__head">
         <Logo/>
@@ -56,13 +62,14 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        {<GenreList />}
+        <GenreList />
 
-        <FilmsList films={filmsToShow} reviews={reviews} />
+        <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
 
-        <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+        {
+          filmsToShow.length > filmsVisibleNum &&
+          <LoadMoreButton handleLoadMoreFilmsClick={handleLoadMoreFilmsClick} />
+        }
       </section>
 
       <footer className="page-footer">
@@ -86,12 +93,16 @@ const mapStateToProps = (state) => ({
   promoFilm: state.promoFilm,
   reviews: state.reviews,
   filmsToShow: state.filmsToShow,
+  initialFilmsVisibleNum: state.initialFilmsVisibleNum,
+  filmsToShowNum: state.filmsToShowNum,
 });
 
 Main.propTypes = {
   promoFilm: PropTypes.shape(filmPropTypes),
   filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
+  initialFilmsVisibleNum: PropTypes.number.isRequired,
+  filmsToShowNum: PropTypes.number.isRequired,
 };
 
 export {Main};

@@ -11,7 +11,7 @@ const ActionCreator = {
   filterFilmsByGenre: (genre) => ({
     type: ActionType.FILTER_FILMS,
     payload: genre,
-  })
+  }),
 };
 
 export {

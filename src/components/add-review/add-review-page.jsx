@@ -14,7 +14,7 @@ const AddReviewPage = (props) => {
   return (
     <section className="movie-card movie-card--full">
       <div className="movie-card__header">
-        <FilmBackgroundBlock backgroundImage={film.backgroundImage} />
+        <FilmBackgroundBlock backgroundImage={film.backgroundImage} name={film.name} />
 
         <h1 className="visually-hidden">WTW</h1>
 
