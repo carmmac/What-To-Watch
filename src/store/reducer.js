@@ -3,8 +3,7 @@ import {ActionType} from "./action";
 import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
 const initialState = {
-  promoFilm: {},
-  defaultGenre: DEFAULT_GENRE,
+  promoFilm: undefined,
   currentGenre: DEFAULT_GENRE,
   films: [],
   genres: [],
