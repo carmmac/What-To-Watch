@@ -1,4 +1,3 @@
-import films from "../mock/films-mock";
 import reviews from '../mock/reviews-mock.js';
 import {ActionType} from "./action";
 import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
@@ -21,11 +20,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentGenre: action.payload
-      };
-    case ActionType.FILTER_FILMS:
-      return {
-        ...state,
-        filmsToShow: state.currentGenre === DEFAULT_GENRE ? films : films.filter((film) => film.genre === action.payload),
       };
     case ActionType.LOAD_FILMS:
       return {
