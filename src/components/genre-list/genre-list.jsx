@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
 
-const GenreList = ({genres, currentGenre, onGenreSelect, handleGenreSelect}) => {
+const GenreList = ({genres, currentGenre, handleGenreSelect}) => {
   return (
     <ul className="catalog__genres-list">
       {genres.map((genreItem, i) =>
@@ -14,7 +13,6 @@ const GenreList = ({genres, currentGenre, onGenreSelect, handleGenreSelect}) => 
             className="catalog__genres-link"
             style={{cursor: `pointer`}}
             onClick={({target}) => {
-              onGenreSelect(target.textContent);
               handleGenreSelect(target.textContent);
             }}
           >{genreItem}
@@ -29,17 +27,10 @@ const mapStateToProps = (state) => ({
   genres: state.genres,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onGenreSelect(genre) {
-    dispatch(ActionCreator.genreSelect(genre));
-  },
-});
-
 GenreList.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentGenre: PropTypes.string.isRequired,
-  onGenreSelect: PropTypes.func.isRequired,
   handleGenreSelect: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GenreList);
+export default connect(mapStateToProps, null)(GenreList);

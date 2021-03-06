@@ -23,6 +23,7 @@ const Main = (props) => {
     isDataLoadFinished,
     onLoadData,
     getGenresFromFilms,
+    onGenreSelect,
   } = props;
 
   const [filmsToShow, setFilmsToShow] = useState(films);
@@ -33,6 +34,7 @@ const Main = (props) => {
   };
 
   const handleGenreSelect = (newGenre) => {
+    onGenreSelect(newGenre);
     setFilmsToShow(
         newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
@@ -141,6 +143,9 @@ const mapDispatchToProps = (dispatch) => ({
   getGenresFromFilms(films) {
     dispatch(ActionCreator.getGenresFromFilms(films));
   },
+  onGenreSelect(genre) {
+    dispatch(ActionCreator.genreSelect(genre));
+  },
 });
 
 Main.propTypes = {
@@ -152,6 +157,7 @@ Main.propTypes = {
   isDataLoadFinished: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
+  onGenreSelect: PropTypes.func.isRequired,
 };
 
 export {Main};
