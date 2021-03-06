@@ -32,5 +32,6 @@ export {
   RatingScore,
   FilmPageTab,
   DEFAULT_GENRE,
+  ALL_GENRES,
   genres,
 };

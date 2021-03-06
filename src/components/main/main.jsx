@@ -11,6 +11,7 @@ import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 import {fetchFilmsList, fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
 import {ActionCreator} from '../../store/action.js';
+import {ALL_GENRES} from '../../const.js';
 
 const Main = (props) => {
   const {
@@ -21,7 +22,6 @@ const Main = (props) => {
     filmsToShowNum,
     isDataLoadFinished,
     onLoadData,
-    defaultGenre,
     getGenresFromFilms,
   } = props;
 
@@ -34,7 +34,7 @@ const Main = (props) => {
 
   const handleGenreSelect = (newGenre) => {
     setFilmsToShow(
-        newGenre === defaultGenre ? films : films.filter((film) => film.genre === newGenre)
+        newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
   };
 
@@ -131,7 +131,6 @@ const mapStateToProps = (state) => ({
   filmsToShowNum: state.filmsToShowNum,
   isDataLoadFinished: state.isDataLoadFinished,
   currentGenre: state.currentGenre,
-  defaultGenre: state.defaultGenre,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -152,7 +151,6 @@ Main.propTypes = {
   filmsToShowNum: PropTypes.number.isRequired,
   isDataLoadFinished: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
-  defaultGenre: PropTypes.string.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
 };
 
