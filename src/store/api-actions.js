@@ -8,6 +8,14 @@ const fetchFilmsList = () => (next, _getState, api) => (
     .catch(() => {})
 );
 
+const fetchPromoFilm = () => (next, _getState, api) => (
+  api.get(`/films/promo`)
+    .then(({data}) => adaptFilmToClient(data))
+    .then((promoFilm) => next(ActionCreator.getPromoFilm(promoFilm)))
+    .catch(() => {})
+);
+
 export {
   fetchFilmsList,
+  fetchPromoFilm,
 };

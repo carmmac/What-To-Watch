@@ -1,11 +1,10 @@
 import films from "../mock/films-mock";
 import reviews from '../mock/reviews-mock.js';
-import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
 import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
 const initialState = {
-  promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
+  promoFilm: {},
   defaultGenre: DEFAULT_GENRE,
   currentGenre: DEFAULT_GENRE,
   films: [],
@@ -41,6 +40,11 @@ const reducer = (state = initialState, action) => {
           acc.push(film.genre);
           return acc;
         }, []))],
+      };
+    case ActionType.GET_PROMO_FILM:
+      return {
+        ...state,
+        promoFilm: action.payload,
       };
   }
   return state;

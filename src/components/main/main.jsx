@@ -8,7 +8,7 @@ import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
-import {fetchFilmsList} from '../../store/api-actions.js';
+import {fetchFilmsList, fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
 import {ActionCreator} from '../../store/action.js';
 
@@ -136,11 +136,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadData() {
+    dispatch(fetchPromoFilm());
     dispatch(fetchFilmsList());
   },
   getGenresFromFilms(films) {
     dispatch(ActionCreator.getGenresFromFilms(films));
-  }
+  },
 });
 
 Main.propTypes = {
