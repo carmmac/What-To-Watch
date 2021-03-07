@@ -8,24 +8,25 @@ import LoginPage from '../login/login-page.jsx';
 import UserListPage from '../user-list/user-list-page.jsx';
 import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
+import {AppRoute} from '../../const.js';
 
 const App = ({films, reviews}) => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT}>
           <Main />
         </Route>
-        <Route exact path="/login">
+        <Route exact path={AppRoute.LOGIN}>
           <LoginPage />
         </Route>
-        <Route exact path="/mylist">
+        <Route exact path={AppRoute.MY_LIST}>
           <UserListPage
             films={films}
             reviews={reviews}
           />
         </Route>
-        <Route exact path="/films/:id" render={(routerProps) =>
+        <Route exact path={AppRoute.FILM} render={(routerProps) =>
           <FilmPage
             films={films}
             reviews={reviews}
@@ -40,7 +41,7 @@ const App = ({films, reviews}) => {
             onPost={()=>{}}
           />}
         />
-        <Route exact path="/player/:id" render={(routerProps) =>
+        <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
           <Player
             films={films}
             reviews={reviews}
