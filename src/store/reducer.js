@@ -1,23 +1,16 @@
-import films from "../mock/films-mock";
 import reviews from '../mock/reviews-mock.js';
-import {getRandomNum} from "../utils";
 import {ActionType} from "./action";
 import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
-const genres = new Set(films.reduce((acc, film) => {
-  acc.push(film.genre);
-  return acc;
-}, []));
-
 const initialState = {
-  promoFilm: films[Math.floor(getRandomNum(0, films.length - 1))],
+  promoFilm: undefined,
   currentGenre: DEFAULT_GENRE,
-  films,
-  genres: [DEFAULT_GENRE, ...genres],
-  filmsToShow: films,
+  films: [],
+  genres: [],
   reviews,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
+  isDataLoadFinished: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,10 +20,24 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentGenre: action.payload
       };
-    case ActionType.FILTER_FILMS:
+    case ActionType.LOAD_FILMS:
       return {
         ...state,
-        filmsToShow: state.currentGenre === DEFAULT_GENRE ? films : films.filter((film) => film.genre === action.payload),
+        films: action.payload,
+        isDataLoadFinished: true,
+      };
+    case ActionType.GET_GENRES:
+      return {
+        ...state,
+        genres: [DEFAULT_GENRE, ...new Set(action.payload.reduce((acc, film) => {
+          acc.push(film.genre);
+          return acc;
+        }, []))],
+      };
+    case ActionType.GET_PROMO_FILM:
+      return {
+        ...state,
+        promoFilm: action.payload,
       };
   }
   return state;

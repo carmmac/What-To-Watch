@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
@@ -8,14 +8,50 @@ import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
+import {fetchFilmsList, fetchPromoFilm} from '../../store/api-actions.js';
+import Loading from '../loading/loading.jsx';
+import {ActionCreator} from '../../store/action.js';
+import {ALL_GENRES} from '../../const.js';
 
 const Main = (props) => {
-  const {promoFilm, reviews, filmsToShow, initialFilmsVisibleNum, filmsToShowNum} = props;
+  const {
+    promoFilm,
+    reviews,
+    films,
+    initialFilmsVisibleNum,
+    filmsToShowNum,
+    isDataLoadFinished,
+    onLoadData,
+    getGenresFromFilms,
+    onGenreSelect,
+  } = props;
+
+  const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
 
   const handleLoadMoreFilmsClick = () => {
     setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
   };
+
+  const handleGenreSelect = (newGenre) => {
+    onGenreSelect(newGenre);
+    setFilmsToShow(
+        newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
+    );
+  };
+
+  useEffect(() => {
+    if (!isDataLoadFinished) {
+      onLoadData();
+    } else {
+      setFilmsToShow(films);
+      getGenresFromFilms(films);
+    }
+  }, [isDataLoadFinished]);
+
+  if (!isDataLoadFinished) {
+    return (<Loading />);
+  }
 
   return <>
     <section className="movie-card">
@@ -62,7 +98,7 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <GenreList />
+        <GenreList handleGenreSelect={handleGenreSelect} />
 
         <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
 
@@ -90,20 +126,39 @@ const Main = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  films: state.films,
   promoFilm: state.promoFilm,
   reviews: state.reviews,
-  filmsToShow: state.filmsToShow,
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
   filmsToShowNum: state.filmsToShowNum,
+  isDataLoadFinished: state.isDataLoadFinished,
+  currentGenre: state.currentGenre,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchPromoFilm());
+    dispatch(fetchFilmsList());
+  },
+  getGenresFromFilms(films) {
+    dispatch(ActionCreator.getGenresFromFilms(films));
+  },
+  onGenreSelect(genre) {
+    dispatch(ActionCreator.genreSelect(genre));
+  },
 });
 
 Main.propTypes = {
   promoFilm: PropTypes.shape(filmPropTypes),
-  filmsToShow: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
+  films: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
   initialFilmsVisibleNum: PropTypes.number.isRequired,
   filmsToShowNum: PropTypes.number.isRequired,
+  isDataLoadFinished: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  getGenresFromFilms: PropTypes.func.isRequired,
+  onGenreSelect: PropTypes.func.isRequired,
 };
 
 export {Main};
-export default connect(mapStateToProps, null)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
