@@ -1,6 +1,6 @@
 import reviews from '../mock/reviews-mock.js';
 import {ActionType} from "./action";
-import {DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
+import {AuthorizationStatus, DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
 const initialState = {
   promoFilm: undefined,
@@ -11,6 +11,7 @@ const initialState = {
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
   isDataLoadFinished: false,
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +39,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         promoFilm: action.payload,
+      };
+    case ActionType.REQUIRED_AUTH:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
   }
   return state;
