@@ -24,6 +24,24 @@ const genres = [
   `Fantasy`,
   `Thriller`,
 ];
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};
+const AppRoute = {
+  ROOT: `/`,
+  LOGIN: `/login`,
+  MY_LIST: `/mylist`,
+  FILM: `/films/:id`,
+  REVIEW: `/films/:id/review`,
+  PLAYER: `/player/:id`,
+};
+const APIRoute = {
+  FILMS: `/films`,
+  PROMO_FILM: `/films/promo`,
+  LOGIN: `/login`,
+  LOGOUT: `/logout`,
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -34,4 +52,7 @@ export {
   DEFAULT_GENRE,
   ALL_GENRES,
   genres,
+  AuthorizationStatus,
+  AppRoute,
+  APIRoute,
 };
