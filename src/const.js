@@ -40,6 +40,7 @@ const APIRoute = {
   FILMS: `/films`,
   PROMO_FILM: `/films/promo`,
   LOGIN: `/login`,
+  LOGOUT: `/logout`,
 };
 
 export {
