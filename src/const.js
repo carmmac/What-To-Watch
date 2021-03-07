@@ -24,6 +24,10 @@ const genres = [
   `Fantasy`,
   `Thriller`,
 ];
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -34,4 +38,5 @@ export {
   DEFAULT_GENRE,
   ALL_GENRES,
   genres,
+  AuthorizationStatus,
 };
