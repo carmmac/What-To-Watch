@@ -10,7 +10,10 @@ const initialState = {
   reviews,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
-  isDataLoadFinished: false,
+  loadIndicator: {
+    films: false,
+    promoFilm: false,
+  },
   authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
 
@@ -25,7 +28,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         films: action.payload,
-        isDataLoadFinished: true,
+        loadIndicator: {
+          ...state.loadIndicator,
+          films: true,
+        },
       };
     case ActionType.GET_GENRES:
       return {
@@ -39,6 +45,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         promoFilm: action.payload,
+        loadIndicator: {
+          ...state.loadIndicator,
+          promoFilm: true,
+        },
       };
     case ActionType.REQUIRED_AUTH:
       return {

@@ -20,8 +20,9 @@ const Main = (props) => {
     films,
     initialFilmsVisibleNum,
     filmsToShowNum,
-    isDataLoadFinished,
-    onLoadData,
+    loadIndicator,
+    onLoadPromoFilm,
+    onLoadFilms,
     getGenresFromFilms,
     onGenreSelect,
   } = props;
@@ -41,15 +42,17 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!isDataLoadFinished) {
-      onLoadData();
+    if (!loadIndicator.promoFilm) {
+      onLoadPromoFilm();
+    } else if (!loadIndicator.films) {
+      onLoadFilms();
     } else {
       setFilmsToShow(films);
       getGenresFromFilms(films);
     }
-  }, [isDataLoadFinished]);
+  }, [loadIndicator]);
 
-  if (!isDataLoadFinished) {
+  if (!loadIndicator.promoFilm) {
     return (<Loading />);
   }
 
@@ -131,13 +134,15 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews,
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
   filmsToShowNum: state.filmsToShowNum,
-  isDataLoadFinished: state.isDataLoadFinished,
+  loadIndicator: state.loadIndicator,
   currentGenre: state.currentGenre,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
+  onLoadPromoFilm() {
     dispatch(fetchPromoFilm());
+  },
+  onLoadFilms() {
     dispatch(fetchFilmsList());
   },
   getGenresFromFilms(films) {
@@ -154,8 +159,9 @@ Main.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
   initialFilmsVisibleNum: PropTypes.number.isRequired,
   filmsToShowNum: PropTypes.number.isRequired,
-  isDataLoadFinished: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
+  loadIndicator: PropTypes.object.isRequired,
+  onLoadPromoFilm: PropTypes.func.isRequired,
+  onLoadFilms: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
 };
