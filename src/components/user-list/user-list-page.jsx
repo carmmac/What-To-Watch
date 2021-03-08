@@ -2,25 +2,20 @@ import React from 'react';
 import {filmsPropTypes} from '../../prop-types.js';
 import FilmsList from '../films-list/films-list.jsx';
 import Logo from '../logo/logo.jsx';
+import UserBlock from '../user-block/user-block.jsx';
 
-const UserListPage = (props) => {
+const UserListPage = ({films}) => {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo/>
-
         <h1 className="page-title user-page__title">My list</h1>
-
-        <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div>
-        </div>
+        <UserBlock />
       </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmsList {...props} />
+        <FilmsList films={films} />
       </section>
 
       <footer className="page-footer">
@@ -40,6 +35,8 @@ const UserListPage = (props) => {
   );
 };
 
-UserListPage.propTypes = filmsPropTypes;
+UserListPage.propTypes = {
+  films: filmsPropTypes,
+};
 
 export default UserListPage;

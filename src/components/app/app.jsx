@@ -8,7 +8,7 @@ import LoginPage from '../login/login-page.jsx';
 import UserListPage from '../user-list/user-list-page.jsx';
 import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
-import {PrivateRoute} from '../private-route/private-route.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
 
 const App = ({films, reviews}) => {
@@ -21,12 +21,13 @@ const App = ({films, reviews}) => {
         <Route exact path={AppRoute.LOGIN}>
           <LoginPage />
         </Route>
-        <Route exact path={AppRoute.MY_LIST}>
+        <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
           <UserListPage
             films={films}
             reviews={reviews}
-          />
-        </Route>
+            {...routerProps}
+          />}
+        />
         <Route exact path={AppRoute.FILM} render={(routerProps) =>
           <FilmPage
             films={films}
