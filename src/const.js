@@ -27,6 +27,7 @@ const genres = [
 const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
+  WAITING_AUTH: `WAITING_AUTH`,
 };
 const AppRoute = {
   ROOT: `/`,

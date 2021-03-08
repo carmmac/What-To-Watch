@@ -11,7 +11,7 @@ const initialState = {
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
   isDataLoadFinished: false,
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
 
 const reducer = (state = initialState, action) => {
