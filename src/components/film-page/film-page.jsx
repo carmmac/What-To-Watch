@@ -7,10 +7,10 @@ import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
+import {connect} from 'react-redux';
 
-const FilmPage = (props) => {
-  const {films, reviews} = props;
-  const {id: filmId} = props.match.params;
+const FilmPage = ({films, reviews, match: {params}}) => {
+  const {id: filmId} = params;
   const film = films.find((item) => item.id === parseInt(filmId, 10));
   const similarFilms = films.filter((item) => item.genre === film.genre && item.id !== film.id);
 
@@ -99,10 +99,15 @@ const FilmPage = (props) => {
   </>;
 };
 
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
 FilmPage.propTypes = {
   films: filmsPropTypes,
   reviews: reviewsPropTypes,
   match: PropTypes.object.isRequired,
 };
 
-export default FilmPage;
+export {FilmPage};
+export default connect(mapStateToProps, null)(FilmPage);

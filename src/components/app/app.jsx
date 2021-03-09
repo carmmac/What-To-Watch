@@ -30,7 +30,6 @@ const App = ({films, reviews}) => {
         />
         <Route exact path={AppRoute.FILM} render={(routerProps) =>
           <FilmPage
-            films={films}
             reviews={reviews}
             {...routerProps}
           />}
