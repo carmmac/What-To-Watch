@@ -10,7 +10,7 @@ const UserBlock = ({authorizationStatus, onLogout}) => {
     {
       authorizationStatus === AuthorizationStatus.AUTH &&
       <div className="user-block">
-        <span className="user-block__link" onClick={onLogout} >Sign out</span>
+        <span className="user-block__link" style={{cursor: `pointer`, marginBottom: `10px`}} onClick={onLogout} >Sign out</span>
         <div className="user-block__avatar">
           <Link to={AppRoute.MY_LIST}>
             <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
