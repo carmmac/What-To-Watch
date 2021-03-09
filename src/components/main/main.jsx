@@ -42,15 +42,12 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!isLoadedIndicator.promoFilm) {
-      onLoadPromoFilm();
-    } else if (!isLoadedIndicator.films) {
-      onLoadFilms();
-    } else {
-      setFilmsToShow(films);
-      getGenresFromFilms(films);
-    }
-  }, [isLoadedIndicator]);
+    onLoadPromoFilm(isLoadedIndicator);
+    onLoadFilms(isLoadedIndicator);
+
+    setFilmsToShow(films);
+    getGenresFromFilms(films);
+  }, [isLoadedIndicator.promoFilm, isLoadedIndicator.films]);
 
   if (!isLoadedIndicator.promoFilm) {
     return (<Loading />);
@@ -139,11 +136,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadPromoFilm() {
-    dispatch(fetchPromoFilm());
+  onLoadPromoFilm({promoFilm}) {
+    if (!promoFilm) {
+      dispatch(fetchPromoFilm());
+    }
   },
-  onLoadFilms() {
-    dispatch(fetchFilmsList());
+  onLoadFilms({films}) {
+    if (!films) {
+      dispatch(fetchFilmsList());
+    }
   },
   getGenresFromFilms(films) {
     dispatch(ActionCreator.getGenresFromFilms(films));
