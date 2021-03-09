@@ -4,9 +4,9 @@ import {filmsPropTypes} from '../../prop-types';
 import FilmCard from '../film-card/film-card';
 import Loading from '../loading/loading';
 
-const FilmsList = ({films, filmsVisibleNum, loadIndicator}) => {
+const FilmsList = ({films, filmsVisibleNum, isLoadedIndicator}) => {
   return (
-    !loadIndicator.films
+    !isLoadedIndicator.films
       ? <Loading />
       :
       <div className="catalog__movies-list">
@@ -18,7 +18,7 @@ const FilmsList = ({films, filmsVisibleNum, loadIndicator}) => {
 };
 
 const mapStateToProps = (state) => ({
-  loadIndicator: state.loadIndicator,
+  isLoadedIndicator: state.isLoadedIndicator,
 });
 
 FilmsList.propTypes = filmsPropTypes;

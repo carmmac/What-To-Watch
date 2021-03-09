@@ -20,7 +20,7 @@ const Main = (props) => {
     films,
     initialFilmsVisibleNum,
     filmsToShowNum,
-    loadIndicator,
+    isLoadedIndicator,
     onLoadPromoFilm,
     onLoadFilms,
     getGenresFromFilms,
@@ -42,17 +42,17 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!loadIndicator.promoFilm) {
+    if (!isLoadedIndicator.promoFilm) {
       onLoadPromoFilm();
-    } else if (!loadIndicator.films) {
+    } else if (!isLoadedIndicator.films) {
       onLoadFilms();
     } else {
       setFilmsToShow(films);
       getGenresFromFilms(films);
     }
-  }, [loadIndicator]);
+  }, [isLoadedIndicator]);
 
-  if (!loadIndicator.promoFilm) {
+  if (!isLoadedIndicator.promoFilm) {
     return (<Loading />);
   }
 
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews,
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
   filmsToShowNum: state.filmsToShowNum,
-  loadIndicator: state.loadIndicator,
+  isLoadedIndicator: state.isLoadedIndicator,
   currentGenre: state.currentGenre,
 });
 
@@ -159,7 +159,7 @@ Main.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
   initialFilmsVisibleNum: PropTypes.number.isRequired,
   filmsToShowNum: PropTypes.number.isRequired,
-  loadIndicator: PropTypes.object.isRequired,
+  isLoadedIndicator: PropTypes.object.isRequired,
   onLoadPromoFilm: PropTypes.func.isRequired,
   onLoadFilms: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,

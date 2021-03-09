@@ -10,7 +10,7 @@ const initialState = {
   reviews,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
-  loadIndicator: {
+  isLoadedIndicator: {
     films: false,
     promoFilm: false,
   },
@@ -28,8 +28,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         films: action.payload,
-        loadIndicator: {
-          ...state.loadIndicator,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
           films: true,
         },
       };
@@ -45,8 +45,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         promoFilm: action.payload,
-        loadIndicator: {
-          ...state.loadIndicator,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
           promoFilm: true,
         },
       };
