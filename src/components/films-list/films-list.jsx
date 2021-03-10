@@ -1,17 +1,27 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {filmsPropTypes} from '../../prop-types';
 import FilmCard from '../film-card/film-card';
+import Loading from '../loading/loading';
 
-const FilmsList = ({films, filmsVisibleNum}) => {
+const FilmsList = ({films, filmsVisibleNum, isLoadedIndicator}) => {
   return (
-    <div className="catalog__movies-list">
-      {
-        films.slice(0, filmsVisibleNum).map((film) => <FilmCard key={film.id} {...film} />)
-      }
-    </div>
+    !isLoadedIndicator.films
+      ? <Loading />
+      :
+      <div className="catalog__movies-list">
+        {
+          films.slice(0, filmsVisibleNum).map((film) => <FilmCard key={film.id} {...film} />)
+        }
+      </div>
   );
 };
 
+const mapStateToProps = (state) => ({
+  isLoadedIndicator: state.isLoadedIndicator,
+});
+
 FilmsList.propTypes = filmsPropTypes;
 
-export default FilmsList;
+export {FilmsList};
+export default connect(mapStateToProps, null)(FilmsList);

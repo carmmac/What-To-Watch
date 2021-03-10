@@ -20,8 +20,9 @@ const Main = (props) => {
     films,
     initialFilmsVisibleNum,
     filmsToShowNum,
-    isDataLoadFinished,
-    onLoadData,
+    isLoadedIndicator,
+    onLoadPromoFilm,
+    onLoadFilms,
     getGenresFromFilms,
     onGenreSelect,
   } = props;
@@ -41,15 +42,14 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!isDataLoadFinished) {
-      onLoadData();
-    } else {
-      setFilmsToShow(films);
-      getGenresFromFilms(films);
-    }
-  }, [isDataLoadFinished]);
+    onLoadPromoFilm(isLoadedIndicator);
+    onLoadFilms(isLoadedIndicator);
 
-  if (!isDataLoadFinished) {
+    setFilmsToShow(films);
+    getGenresFromFilms(films);
+  }, [isLoadedIndicator.promoFilm, isLoadedIndicator.films]);
+
+  if (!isLoadedIndicator.promoFilm) {
     return (<Loading />);
   }
 
@@ -131,14 +131,20 @@ const mapStateToProps = (state) => ({
   reviews: state.reviews,
   initialFilmsVisibleNum: state.initialFilmsVisibleNum,
   filmsToShowNum: state.filmsToShowNum,
-  isDataLoadFinished: state.isDataLoadFinished,
+  isLoadedIndicator: state.isLoadedIndicator,
   currentGenre: state.currentGenre,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchPromoFilm());
-    dispatch(fetchFilmsList());
+  onLoadPromoFilm({promoFilm}) {
+    if (!promoFilm) {
+      dispatch(fetchPromoFilm());
+    }
+  },
+  onLoadFilms({films}) {
+    if (!films) {
+      dispatch(fetchFilmsList());
+    }
   },
   getGenresFromFilms(films) {
     dispatch(ActionCreator.getGenresFromFilms(films));
@@ -154,8 +160,9 @@ Main.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
   initialFilmsVisibleNum: PropTypes.number.isRequired,
   filmsToShowNum: PropTypes.number.isRequired,
-  isDataLoadFinished: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
+  isLoadedIndicator: PropTypes.object.isRequired,
+  onLoadPromoFilm: PropTypes.func.isRequired,
+  onLoadFilms: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
 };

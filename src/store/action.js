@@ -3,6 +3,7 @@ const ActionType = {
   LOAD_FILMS: `data/loadFilms`,
   GET_GENRES: `data/getGenres`,
   GET_PROMO_FILM: `data/getPromoFilm`,
+  REQUIRED_AUTH: `user/requiredAuthorization`,
 };
 
 const ActionCreator = {
@@ -21,6 +22,10 @@ const ActionCreator = {
   getPromoFilm: (promoFilm) => ({
     type: ActionType.GET_PROMO_FILM,
     payload: promoFilm,
+  }),
+  requireAuthorization: (status) => ({
+    type: ActionType.REQUIRED_AUTH,
+    payload: status,
   }),
 };
 
