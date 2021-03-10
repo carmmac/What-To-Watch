@@ -42,14 +42,14 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    onLoadPromoFilm(isLoadedIndicator);
-    onLoadFilms(isLoadedIndicator);
+    onLoadPromoFilm();
+    onLoadFilms();
 
     setFilmsToShow(films);
-    getGenresFromFilms(films);
-  }, [isLoadedIndicator.promoFilm, isLoadedIndicator.films]);
+    getGenresFromFilms();
+  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
 
-  if (!isLoadedIndicator.promoFilm) {
+  if (!isLoadedIndicator.ispromoFilmLoaded) {
     return (<Loading />);
   }
 
@@ -135,24 +135,32 @@ const mapStateToProps = (state) => ({
   currentGenre: state.currentGenre,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadPromoFilm({promoFilm}) {
-    if (!promoFilm) {
-      dispatch(fetchPromoFilm());
-    }
-  },
-  onLoadFilms({films}) {
-    if (!films) {
-      dispatch(fetchFilmsList());
-    }
-  },
-  getGenresFromFilms(films) {
-    dispatch(ActionCreator.getGenresFromFilms(films));
-  },
-  onGenreSelect(genre) {
-    dispatch(ActionCreator.genreSelect(genre));
-  },
-});
+const mergeProps = (stateProps, dispatchProps) => {
+  const {films} = stateProps;
+  const {ispromoFilmLoaded, areFilmsLoaded} = stateProps.isLoadedIndicator;
+  const {dispatch} = dispatchProps;
+  return {
+    ...stateProps,
+    ispromoFilmLoaded,
+    areFilmsLoaded,
+    onLoadPromoFilm() {
+      if (!ispromoFilmLoaded) {
+        dispatch(fetchPromoFilm());
+      }
+    },
+    onLoadFilms() {
+      if (!areFilmsLoaded) {
+        dispatch(fetchFilmsList());
+      }
+    },
+    getGenresFromFilms() {
+      dispatch(ActionCreator.getGenresFromFilms(films));
+    },
+    onGenreSelect(genre) {
+      dispatch(ActionCreator.genreSelect(genre));
+    },
+  };
+};
 
 Main.propTypes = {
   promoFilm: PropTypes.shape(filmPropTypes),
@@ -168,4 +176,4 @@ Main.propTypes = {
 };
 
 export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null, mergeProps)(Main);

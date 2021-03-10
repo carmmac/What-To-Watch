@@ -11,8 +11,8 @@ const initialState = {
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
   isLoadedIndicator: {
-    films: false,
-    promoFilm: false,
+    areFilmsLoaded: false,
+    ispromoFilmLoaded: false,
   },
   authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
         films: action.payload,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
-          films: true,
+          areFilmsLoaded: true,
         },
       };
     case ActionType.GET_GENRES:
@@ -47,7 +47,7 @@ const reducer = (state = initialState, action) => {
         promoFilm: action.payload,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
-          promoFilm: true,
+          ispromoFilmLoaded: true,
         },
       };
     case ActionType.REQUIRED_AUTH:

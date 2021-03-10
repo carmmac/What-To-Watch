@@ -6,7 +6,7 @@ import Loading from '../loading/loading';
 
 const FilmsList = ({films, filmsVisibleNum, isLoadedIndicator}) => {
   return (
-    !isLoadedIndicator.films
+    !isLoadedIndicator.areFilmsLoaded
       ? <Loading />
       :
       <div className="catalog__movies-list">
