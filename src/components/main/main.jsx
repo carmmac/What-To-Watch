@@ -8,7 +8,7 @@ import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
-import {fetchFilmsList, fetchPromoFilm} from '../../store/api-actions.js';
+import {fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
 import {ActionCreator} from '../../store/action.js';
 import {ALL_GENRES} from '../../const.js';
@@ -22,7 +22,6 @@ const Main = (props) => {
     filmsToShowNum,
     isLoadedIndicator,
     onLoadPromoFilm,
-    onLoadFilms,
     getGenresFromFilms,
     onGenreSelect,
   } = props;
@@ -42,8 +41,9 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    onLoadPromoFilm();
-    onLoadFilms();
+    if (!isLoadedIndicator.ispromoFilmLoaded) {
+      onLoadPromoFilm();
+    }
 
     setFilmsToShow(films);
     getGenresFromFilms();
@@ -137,20 +137,14 @@ const mapStateToProps = (state) => ({
 
 const mergeProps = (stateProps, dispatchProps) => {
   const {films} = stateProps;
-  const {ispromoFilmLoaded, areFilmsLoaded} = stateProps.isLoadedIndicator;
+  const {ispromoFilmLoaded} = stateProps.isLoadedIndicator;
   const {dispatch} = dispatchProps;
   return {
     ...stateProps,
     ispromoFilmLoaded,
-    areFilmsLoaded,
     onLoadPromoFilm() {
       if (!ispromoFilmLoaded) {
         dispatch(fetchPromoFilm());
-      }
-    },
-    onLoadFilms() {
-      if (!areFilmsLoaded) {
-        dispatch(fetchFilmsList());
       }
     },
     getGenresFromFilms() {
@@ -170,7 +164,6 @@ Main.propTypes = {
   filmsToShowNum: PropTypes.number.isRequired,
   isLoadedIndicator: PropTypes.object.isRequired,
   onLoadPromoFilm: PropTypes.func.isRequired,
-  onLoadFilms: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
 };
