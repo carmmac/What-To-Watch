@@ -4,6 +4,8 @@ const ActionType = {
   GET_GENRES: `data/getGenres`,
   GET_PROMO_FILM: `data/getPromoFilm`,
   REQUIRED_AUTH: `user/requiredAuthorization`,
+  GET_FILM: `data/getFilm`,
+  CLEAR_FILM: `filmPage/clearFilm`,
 };
 
 const ActionCreator = {
@@ -26,6 +28,13 @@ const ActionCreator = {
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTH,
     payload: status,
+  }),
+  getFilm: (film) => ({
+    type: ActionType.GET_FILM,
+    payload: film,
+  }),
+  clearFilm: () => ({
+    type: ActionType.CLEAR_FILM,
   }),
 };
 

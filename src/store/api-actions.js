@@ -16,6 +16,13 @@ const fetchPromoFilm = () => (next, _getState, api) => (
     .catch(() => {})
 );
 
+const fetchFilm = (id) => (next, _getState, api) => (
+  api.get(`${APIRoute.FILMS}${id}`)
+    .then(({data}) => adaptFilmToClient(data))
+    .then((film) => next(ActionCreator.getFilm(film)))
+    .catch(() => {})
+);
+
 const chechAuth = () => (next, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => next(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -39,4 +46,5 @@ export {
   chechAuth,
   login,
   logout,
+  fetchFilm,
 };

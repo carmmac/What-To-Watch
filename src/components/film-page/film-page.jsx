@@ -1,35 +1,41 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {filmsPropTypes, reviewsPropTypes} from '../../prop-types';
+import {filmPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 import {connect} from 'react-redux';
+import Loading from '../loading/loading';
+import {fetchFilm} from '../../store/api-actions';
+import {ActionCreator} from '../../store/action';
 
-const FilmPage = ({films, reviews, match: {params}}) => {
+const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeavePage}) => {
   const {id: filmId} = params;
-  const film = films.find((item) => item.id === parseInt(filmId, 10));
-  const similarFilms = films.filter((item) => item.genre === film.genre && item.id !== film.id);
 
-  const currentReviews = reviews
-    .filter((review) => review.id === film.id)
-    .sort((left, right) => right.rating - left.rating);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!isLoadedIndicator.isFilmLoaded) {
+      onLoadFilm(filmId);
+    }
+    return () => {
+      onLeavePage();
+    };
+  }, []);
 
-  useEffect(() => window.scrollTo(0, 0));
+  if (!isLoadedIndicator.isFilmLoaded) {
+    return <Loading />;
+  }
 
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
         <FilmBackgroundBlock backgroundImage={film.backgroundImage} name={film.name} />
-
         <h1 className="visually-hidden">WTW</h1>
-
         <header className="page-header movie-card__head">
           <Logo/>
-
           <UserBlock/>
         </header>
 
@@ -66,12 +72,7 @@ const FilmPage = ({films, reviews, match: {params}}) => {
             <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
-
-          {<FilmPageTabs
-            film={film}
-            reviews={currentReviews}
-          />}
-
+          <FilmPageTabs film={film} />
         </div>
       </div>
     </section>
@@ -79,7 +80,7 @@ const FilmPage = ({films, reviews, match: {params}}) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList films={similarFilms} />
+        <FilmsList />
       </section>
 
       <footer className="page-footer">
@@ -100,14 +101,32 @@ const FilmPage = ({films, reviews, match: {params}}) => {
 };
 
 const mapStateToProps = (state) => ({
-  films: state.films,
+  film: state.film,
+  isLoadedIndicator: state.isLoadedIndicator,
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {id: filmId} = ownProps.match.params;
+  const {dispatch} = dispatchProps;
+  return {
+    ...stateProps,
+    ...ownProps,
+    onLoadFilm() {
+      dispatch(fetchFilm(filmId));
+    },
+    onLeavePage() {
+      dispatch(ActionCreator.clearFilm());
+    },
+  };
+};
+
 FilmPage.propTypes = {
-  films: filmsPropTypes,
-  reviews: reviewsPropTypes,
+  film: PropTypes.shape(filmPropTypes),
   match: PropTypes.object.isRequired,
+  isLoadedIndicator: PropTypes.object.isRequired,
+  onLoadFilm: PropTypes.func.isRequired,
+  onLeavePage: PropTypes.func.isRequired,
 };
 
 export {FilmPage};
-export default connect(mapStateToProps, null)(FilmPage);
+export default connect(mapStateToProps, null, mergeProps)(FilmPage);

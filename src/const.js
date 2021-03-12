@@ -38,7 +38,7 @@ const AppRoute = {
   PLAYER: `/player/:id`,
 };
 const APIRoute = {
-  FILMS: `/films`,
+  FILMS: `/films/`,
   PROMO_FILM: `/films/promo`,
   LOGIN: `/login`,
   LOGOUT: `/logout`,

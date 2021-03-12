@@ -7,12 +7,13 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
   genres: [],
-  reviews,
+  film: undefined,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
   isLoadedIndicator: {
     areFilmsLoaded: false,
     ispromoFilmLoaded: false,
+    isFilmLoaded: false,
   },
   authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
@@ -54,6 +55,24 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+    case ActionType.GET_FILM:
+      return {
+        ...state,
+        film: action.payload,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          isFilmLoaded: true,
+        }
+      };
+    case ActionType.CLEAR_FILM:
+      return {
+        ...state,
+        film: {},
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          isFilmLoaded: false,
+        }
       };
   }
   return state;
