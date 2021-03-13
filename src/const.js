@@ -1,9 +1,5 @@
 const INITIAL_FILMS_VISIBLE_NUM = 8;
 const FILMS_TO_SHOW_NUM = 8;
-const MockFilmsNum = {
-  MIN: 1,
-  MAX: 12,
-};
 const RatingScore = {
   MIN: 1,
   MAX: 10,
@@ -38,16 +34,21 @@ const AppRoute = {
   PLAYER: `/player/:id`,
 };
 const APIRoute = {
-  FILMS: `/films`,
+  FILMS: `/films/`,
   PROMO_FILM: `/films/promo`,
   LOGIN: `/login`,
   LOGOUT: `/logout`,
+  REVIEWS: `/comments/`,
+};
+const FilmsListLocation = {
+  MAIN: `MAIN`,
+  FILM_PAGE: `FILM_PAGE`,
+  USER_LIST: `USER_LIST`,
 };
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
   FILMS_TO_SHOW_NUM,
-  MockFilmsNum,
   RatingScore,
   FilmPageTab,
   DEFAULT_GENRE,
@@ -56,4 +57,5 @@ export {
   AuthorizationStatus,
   AppRoute,
   APIRoute,
+  FilmsListLocation,
 };

@@ -8,27 +8,26 @@ import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
 import {connect} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
-import {fetchFilmsList, fetchPromoFilm} from '../../store/api-actions.js';
+import {fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
 import {ActionCreator} from '../../store/action.js';
-import {ALL_GENRES} from '../../const.js';
+import {ALL_GENRES, FilmsListLocation} from '../../const.js';
 
 const Main = (props) => {
   const {
     promoFilm,
-    reviews,
     films,
     initialFilmsVisibleNum,
     filmsToShowNum,
     isLoadedIndicator,
     onLoadPromoFilm,
-    onLoadFilms,
     getGenresFromFilms,
     onGenreSelect,
   } = props;
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
+  const [currentGenre, setCurrentGenre] = useState(ALL_GENRES);
 
   const handleLoadMoreFilmsClick = () => {
     setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
@@ -39,17 +38,19 @@ const Main = (props) => {
     setFilmsToShow(
         newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
+    setCurrentGenre(newGenre);
   };
 
   useEffect(() => {
-    onLoadPromoFilm(isLoadedIndicator);
-    onLoadFilms(isLoadedIndicator);
+    if (!isLoadedIndicator.ispromoFilmLoaded) {
+      onLoadPromoFilm();
+    }
 
     setFilmsToShow(films);
-    getGenresFromFilms(films);
-  }, [isLoadedIndicator.promoFilm, isLoadedIndicator.films]);
+    getGenresFromFilms();
+  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
 
-  if (!isLoadedIndicator.promoFilm) {
+  if (!isLoadedIndicator.ispromoFilmLoaded) {
     return (<Loading />);
   }
 
@@ -100,7 +101,7 @@ const Main = (props) => {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <GenreList handleGenreSelect={handleGenreSelect} />
 
-        <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
+        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={FilmsListLocation.MAIN} />
 
         {
           filmsToShow.length > filmsVisibleNum &&
@@ -135,24 +136,26 @@ const mapStateToProps = (state) => ({
   currentGenre: state.currentGenre,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onLoadPromoFilm({promoFilm}) {
-    if (!promoFilm) {
-      dispatch(fetchPromoFilm());
-    }
-  },
-  onLoadFilms({films}) {
-    if (!films) {
-      dispatch(fetchFilmsList());
-    }
-  },
-  getGenresFromFilms(films) {
-    dispatch(ActionCreator.getGenresFromFilms(films));
-  },
-  onGenreSelect(genre) {
-    dispatch(ActionCreator.genreSelect(genre));
-  },
-});
+const mergeProps = (stateProps, dispatchProps) => {
+  const {films} = stateProps;
+  const {ispromoFilmLoaded} = stateProps.isLoadedIndicator;
+  const {dispatch} = dispatchProps;
+  return {
+    ...stateProps,
+    ispromoFilmLoaded,
+    onLoadPromoFilm() {
+      if (!ispromoFilmLoaded) {
+        dispatch(fetchPromoFilm());
+      }
+    },
+    getGenresFromFilms() {
+      dispatch(ActionCreator.getGenresFromFilms(films));
+    },
+    onGenreSelect(genre) {
+      dispatch(ActionCreator.genreSelect(genre));
+    },
+  };
+};
 
 Main.propTypes = {
   promoFilm: PropTypes.shape(filmPropTypes),
@@ -162,10 +165,9 @@ Main.propTypes = {
   filmsToShowNum: PropTypes.number.isRequired,
   isLoadedIndicator: PropTypes.object.isRequired,
   onLoadPromoFilm: PropTypes.func.isRequired,
-  onLoadFilms: PropTypes.func.isRequired,
   getGenresFromFilms: PropTypes.func.isRequired,
   onGenreSelect: PropTypes.func.isRequired,
 };
 
 export {Main};
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, null, mergeProps)(Main);
