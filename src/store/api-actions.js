@@ -16,6 +16,12 @@ const fetchPromoFilm = () => (next, _getState, api) => (
     .catch(() => {})
 );
 
+const fetchReviews = (id) => (next, _getState, api) => (
+  api.get(`${APIRoute.REVIEWS}${id}`)
+    .then(({data}) => next(ActionCreator.getReviews(data)))
+    .catch(() => {})
+);
+
 const fetchFilm = (id) => (next, _getState, api) => (
   api.get(`${APIRoute.FILMS}${id}`)
     .then(({data}) => adaptFilmToClient(data))
@@ -47,4 +53,5 @@ export {
   login,
   logout,
   fetchFilm,
+  fetchReviews,
 };

@@ -16,7 +16,6 @@ import {ALL_GENRES} from '../../const.js';
 const Main = (props) => {
   const {
     promoFilm,
-    reviews,
     films,
     initialFilmsVisibleNum,
     filmsToShowNum,

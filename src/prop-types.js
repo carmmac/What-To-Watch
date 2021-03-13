@@ -26,7 +26,7 @@ const reviewPropTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   }),
-  rating: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
   comment: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired
 };

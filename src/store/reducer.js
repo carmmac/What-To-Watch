@@ -1,4 +1,3 @@
-import reviews from '../mock/reviews-mock.js';
 import {ActionType} from "./action";
 import {AuthorizationStatus, DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
@@ -7,6 +6,7 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
   genres: [],
+  reviews: [],
   film: undefined,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
@@ -14,6 +14,7 @@ const initialState = {
     areFilmsLoaded: false,
     ispromoFilmLoaded: false,
     isFilmLoaded: false,
+    areReviewsLoaded: false,
   },
   authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
@@ -65,10 +66,19 @@ const reducer = (state = initialState, action) => {
           isFilmLoaded: true,
         }
       };
+    case ActionType.GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          areReviewsLoaded: true,
+        },
+      };
     case ActionType.CLEAR_FILM:
       return {
         ...state,
-        film: {},
+        film: initialState.film,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
           isFilmLoaded: false,

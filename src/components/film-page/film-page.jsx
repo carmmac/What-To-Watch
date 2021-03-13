@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
 import {ActionCreator} from '../../store/action';
+import {AuthorizationStatus} from '../../const';
 
 const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeavePage}) => {
   const {id: filmId} = params;
@@ -60,7 +61,10 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeave
                 </svg>
                 <span>My list</span>
               </button>
-              <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>
+              {
+                (authorizationStatus === AuthorizationStatus.AUTH &&
+                <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>)
+              }
             </div>
           </div>
         </div>
@@ -72,7 +76,7 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeave
             <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
-          <FilmPageTabs film={film} />
+          <FilmPageTabs film={film} filmId={filmId} />
         </div>
       </div>
     </section>
@@ -103,6 +107,7 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeave
 const mapStateToProps = (state) => ({
   film: state.film,
   isLoadedIndicator: state.isLoadedIndicator,
+  authorizationStatus: state.authorizationStatus,
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -126,6 +131,7 @@ FilmPage.propTypes = {
   isLoadedIndicator: PropTypes.object.isRequired,
   onLoadFilm: PropTypes.func.isRequired,
   onLeavePage: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 export {FilmPage};

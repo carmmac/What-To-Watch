@@ -5,6 +5,7 @@ const ActionType = {
   GET_PROMO_FILM: `data/getPromoFilm`,
   REQUIRED_AUTH: `user/requiredAuthorization`,
   GET_FILM: `data/getFilm`,
+  GET_REVIEWS: `data/getReviews`,
   CLEAR_FILM: `filmPage/clearFilm`,
 };
 
@@ -32,6 +33,10 @@ const ActionCreator = {
   getFilm: (film) => ({
     type: ActionType.GET_FILM,
     payload: film,
+  }),
+  getReviews: (reviews) => ({
+    type: ActionType.GET_REVIEWS,
+    payload: reviews,
   }),
   clearFilm: () => ({
     type: ActionType.CLEAR_FILM,
