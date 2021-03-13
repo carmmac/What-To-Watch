@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {filmPropTypes} from '../../prop-types';
 import PlayerPreview from '../player-preview/player-preview';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
-const FilmCard = ({id, name, previewImage, previewVideoLink}) => {
+const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick, onFilmCardClick}) => {
   const [startPlayer, setStartPlayer] = useState(false);
   const [timerId, setTimerId] = useState(null);
 
@@ -39,12 +41,29 @@ const FilmCard = ({id, name, previewImage, previewVideoLink}) => {
         }
       </div>
       <h3 className="small-movie-card__title">
-        <Link
-          className="small-movie-card__link"
-          to={`/films/${id}`}
-          onClick={() => setStartPlayer(false)}
-        >{name}
-        </Link>
+        {
+          (handleFilmCardClick &&
+          <Link
+            className="small-movie-card__link"
+            to={`/films/${id}`}
+            onClick={() => {
+              setStartPlayer(false);
+              handleFilmCardClick(id);
+              onFilmCardClick();
+            }}
+          >{name}
+          </Link>)
+          ||
+          <Link
+            className="small-movie-card__link"
+            to={`/films/${id}`}
+            onClick={() => {
+              setStartPlayer(false);
+              onFilmCardClick();
+            }}
+          >{name}
+          </Link>
+        }
       </h3>
     </article>
   );
@@ -54,4 +73,11 @@ FilmCard.propTypes = FilmCard.propTypes = {
   filmData: PropTypes.shape(filmPropTypes)
 };
 
-export default FilmCard;
+const mapDispatchToProps = (dispatch) => ({
+  onFilmCardClick() {
+    dispatch(ActionCreator.clearFilm());
+  },
+});
+
+export {FilmCard};
+export default connect(null, mapDispatchToProps)(FilmCard);

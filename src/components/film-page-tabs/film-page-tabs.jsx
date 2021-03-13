@@ -34,7 +34,7 @@ const FilmPageTabs = ({film, filmId}) => {
 
 FilmPageTabs.propTypes = {
   film: PropTypes.shape(filmPropTypes),
-  filmId: PropTypes.string.isRequired,
+  filmId: PropTypes.number.isRequired,
 };
 
 export default FilmPageTabs;

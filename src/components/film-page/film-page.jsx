@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
 import {filmPropTypes} from '../../prop-types';
@@ -10,21 +10,18 @@ import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 import {connect} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
-import {ActionCreator} from '../../store/action';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, FilmsListLocation} from '../../const';
 
-const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeavePage}) => {
-  const {id: filmId} = params;
+const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authorizationStatus}) => {
+  const [filmId, setFilmId] = useState(parseInt(params.id, 10));
+  const handleFilmCardClick = (newId) => {
+    setFilmId(newId);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isLoadedIndicator.isFilmLoaded) {
-      onLoadFilm(filmId);
-    }
-    return () => {
-      onLeavePage();
-    };
-  }, []);
+    onLoadFilm();
+  }, [isLoadedIndicator.isFilmLoaded]);
 
   if (!isLoadedIndicator.isFilmLoaded) {
     return <Loading />;
@@ -84,7 +81,7 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, onLeave
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList />
+        <FilmsList id={filmId} genre={film.genre} location={FilmsListLocation.FILM_PAGE} handleFilmCardClick={handleFilmCardClick} />
       </section>
 
       <footer className="page-footer">
@@ -119,9 +116,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onLoadFilm() {
       dispatch(fetchFilm(filmId));
     },
-    onLeavePage() {
-      dispatch(ActionCreator.clearFilm());
-    },
   };
 };
 
@@ -130,7 +124,6 @@ FilmPage.propTypes = {
   match: PropTypes.object.isRequired,
   isLoadedIndicator: PropTypes.object.isRequired,
   onLoadFilm: PropTypes.func.isRequired,
-  onLeavePage: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
 };
 

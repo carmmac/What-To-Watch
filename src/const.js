@@ -40,6 +40,11 @@ const APIRoute = {
   LOGOUT: `/logout`,
   REVIEWS: `/comments/`,
 };
+const FilmsListLocation = {
+  MAIN: `MAIN`,
+  FILM_PAGE: `FILM_PAGE`,
+  USER_LIST: `USER_LIST`,
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -52,4 +57,5 @@ export {
   AuthorizationStatus,
   AppRoute,
   APIRoute,
+  FilmsListLocation,
 };

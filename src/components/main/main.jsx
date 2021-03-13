@@ -11,7 +11,7 @@ import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 import {fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
 import {ActionCreator} from '../../store/action.js';
-import {ALL_GENRES} from '../../const.js';
+import {ALL_GENRES, FilmsListLocation} from '../../const.js';
 
 const Main = (props) => {
   const {
@@ -27,6 +27,7 @@ const Main = (props) => {
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
+  const [currentGenre, setCurrentGenre] = useState(ALL_GENRES);
 
   const handleLoadMoreFilmsClick = () => {
     setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
@@ -37,6 +38,7 @@ const Main = (props) => {
     setFilmsToShow(
         newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
+    setCurrentGenre(newGenre);
   };
 
   useEffect(() => {
@@ -99,7 +101,7 @@ const Main = (props) => {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <GenreList handleGenreSelect={handleGenreSelect} />
 
-        <FilmsList films={filmsToShow} reviews={reviews} filmsVisibleNum={filmsVisibleNum} />
+        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={FilmsListLocation.MAIN} />
 
         {
           filmsToShow.length > filmsVisibleNum &&
