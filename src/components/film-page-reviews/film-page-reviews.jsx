@@ -46,7 +46,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
 FilmPageReviews.propTypes = {
   reviews: reviewsPropTypes,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   isLoadedIndicator: PropTypes.object.isRequired,
   onLoadReviews: PropTypes.func.isRequired,
 };

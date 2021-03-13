@@ -46,6 +46,12 @@ const logout = () => (next, _getState, api) => (
     .then(() => next(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
 
+const postReview = (id, {rating, comment}) => (next, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}${id}`, {rating, comment})
+    .then(({data}) => next(ActionCreator.getReviews(data)))
+    .catch(() => {})
+);
+
 export {
   fetchFilmsList,
   fetchPromoFilm,
@@ -54,4 +60,5 @@ export {
   logout,
   fetchFilm,
   fetchReviews,
+  postReview,
 };

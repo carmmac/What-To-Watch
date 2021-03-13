@@ -39,7 +39,6 @@ const App = ({films, reviews, isLoadedIndicator, onLoadFilms}) => {
         <PrivateRoute exact path={AppRoute.REVIEW} render={(routerProps) =>
           <AddReviewPage
             {...routerProps}
-            onPost={()=>{}}
           />}
         />
         <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
