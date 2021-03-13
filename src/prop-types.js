@@ -34,18 +34,7 @@ const reviewPropTypes = {
 const filmsPropTypes = PropTypes.arrayOf(PropTypes.shape(filmPropTypes)).isRequired;
 const reviewsPropTypes = PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired;
 
-const appPropTypes = {
-  promoFilm: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-  }),
-  films: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
-};
-
 export {
-  appPropTypes,
   filmPropTypes,
   reviewPropTypes,
   filmsPropTypes,

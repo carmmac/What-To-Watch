@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {appPropTypes} from '../../prop-types.js';
+import {filmsPropTypes} from '../../prop-types.js';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -13,7 +14,7 @@ import {AppRoute} from '../../const.js';
 import {connect} from 'react-redux';
 import {fetchFilmsList} from '../../store/api-actions.js';
 
-const App = ({films, reviews, isLoadedIndicator, onLoadFilms}) => {
+const App = ({films, isLoadedIndicator, onLoadFilms}) => {
   useEffect(() => onLoadFilms(), [isLoadedIndicator.areFilmsLoaded]);
   return (
     <BrowserRouter>
@@ -27,7 +28,6 @@ const App = ({films, reviews, isLoadedIndicator, onLoadFilms}) => {
         <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
           <UserListPage
             films={films}
-            reviews={reviews}
             {...routerProps}
           />}
         />
@@ -74,7 +74,11 @@ const mergeProps = (stateProps, dispatchProps) => {
   };
 };
 
-App.propTypes = appPropTypes;
+App.propTypes = {
+  films: filmsPropTypes,
+  isLoadedIndicator: PropTypes.object.isRequired,
+  onLoadFilms: PropTypes.func.isRequired,
+};
 
 export {App};
 export default connect(mapStateToProps, null, mergeProps)(App);

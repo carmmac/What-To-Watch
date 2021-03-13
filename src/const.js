@@ -1,9 +1,5 @@
 const INITIAL_FILMS_VISIBLE_NUM = 8;
 const FILMS_TO_SHOW_NUM = 8;
-const MockFilmsNum = {
-  MIN: 1,
-  MAX: 12,
-};
 const RatingScore = {
   MIN: 1,
   MAX: 10,
@@ -48,7 +44,6 @@ const APIRoute = {
 export {
   INITIAL_FILMS_VISIBLE_NUM,
   FILMS_TO_SHOW_NUM,
-  MockFilmsNum,
   RatingScore,
   FilmPageTab,
   DEFAULT_GENRE,
