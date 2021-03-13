@@ -6,7 +6,7 @@ const ActionType = {
   REQUIRED_AUTH: `user/requiredAuthorization`,
   GET_FILM: `data/getFilm`,
   GET_REVIEWS: `data/getReviews`,
-  CLEAR_FILM: `filmPage/clearFilm`,
+  CLEAR_DATA: `filmPage/clearData`,
 };
 
 const ActionCreator = {
@@ -38,8 +38,8 @@ const ActionCreator = {
     type: ActionType.GET_REVIEWS,
     payload: reviews,
   }),
-  clearFilm: () => ({
-    type: ActionType.CLEAR_FILM,
+  clearData: () => ({
+    type: ActionType.CLEAR_DATA,
   }),
 };
 

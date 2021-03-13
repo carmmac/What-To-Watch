@@ -75,7 +75,7 @@ FilmCard.propTypes = FilmCard.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   onFilmCardClick() {
-    dispatch(ActionCreator.clearFilm());
+    dispatch(ActionCreator.clearData());
   },
 });
 

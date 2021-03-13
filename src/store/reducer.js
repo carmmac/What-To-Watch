@@ -75,14 +75,16 @@ const reducer = (state = initialState, action) => {
           areReviewsLoaded: true,
         },
       };
-    case ActionType.CLEAR_FILM:
+    case ActionType.CLEAR_DATA:
       return {
         ...state,
         film: initialState.film,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
           isFilmLoaded: false,
-        }
+          areReviewsLoaded: false,
+        },
+        reviews: initialState.reviews,
       };
   }
   return state;
