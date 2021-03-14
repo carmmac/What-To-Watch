@@ -1,12 +1,25 @@
 import React, {useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import {RatingScore} from '../../const';
+import {DEFAULT_RATING, RatingScore} from '../../const';
 import RatingInput from '../rating/rating-input';
 
 const ReviewForm = ({handleReviewSubmit}) => {
-  const [userRating, setUserRating] = useState(3);
+  const [userRating, setUserRating] = useState(DEFAULT_RATING);
   const reviewTextRef = useRef();
   const handleUserRatingChange = (newRating) => setUserRating(newRating);
+
+  const renderRatingInput = (ratingValue) => {
+    let isChecked = false;
+    if (ratingValue === DEFAULT_RATING) {
+      isChecked = true;
+    }
+    return <RatingInput
+      key={`review_input${ratingValue}`}
+      ratingScore={ratingValue}
+      handleUserRatingChange={handleUserRatingChange}
+      isChecked={isChecked}
+    />;
+  };
 
   return (
     <form
@@ -19,12 +32,7 @@ const ReviewForm = ({handleReviewSubmit}) => {
     >
       <div className="rating">
         <div className="rating__stars">
-          {new Array(RatingScore.MAX).fill().map((_, i) =>
-            <RatingInput
-              key={`review_input${i}`}
-              ratingScore={i + 1}
-              handleUserRatingChange={handleUserRatingChange}
-            />)}
+          {new Array(RatingScore.MAX).fill().map((_, i) => renderRatingInput(i + 1))}
         </div>
       </div>
       <div className="add-review__text">

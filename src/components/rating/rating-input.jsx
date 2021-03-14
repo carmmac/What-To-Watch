@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const RatingInput = ({ratingScore, handleUserRatingChange}) => {
+const RatingInput = ({ratingScore, handleUserRatingChange, isChecked}) => {
   return <>
     <input
       className="rating__input"
@@ -9,6 +9,7 @@ const RatingInput = ({ratingScore, handleUserRatingChange}) => {
       type="radio"
       name="rating"
       value={ratingScore}
+      defaultChecked={isChecked}
       onChange={({target}) => {
         const value = parseInt(target.value, 10);
         handleUserRatingChange(value);
@@ -21,6 +22,7 @@ const RatingInput = ({ratingScore, handleUserRatingChange}) => {
 RatingInput.propTypes = {
   ratingScore: PropTypes.number.isRequired,
   handleUserRatingChange: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
 };
 
 export default RatingInput;
