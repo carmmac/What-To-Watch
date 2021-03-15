@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {appPropTypes} from '../../prop-types.js';
+import {filmsPropTypes} from '../../prop-types.js';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -10,8 +11,11 @@ import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
+import {connect} from 'react-redux';
+import {fetchFilmsList} from '../../store/api-actions.js';
 
-const App = ({films, reviews}) => {
+const App = ({films, isLoadedIndicator, onLoadFilms}) => {
+  useEffect(() => onLoadFilms(), [isLoadedIndicator.areFilmsLoaded]);
   return (
     <BrowserRouter>
       <Switch>
@@ -24,29 +28,22 @@ const App = ({films, reviews}) => {
         <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
           <UserListPage
             films={films}
-            reviews={reviews}
             {...routerProps}
           />}
         />
         <Route exact path={AppRoute.FILM} render={(routerProps) =>
           <FilmPage
-            films={films}
-            reviews={reviews}
             {...routerProps}
           />}
         />
         <PrivateRoute exact path={AppRoute.REVIEW} render={(routerProps) =>
           <AddReviewPage
-            films={films}
-            reviews={reviews}
             {...routerProps}
-            onPost={()=>{}}
           />}
         />
         <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
           <Player
             films={films}
-            reviews={reviews}
             {...routerProps}
           />}
         />
@@ -58,6 +55,30 @@ const App = ({films, reviews}) => {
   );
 };
 
-App.propTypes = appPropTypes;
+const mapStateToProps = (state) => ({
+  films: state.films,
+  isLoadedIndicator: state.isLoadedIndicator,
+});
 
-export default App;
+const mergeProps = (stateProps, dispatchProps) => {
+  const {areFilmsLoaded} = stateProps.isLoadedIndicator;
+  const {dispatch} = dispatchProps;
+  return {
+    ...stateProps,
+    areFilmsLoaded,
+    onLoadFilms() {
+      if (!areFilmsLoaded) {
+        dispatch(fetchFilmsList());
+      }
+    },
+  };
+};
+
+App.propTypes = {
+  films: filmsPropTypes,
+  isLoadedIndicator: PropTypes.object.isRequired,
+  onLoadFilms: PropTypes.func.isRequired,
+};
+
+export {App};
+export default connect(mapStateToProps, null, mergeProps)(App);

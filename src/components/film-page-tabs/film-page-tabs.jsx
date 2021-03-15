@@ -4,10 +4,10 @@ import FilmPageNav from '../film-page-nav/film-page-nav.jsx';
 import FilmPageOverview from '../film-page-overview/film-page-overview.jsx';
 import FilmPageDetails from '../film-page-details/film-page-details.jsx';
 import FilmPageReviews from '../film-page-reviews/film-page-reviews.jsx';
-import {filmPropTypes, reviewsPropTypes} from '../../prop-types.js';
+import {filmPropTypes} from '../../prop-types.js';
 import {FilmPageTab} from '../../const.js';
 
-const FilmPageTabs = ({film, reviews}) => {
+const FilmPageTabs = ({film, filmId}) => {
   const [selectedTab, setSelectedTab] = useState(FilmPageTab.OVERVIEW);
 
   const handleTabSelect = (tabName) => {
@@ -26,7 +26,7 @@ const FilmPageTabs = ({film, reviews}) => {
       {
         (selectedTab === FilmPageTab.OVERVIEW && <FilmPageOverview film={film} />) ||
         (selectedTab === FilmPageTab.DETAILS && <FilmPageDetails film={film} />) ||
-        (selectedTab === FilmPageTab.REVIEWS && <FilmPageReviews reviews={reviews}/>)
+        (selectedTab === FilmPageTab.REVIEWS && <FilmPageReviews id={filmId}/>)
       }
     </div>
   );
@@ -34,7 +34,7 @@ const FilmPageTabs = ({film, reviews}) => {
 
 FilmPageTabs.propTypes = {
   film: PropTypes.shape(filmPropTypes),
-  reviews: reviewsPropTypes,
+  filmId: PropTypes.number.isRequired,
 };
 
 export default FilmPageTabs;

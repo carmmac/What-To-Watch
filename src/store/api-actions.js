@@ -16,6 +16,19 @@ const fetchPromoFilm = () => (next, _getState, api) => (
     .catch(() => {})
 );
 
+const fetchReviews = (id) => (next, _getState, api) => (
+  api.get(`${APIRoute.REVIEWS}${id}`)
+    .then(({data}) => next(ActionCreator.getReviews(data)))
+    .catch(() => {})
+);
+
+const fetchFilm = (id) => (next, _getState, api) => (
+  api.get(`${APIRoute.FILMS}${id}`)
+    .then(({data}) => adaptFilmToClient(data))
+    .then((film) => next(ActionCreator.getFilm(film)))
+    .catch(() => {})
+);
+
 const chechAuth = () => (next, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => next(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -33,10 +46,19 @@ const logout = () => (next, _getState, api) => (
     .then(() => next(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
 
+const postReview = (id, {rating, comment}) => (next, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}${id}`, {rating, comment})
+    .then(({data}) => next(ActionCreator.getReviews(data)))
+    .catch(() => {})
+);
+
 export {
   fetchFilmsList,
   fetchPromoFilm,
   chechAuth,
   login,
   logout,
+  fetchFilm,
+  fetchReviews,
+  postReview,
 };

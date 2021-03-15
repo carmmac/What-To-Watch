@@ -1,4 +1,3 @@
-import reviews from '../mock/reviews-mock.js';
 import {ActionType} from "./action";
 import {AuthorizationStatus, DEFAULT_GENRE, FILMS_TO_SHOW_NUM, INITIAL_FILMS_VISIBLE_NUM} from "../const";
 
@@ -7,12 +6,15 @@ const initialState = {
   currentGenre: DEFAULT_GENRE,
   films: [],
   genres: [],
-  reviews,
+  reviews: [],
+  film: undefined,
   initialFilmsVisibleNum: INITIAL_FILMS_VISIBLE_NUM,
   filmsToShowNum: FILMS_TO_SHOW_NUM,
   isLoadedIndicator: {
-    films: false,
-    promoFilm: false,
+    areFilmsLoaded: false,
+    ispromoFilmLoaded: false,
+    isFilmLoaded: false,
+    areReviewsLoaded: false,
   },
   authorizationStatus: AuthorizationStatus.WAITING_AUTH,
 };
@@ -30,7 +32,7 @@ const reducer = (state = initialState, action) => {
         films: action.payload,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
-          films: true,
+          areFilmsLoaded: true,
         },
       };
     case ActionType.GET_GENRES:
@@ -47,13 +49,42 @@ const reducer = (state = initialState, action) => {
         promoFilm: action.payload,
         isLoadedIndicator: {
           ...state.isLoadedIndicator,
-          promoFilm: true,
+          ispromoFilmLoaded: true,
         },
       };
     case ActionType.REQUIRED_AUTH:
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+    case ActionType.GET_FILM:
+      return {
+        ...state,
+        film: action.payload,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          isFilmLoaded: true,
+        }
+      };
+    case ActionType.GET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          areReviewsLoaded: true,
+        },
+      };
+    case ActionType.CLEAR_DATA:
+      return {
+        ...state,
+        film: initialState.film,
+        isLoadedIndicator: {
+          ...state.isLoadedIndicator,
+          isFilmLoaded: false,
+          areReviewsLoaded: false,
+        },
+        reviews: initialState.reviews,
       };
   }
   return state;

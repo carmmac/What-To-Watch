@@ -1,35 +1,39 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {filmsPropTypes, reviewsPropTypes} from '../../prop-types';
+import {filmPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
+import {connect} from 'react-redux';
+import Loading from '../loading/loading';
+import {fetchFilm} from '../../store/api-actions';
+import {AuthorizationStatus, FilmsListLocation} from '../../const';
 
-const FilmPage = (props) => {
-  const {films, reviews} = props;
-  const {id: filmId} = props.match.params;
-  const film = films.find((item) => item.id === parseInt(filmId, 10));
-  const similarFilms = films.filter((item) => item.genre === film.genre && item.id !== film.id);
+const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authorizationStatus}) => {
+  const [filmId, setFilmId] = useState(parseInt(params.id, 10));
+  const handleFilmCardClick = (newId) => {
+    setFilmId(newId);
+  };
 
-  const currentReviews = reviews
-    .filter((review) => review.id === film.id)
-    .sort((left, right) => right.rating - left.rating);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    onLoadFilm();
+  }, [isLoadedIndicator.isFilmLoaded]);
 
-  useEffect(() => window.scrollTo(0, 0));
+  if (!isLoadedIndicator.isFilmLoaded) {
+    return <Loading />;
+  }
 
   return <>
     <section className="movie-card movie-card--full">
       <div className="movie-card__hero">
         <FilmBackgroundBlock backgroundImage={film.backgroundImage} name={film.name} />
-
         <h1 className="visually-hidden">WTW</h1>
-
         <header className="page-header movie-card__head">
           <Logo/>
-
           <UserBlock/>
         </header>
 
@@ -54,7 +58,10 @@ const FilmPage = (props) => {
                 </svg>
                 <span>My list</span>
               </button>
-              <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>
+              {
+                (authorizationStatus === AuthorizationStatus.AUTH &&
+                <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>)
+              }
             </div>
           </div>
         </div>
@@ -66,12 +73,7 @@ const FilmPage = (props) => {
             <img src={film.posterImage} alt={film.name} width="218"
               height="327" />
           </div>
-
-          {<FilmPageTabs
-            film={film}
-            reviews={currentReviews}
-          />}
-
+          <FilmPageTabs film={film} filmId={filmId} />
         </div>
       </div>
     </section>
@@ -79,7 +81,7 @@ const FilmPage = (props) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList films={similarFilms} />
+        <FilmsList id={filmId} genre={film.genre} location={FilmsListLocation.FILM_PAGE} handleFilmCardClick={handleFilmCardClick} />
       </section>
 
       <footer className="page-footer">
@@ -99,10 +101,31 @@ const FilmPage = (props) => {
   </>;
 };
 
-FilmPage.propTypes = {
-  films: filmsPropTypes,
-  reviews: reviewsPropTypes,
-  match: PropTypes.object.isRequired,
+const mapStateToProps = (state) => ({
+  film: state.film,
+  isLoadedIndicator: state.isLoadedIndicator,
+  authorizationStatus: state.authorizationStatus,
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {id: filmId} = ownProps.match.params;
+  const {dispatch} = dispatchProps;
+  return {
+    ...stateProps,
+    ...ownProps,
+    onLoadFilm() {
+      dispatch(fetchFilm(filmId));
+    },
+  };
 };
 
-export default FilmPage;
+FilmPage.propTypes = {
+  film: PropTypes.shape(filmPropTypes),
+  match: PropTypes.object.isRequired,
+  isLoadedIndicator: PropTypes.object.isRequired,
+  onLoadFilm: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+};
+
+export {FilmPage};
+export default connect(mapStateToProps, null, mergeProps)(FilmPage);
