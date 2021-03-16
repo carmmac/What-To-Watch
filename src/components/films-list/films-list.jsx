@@ -6,7 +6,7 @@ import Loading from '../loading/loading';
 
 const FilmsList = ({filmsVisibleNum, genre, id, location, handleFilmCardClick}) => {
 
-  const {films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const {films, favoriteFilms, isLoadedIndicator} = useSelector((state) => state.DATA);
 
   if (!isLoadedIndicator.areFilmsLoaded) {
     return <Loading />;
@@ -37,9 +37,7 @@ const FilmsList = ({filmsVisibleNum, genre, id, location, handleFilmCardClick}) 
     (location === FilmsListLocation.USER_LIST &&
       <div className="catalog__movies-list">
         {
-          films.slice()
-               .filter((film) => film.isFavorite)
-               .map((film) => <FilmCard handleFilmCardClick={handleFilmCardClick} key={film.id} {...film} />)
+          favoriteFilms.slice()
         }
       </div>)
   );

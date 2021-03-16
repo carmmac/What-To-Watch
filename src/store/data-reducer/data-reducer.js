@@ -1,11 +1,12 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {DEFAULT_GENRE} from "../../const";
-import {clearData, getFilm, getFilmsList, getPromoFilm, getReviews} from "../action";
+import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm} from "../action";
 
 const initialState = {
   promoFilm: undefined,
   film: undefined,
   films: [],
+  favoriteFilms: [],
   reviews: [],
   genres: [],
   isLoadedIndicator: {
@@ -13,6 +14,7 @@ const initialState = {
     ispromoFilmLoaded: false,
     isFilmLoaded: false,
     areReviewsLoaded: false,
+    areFavoriteFilmsLoaded: false,
   },
 };
 
@@ -42,6 +44,13 @@ const dataReducer = createReducer(initialState, (builder) => {
     state.reviews = initialState.reviews;
     state.isLoadedIndicator.isFilmLoaded = false;
     state.isLoadedIndicator.areReviewsLoaded = false;
+  })
+  .addCase(getFavoriteFilms, (state, action) => {
+    state.favoriteFilms = action.payload;
+    state.isLoadedIndicator.areFavoriteFilmsLoaded = true;
+  })
+  .addCase(postFavoriteFilm, (state, action) => {
+    state.favoriteFilms.push(action.payload);
   });
 });
 

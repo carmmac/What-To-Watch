@@ -8,6 +8,8 @@ const ActionType = {
   GET_FILM: `data/getFilm`,
   GET_REVIEWS: `data/getReviews`,
   CLEAR_DATA: `filmPage/clearData`,
+  GET_FAVORITE_FILMS: `data/getFavoriteFilms`,
+  POST_FAVORITE_FILM: `data/postFavoriteFilm`,
 };
 
 const genreSelect = createAction(ActionType.GENRE_SELECT, (genre) => ({payload: genre}));
@@ -19,6 +21,10 @@ const getPromoFilm = createAction(ActionType.GET_PROMO_FILM, (promoFilm) => ({pa
 const getFilm = createAction(ActionType.GET_FILM, (film) => ({payload: film}));
 
 const getReviews = createAction(ActionType.GET_REVIEWS, (reviews) => ({payload: reviews}));
+
+const getFavoriteFilms = createAction(ActionType.GET_FAVORITE_FILMS, (films) => ({payload: films}));
+
+const postFavoriteFilm = createAction(ActionType.POST_FAVORITE_FILM, (film) => ({payload: film}));
 
 const clearData = createAction(ActionType.CLEAR_DATA);
 
@@ -32,4 +38,6 @@ export {
   getReviews,
   clearData,
   requireAuthorization,
+  getFavoriteFilms,
+  postFavoriteFilm,
 };

@@ -1,6 +1,6 @@
 import {APIRoute, AuthorizationStatus} from "../const";
 import {adaptFilmToClient} from "../utils";
-import {getFilm, getFilmsList, getPromoFilm, getReviews, requireAuthorization} from "./action";
+import {getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, requireAuthorization} from "./action";
 
 const fetchFilmsList = () => (next, _getState, api) => (
   api.get(APIRoute.FILMS)
@@ -52,6 +52,20 @@ const postReview = (id, {rating, comment}) => (next, _getState, api) => (
     .catch(() => {})
 );
 
+const fetchFavoriteFilms = () => (next, _getState, api) => (
+  api.get(APIRoute.FAVORITE)
+    .then(({data}) => data.map((film) => adaptFilmToClient(film)))
+    .then((films) => next(getFavoriteFilms(films)))
+    .catch(() => {})
+);
+
+const postFvoriteFilm = (id, status) => (next, _getState, api) => (
+  api.post(`${APIRoute.FAVORITE}${id}/${!status ? 1 : 0}`)
+    .then(({data}) => adaptFilmToClient(data))
+    .then((film) => next(postFavoriteFilm(film)))
+    .catch(() => {})
+);
+
 export {
   fetchFilmsList,
   fetchPromoFilm,
@@ -61,4 +75,6 @@ export {
   fetchFilm,
   fetchReviews,
   postReview,
+  fetchFavoriteFilms,
+  postFvoriteFilm,
 };

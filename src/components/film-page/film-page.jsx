@@ -9,9 +9,10 @@ import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
-import {AuthorizationStatus, FilmsListLocation} from '../../const';
+import {AuthorizationStatus} from '../../const';
 
-const FilmPage = ({match: {params}}) => {
+const FilmPage = ({match: {params}, currentLocation}) => {
+
   const {film, isLoadedIndicator} = useSelector((state) => state.DATA);
   const {authorizationStatus} = useSelector((state) => state.USER);
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
@@ -89,7 +90,7 @@ const FilmPage = ({match: {params}}) => {
         <FilmsList
           id={filmId}
           genre={film.genre}
-          location={FilmsListLocation.FILM_PAGE}
+          location={currentLocation}
           handleFilmCardClick={handleFilmCardClick}
         />
       </section>
@@ -111,6 +112,9 @@ const FilmPage = ({match: {params}}) => {
   </>;
 };
 
-FilmPage.propTypes = {match: PropTypes.object.isRequired};
+FilmPage.propTypes = {
+  match: PropTypes.object.isRequired,
+  currentLocation: PropTypes.string.isRequired,
+};
 
 export default FilmPage;

@@ -40,6 +40,7 @@ const APIRoute = {
   LOGIN: `/login`,
   LOGOUT: `/logout`,
   REVIEWS: `/comments/`,
+  FAVORITE: `/favorite/`,
 };
 const FilmsListLocation = {
   MAIN: `MAIN`,

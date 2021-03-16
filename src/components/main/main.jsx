@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
@@ -8,10 +9,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 import Loading from '../loading/loading.jsx';
 import {genreSelect} from '../../store/action.js';
-import {ALL_GENRES, FilmsListLocation} from '../../const.js';
+import {ALL_GENRES} from '../../const.js';
 import {fetchPromoFilm} from '../../store/api-actions.js';
 
-const Main = () => {
+const Main = ({currentLocation}) => {
 
   const {promoFilm, films, isLoadedIndicator} = useSelector((state) => state.DATA);
   const {initialFilmsVisibleNum, filmsToShowNum} = useSelector((state) => state.UTILITY);
@@ -43,7 +44,7 @@ const Main = () => {
   useEffect(() => {
     onLoadPromoFilm();
     setFilmsToShow(films);
-  }, [isLoadedIndicator.ispromoFilmLoaded]);
+  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
 
   if (!isLoadedIndicator.ispromoFilmLoaded) {
     return (<Loading />);
@@ -96,7 +97,7 @@ const Main = () => {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <GenreList handleGenreSelect={handleGenreSelect} />
 
-        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={FilmsListLocation.MAIN} />
+        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={currentLocation} />
 
         {
           filmsToShow.length > filmsVisibleNum &&
@@ -120,5 +121,7 @@ const Main = () => {
     </div>
   </>;
 };
+
+Main.propTypes = {currentLocation: PropTypes.string.isRequired};
 
 export default Main;
