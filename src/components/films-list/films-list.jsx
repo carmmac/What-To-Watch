@@ -1,11 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {ALL_GENRES, FilmsListLocation} from '../../const';
-import {filmsPropTypes} from '../../prop-types';
 import FilmCard from '../film-card/film-card';
 import Loading from '../loading/loading';
 
-const FilmsList = ({films, filmsVisibleNum, isLoadedIndicator, genre, id, location, handleFilmCardClick}) => {
+const FilmsList = ({filmsVisibleNum, genre, id, location, handleFilmCardClick}) => {
+
+  const {films, isLoadedIndicator} = useSelector((state) => state.DATA);
+
   if (!isLoadedIndicator.areFilmsLoaded) {
     return <Loading />;
   }
@@ -43,12 +45,4 @@ const FilmsList = ({films, filmsVisibleNum, isLoadedIndicator, genre, id, locati
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isLoadedIndicator: state.isLoadedIndicator,
-});
-
-FilmsList.propTypes = filmsPropTypes;
-
-export {FilmsList};
-export default connect(mapStateToProps, null)(FilmsList);
+export default FilmsList;

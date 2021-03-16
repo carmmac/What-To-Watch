@@ -1,26 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {filmPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
 import {AuthorizationStatus, FilmsListLocation} from '../../const';
 
-const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authorizationStatus}) => {
+const FilmPage = ({match: {params}}) => {
+  const {film, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector((state) => state.USER);
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
+  const dispatch = useDispatch();
+
   const handleFilmCardClick = (newId) => {
     setFilmId(newId);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    onLoadFilm();
+    if (!isLoadedIndicator.isFilmLoaded) {
+      dispatch(fetchFilm(filmId));
+    }
   }, [isLoadedIndicator.isFilmLoaded]);
 
   if (!isLoadedIndicator.isFilmLoaded) {
@@ -81,7 +86,12 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authori
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList id={filmId} genre={film.genre} location={FilmsListLocation.FILM_PAGE} handleFilmCardClick={handleFilmCardClick} />
+        <FilmsList
+          id={filmId}
+          genre={film.genre}
+          location={FilmsListLocation.FILM_PAGE}
+          handleFilmCardClick={handleFilmCardClick}
+        />
       </section>
 
       <footer className="page-footer">
@@ -101,31 +111,6 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authori
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  film: state.film,
-  isLoadedIndicator: state.isLoadedIndicator,
-  authorizationStatus: state.authorizationStatus,
-});
+FilmPage.propTypes = {match: PropTypes.object.isRequired};
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const {id: filmId} = ownProps.match.params;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    ...ownProps,
-    onLoadFilm() {
-      dispatch(fetchFilm(filmId));
-    },
-  };
-};
-
-FilmPage.propTypes = {
-  film: PropTypes.shape(filmPropTypes),
-  match: PropTypes.object.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadFilm: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-export {FilmPage};
-export default connect(mapStateToProps, null, mergeProps)(FilmPage);
+export default FilmPage;

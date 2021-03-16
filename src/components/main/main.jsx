@@ -1,40 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
-import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
-import {fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
-import {ActionCreator} from '../../store/action.js';
+import {genreSelect} from '../../store/action.js';
 import {ALL_GENRES, FilmsListLocation} from '../../const.js';
+import {fetchPromoFilm} from '../../store/api-actions.js';
 
-const Main = (props) => {
-  const {
-    promoFilm,
-    films,
-    initialFilmsVisibleNum,
-    filmsToShowNum,
-    isLoadedIndicator,
-    onLoadPromoFilm,
-    getGenresFromFilms,
-    onGenreSelect,
-  } = props;
+const Main = () => {
+
+  const {promoFilm, films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const {initialFilmsVisibleNum, filmsToShowNum} = useSelector((state) => state.UTILITY);
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
   const [currentGenre, setCurrentGenre] = useState(ALL_GENRES);
+
+  const dispatch = useDispatch();
+
+  const onLoadPromoFilm = () => {
+    if (!isLoadedIndicator.ispromoFilmLoaded) {
+      dispatch(fetchPromoFilm());
+    }
+  };
 
   const handleLoadMoreFilmsClick = () => {
     setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
   };
 
   const handleGenreSelect = (newGenre) => {
-    onGenreSelect(newGenre);
+    dispatch(genreSelect(newGenre));
     setFilmsToShow(
         newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
@@ -42,13 +41,9 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!isLoadedIndicator.ispromoFilmLoaded) {
-      onLoadPromoFilm();
-    }
-
+    onLoadPromoFilm();
     setFilmsToShow(films);
-    getGenresFromFilms();
-  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
+  }, [isLoadedIndicator.ispromoFilmLoaded]);
 
   if (!isLoadedIndicator.ispromoFilmLoaded) {
     return (<Loading />);
@@ -126,48 +121,4 @@ const Main = (props) => {
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  promoFilm: state.promoFilm,
-  reviews: state.reviews,
-  initialFilmsVisibleNum: state.initialFilmsVisibleNum,
-  filmsToShowNum: state.filmsToShowNum,
-  isLoadedIndicator: state.isLoadedIndicator,
-  currentGenre: state.currentGenre,
-});
-
-const mergeProps = (stateProps, dispatchProps) => {
-  const {films} = stateProps;
-  const {ispromoFilmLoaded} = stateProps.isLoadedIndicator;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    ispromoFilmLoaded,
-    onLoadPromoFilm() {
-      if (!ispromoFilmLoaded) {
-        dispatch(fetchPromoFilm());
-      }
-    },
-    getGenresFromFilms() {
-      dispatch(ActionCreator.getGenresFromFilms(films));
-    },
-    onGenreSelect(genre) {
-      dispatch(ActionCreator.genreSelect(genre));
-    },
-  };
-};
-
-Main.propTypes = {
-  promoFilm: PropTypes.shape(filmPropTypes),
-  films: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
-  initialFilmsVisibleNum: PropTypes.number.isRequired,
-  filmsToShowNum: PropTypes.number.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadPromoFilm: PropTypes.func.isRequired,
-  getGenresFromFilms: PropTypes.func.isRequired,
-  onGenreSelect: PropTypes.func.isRequired,
-};
-
-export {Main};
-export default connect(mapStateToProps, null, mergeProps)(Main);
+export default Main;

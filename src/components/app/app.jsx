@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {filmsPropTypes} from '../../prop-types.js';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -11,11 +9,20 @@ import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilmsList} from '../../store/api-actions.js';
 
-const App = ({films, isLoadedIndicator, onLoadFilms}) => {
+const App = () => {
+  const {films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
+  const onLoadFilms = () => {
+    if (!isLoadedIndicator.areFilmsLoaded) {
+      dispatch(fetchFilmsList());
+    }
+  };
+
   useEffect(() => onLoadFilms(), [isLoadedIndicator.areFilmsLoaded]);
+
   return (
     <BrowserRouter>
       <Switch>
@@ -55,30 +62,4 @@ const App = ({films, isLoadedIndicator, onLoadFilms}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isLoadedIndicator: state.isLoadedIndicator,
-});
-
-const mergeProps = (stateProps, dispatchProps) => {
-  const {areFilmsLoaded} = stateProps.isLoadedIndicator;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    areFilmsLoaded,
-    onLoadFilms() {
-      if (!areFilmsLoaded) {
-        dispatch(fetchFilmsList());
-      }
-    },
-  };
-};
-
-App.propTypes = {
-  films: filmsPropTypes,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadFilms: PropTypes.func.isRequired,
-};
-
-export {App};
-export default connect(mapStateToProps, null, mergeProps)(App);
+export default App;

@@ -1,15 +1,16 @@
 import React, {useEffect} from "react";
 import PropTypes from 'prop-types';
-import {reviewsPropTypes} from "../../prop-types";
 import ReviewItem from "../review-item/review-item";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchReviews} from "../../store/api-actions";
 import Loading from "../loading/loading";
 
-const FilmPageReviews = ({reviews, id, isLoadedIndicator, onLoadReviews}) => {
+const FilmPageReviews = ({id}) => {
+  const {reviews, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!isLoadedIndicator.areReviewsLoaded) {
-      onLoadReviews(id);
+      dispatch(fetchReviews(id));
     }
   }, [isLoadedIndicator.areReviewsLoaded]);
 
@@ -28,28 +29,6 @@ const FilmPageReviews = ({reviews, id, isLoadedIndicator, onLoadReviews}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isLoadedIndicator: state.isLoadedIndicator,
-  reviews: state.reviews,
-});
+FilmPageReviews.propTypes = {id: PropTypes.number.isRequired};
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    ...ownProps,
-    onLoadReviews(id) {
-      dispatch(fetchReviews(id));
-    }
-  };
-};
-
-FilmPageReviews.propTypes = {
-  reviews: reviewsPropTypes,
-  id: PropTypes.number.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadReviews: PropTypes.func.isRequired,
-};
-
-export {FilmPageReviews};
-export default connect(mapStateToProps, null, mergeProps)(FilmPageReviews);
+export default FilmPageReviews;

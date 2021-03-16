@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {filmPropTypes} from '../../prop-types';
 import PlayerPreview from '../player-preview/player-preview';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {useDispatch} from 'react-redux';
+import {clearData} from '../../store/action';
 
-const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick, onFilmCardClick}) => {
+const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick}) => {
   const [startPlayer, setStartPlayer] = useState(false);
   const [timerId, setTimerId] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     return () => {
@@ -49,7 +49,7 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
             onClick={() => {
               setStartPlayer(false);
               handleFilmCardClick(id);
-              onFilmCardClick();
+              dispatch(clearData());
             }}
           >{name}
           </Link>)
@@ -59,7 +59,7 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
             to={`/films/${id}`}
             onClick={() => {
               setStartPlayer(false);
-              onFilmCardClick();
+              dispatch(clearData());
             }}
           >{name}
           </Link>
@@ -69,15 +69,12 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
   );
 };
 
-FilmCard.propTypes = FilmCard.propTypes = {
-  filmData: PropTypes.shape(filmPropTypes)
+FilmCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  previewImage: PropTypes.string.isRequired,
+  previewVideoLink: PropTypes.string.isRequired,
+  handleFilmCardClick: PropTypes.func,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onFilmCardClick() {
-    dispatch(ActionCreator.clearData());
-  },
-});
-
-export {FilmCard};
-export default connect(null, mapDispatchToProps)(FilmCard);
+export default FilmCard;
