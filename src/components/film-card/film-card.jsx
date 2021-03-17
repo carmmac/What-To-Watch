@@ -42,27 +42,22 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
       </div>
       <h3 className="small-movie-card__title">
         {
-          (handleFilmCardClick &&
-          <Link
-            className="small-movie-card__link"
-            to={`/films/${id}`}
-            onClick={() => {
-              setStartPlayer(false);
-              handleFilmCardClick(id);
-              dispatch(clearData());
-            }}
-          >{name}
-          </Link>)
-          ||
-          <Link
-            className="small-movie-card__link"
-            to={`/films/${id}`}
-            onClick={() => {
-              setStartPlayer(false);
-              dispatch(clearData());
-            }}
-          >{name}
-          </Link>
+          handleFilmCardClick
+            ? <Link
+              className="small-movie-card__link"
+              to={`/films/${id}`}
+              onClick={() => {
+                setStartPlayer(false);
+                handleFilmCardClick(id);
+                dispatch(clearData());
+              }}>{name}</Link>
+            : <Link
+              className="small-movie-card__link"
+              to={`/films/${id}`}
+              onClick={() => {
+                setStartPlayer(false);
+                dispatch(clearData());
+              }}>{name}</Link>
         }
       </h3>
     </article>
