@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 
@@ -29,4 +29,4 @@ GenreList.propTypes = {
   handleGenreSelect: PropTypes.func.isRequired,
 };
 
-export default GenreList;
+export default memo(GenreList);
