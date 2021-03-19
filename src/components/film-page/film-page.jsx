@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
 import {Link} from 'react-router-dom';
@@ -18,9 +18,10 @@ const FilmPage = ({match: {params}, currentLocation}) => {
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
   const dispatch = useDispatch();
 
-  const handleFilmCardClick = (newId) => {
-    setFilmId(newId);
-  };
+  const handleFilmCardClick = useCallback(
+      (newId) => setFilmId(newId),
+      []
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
