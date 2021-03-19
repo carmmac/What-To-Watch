@@ -1,5 +1,5 @@
 const INITIAL_FILMS_VISIBLE_NUM = 8;
-const FILMS_TO_SHOW_NUM = 8;
+const FILMS_TO_SHOW_PER_CLICK_NUM = 8;
 const DEFAULT_RATING = 3;
 const RatingScore = {
   MIN: 1,
@@ -50,7 +50,7 @@ const FilmsListLocation = {
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
-  FILMS_TO_SHOW_NUM,
+  FILMS_TO_SHOW_PER_CLICK_NUM,
   DEFAULT_RATING,
   RatingScore,
   FilmPageTab,

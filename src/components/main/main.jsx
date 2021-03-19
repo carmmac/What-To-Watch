@@ -15,7 +15,7 @@ import {fetchPromoFilm} from '../../store/api-actions.js';
 const Main = ({currentLocation}) => {
 
   const {promoFilm, films, isLoadedIndicator} = useSelector((state) => state.DATA);
-  const {initialFilmsVisibleNum, filmsToShowNum} = useSelector((state) => state.UTILITY);
+  const {initialFilmsVisibleNum, filmsToShowPerClickNum} = useSelector((state) => state.UTILITY);
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
@@ -30,7 +30,7 @@ const Main = ({currentLocation}) => {
   };
 
   const handleLoadMoreFilmsClick = () => {
-    setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
+    setFilmsVisibleNum(filmsVisibleNum + filmsToShowPerClickNum);
   };
 
   const handleGenreSelect = (newGenre) => {
