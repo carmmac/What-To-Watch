@@ -95,7 +95,7 @@ const Main = ({currentLocation}) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <GenreList handleGenreSelect={handleGenreSelect} />
+        <GenreList currentGenre={currentGenre} handleGenreSelect={handleGenreSelect} />
 
         <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={currentLocation} />
 

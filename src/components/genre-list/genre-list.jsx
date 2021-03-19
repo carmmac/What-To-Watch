@@ -2,9 +2,8 @@ import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 
-const GenreList = ({handleGenreSelect}) => {
+const GenreList = ({currentGenre, handleGenreSelect}) => {
   const {genres} = useSelector((state) => state.DATA);
-  const {currentGenre} = useSelector((state) => state.UTILITY);
 
   return (
     <ul className="catalog__genres-list">
@@ -26,6 +25,7 @@ const GenreList = ({handleGenreSelect}) => {
 };
 
 GenreList.propTypes = {
+  currentGenre: PropTypes.string.isRequired,
   handleGenreSelect: PropTypes.func.isRequired,
 };
 
