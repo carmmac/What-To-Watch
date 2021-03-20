@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
@@ -12,8 +11,9 @@ import {genreSelect} from '../../store/action.js';
 import {ALL_GENRES} from '../../const.js';
 import {fetchPromoFilm} from '../../store/api-actions.js';
 import {makeGetFilms, makeGetIsPromoFilmLoadedIndicator, makeGetAreFilmsLoadedIndicator, getPromoFilm} from '../../store/data-reducer/selectors.js';
+import WithGenreFiltration from '../../hocs/with-genre-filtration.jsx';
 
-const Main = ({currentLocation}) => {
+const Main = () => {
 
   const promoFilm = useSelector((state) => getPromoFilm(state));
   const {initialFilmsVisibleNum, filmsToShowPerClickNum} = useSelector((state) => state.UTILITY);
@@ -107,7 +107,7 @@ const Main = ({currentLocation}) => {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <GenreList currentGenre={currentGenre} handleGenreSelect={handleGenreSelect} />
 
-        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={currentLocation} />
+        <WithGenreFiltration component={FilmsList} genre={currentGenre} filmsVisibleNum={filmsVisibleNum} />
 
         {
           filmsToShow.length > filmsVisibleNum &&
@@ -131,7 +131,5 @@ const Main = ({currentLocation}) => {
     </div>
   </>;
 };
-
-Main.propTypes = {currentLocation: PropTypes.string.isRequired};
 
 export default Main;

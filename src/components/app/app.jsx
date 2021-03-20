@@ -8,7 +8,7 @@ import UserListPage from '../user-list/user-list-page.jsx';
 import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
-import {AppRoute, FilmsListLocation} from '../../const.js';
+import {AppRoute} from '../../const.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilmsList} from '../../store/api-actions.js';
 import {makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
@@ -34,22 +34,18 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <Main
-            currentLocation={FilmsListLocation.MAIN}
-          />
+          <Main />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginPage />
         </Route>
         <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
           <UserListPage
-            currentLocation={FilmsListLocation.USER_LIST}
             {...routerProps}
           />}
         />
         <Route exact path={AppRoute.FILM} render={(routerProps) =>
           <FilmPage
-            currentLocation={FilmsListLocation.FILM_PAGE}
             {...routerProps}
           />}
         />

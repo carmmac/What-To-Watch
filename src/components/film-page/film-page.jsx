@@ -11,8 +11,9 @@ import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
 import {AuthorizationStatus} from '../../const';
 import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import WithIdFiltration from '../../hocs/with-id-filtration';
 
-const FilmPage = ({match: {params}, currentLocation}) => {
+const FilmPage = ({match: {params}}) => {
 
   const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
   const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
@@ -97,10 +98,10 @@ const FilmPage = ({match: {params}, currentLocation}) => {
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList
+        <WithIdFiltration
+          component={FilmsList}
           id={filmId}
           genre={film.genre}
-          location={currentLocation}
           handleFilmCardClick={handleFilmCardClick}
         />
       </section>
@@ -124,7 +125,6 @@ const FilmPage = ({match: {params}, currentLocation}) => {
 
 FilmPage.propTypes = {
   match: PropTypes.object.isRequired,
-  currentLocation: PropTypes.string.isRequired,
 };
 
 export default FilmPage;

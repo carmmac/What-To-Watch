@@ -20,10 +20,11 @@ const getFilmsFilteredByGenre = createSelector(
 
 const getFilmsSimilar = createSelector(
     [
-      getFilmsFilteredByGenre,
+      getFilms,
+      (_, genre) => genre,
       (_, id) => id,
     ],
-    (films, id) => films.filter((film) => film.id !== id)
+    (films, genre, id) => films.filter((film) => film.genre === genre && film.id !== id)
 );
 
 const getFilm = createSelector(
