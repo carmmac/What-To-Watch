@@ -23,11 +23,15 @@ const FilmPage = ({match: {params}, currentLocation}) => {
       []
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const onFilmLoad = () => {
     if (!isLoadedIndicator.isFilmLoaded) {
       dispatch(fetchFilm(filmId));
     }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    onFilmLoad();
   }, [isLoadedIndicator.isFilmLoaded]);
 
   if (!isLoadedIndicator.isFilmLoaded) {
