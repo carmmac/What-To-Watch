@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
@@ -8,9 +8,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import {fetchFilm, postReview} from '../../store/api-actions';
 import Loading from '../loading/loading';
+import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 
 const AddReviewPage = ({match: {params}}) => {
-  const {film, isLoadedIndicator} = useSelector((state) => state.DATA);
+
+  const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
+  const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
+
+  const getFilm = useMemo(makeGetFilm, []);
+  const film = useSelector((state) => getFilm(state));
+
   const dispatch = useDispatch();
   const {id: filmId} = params;
   const history = useHistory();
@@ -25,12 +32,12 @@ const AddReviewPage = ({match: {params}}) => {
   };
 
   useEffect(() => {
-    if (!isLoadedIndicator.isFilmLoaded) {
+    if (!isFilmLoaded) {
       dispatch(fetchFilm(filmId));
     }
-  }, [isLoadedIndicator.isFilmLoaded]);
+  }, [isFilmLoaded]);
 
-  if (!isLoadedIndicator.isFilmLoaded) {
+  if (!isFilmLoaded) {
     return <Loading />;
   }
 

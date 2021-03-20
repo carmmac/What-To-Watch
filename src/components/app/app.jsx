@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
@@ -11,17 +11,24 @@ import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute, FilmsListLocation} from '../../const.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilmsList} from '../../store/api-actions.js';
+import {makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
 
 const App = () => {
-  const {films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
+  const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
+
+  const getFilms = useMemo(makeGetFilms, []);
+  const films = useSelector((state) => getFilms(state));
+
   const dispatch = useDispatch();
+
   const onLoadFilms = () => {
-    if (!isLoadedIndicator.areFilmsLoaded) {
+    if (!areFilmsLoaded) {
       dispatch(fetchFilmsList());
     }
   };
 
-  useEffect(() => onLoadFilms(), [isLoadedIndicator.areFilmsLoaded]);
+  useEffect(() => onLoadFilms(), [areFilmsLoaded]);
 
   return (
     <BrowserRouter>

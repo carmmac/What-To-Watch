@@ -1,15 +1,25 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {ALL_GENRES, FilmsListLocation} from '../../const';
 import FilmCard from '../film-card/film-card';
 import Loading from '../loading/loading';
+import {makeGetAreFilmsLoadedIndicator, makeGetFilms, makeGetFilmsFilteredByGenre, makeGetFilmsSimilar} from '../../store/data-reducer/selectors';
 
 const FilmsList = ({filmsVisibleNum, genre, id, location, handleFilmCardClick}) => {
 
-  const {films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
+  const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
 
-  if (!isLoadedIndicator.areFilmsLoaded) {
+  const getFilms = useMemo(makeGetFilms, []);
+  const getFilmsFilteredByGenre = useMemo(makeGetFilmsFilteredByGenre, []);
+  const getFilmsSimilar = useMemo(makeGetFilmsSimilar, []);
+
+  const films = useSelector((state) => getFilms(state));
+  const filmsFiltered = useSelector((state) => getFilmsFilteredByGenre(state, genre));
+  const filmsSimilar = useSelector((state) => getFilmsSimilar(state, id));
+
+  if (!areFilmsLoaded) {
     return <Loading />;
   }
 
@@ -19,10 +29,10 @@ const FilmsList = ({filmsVisibleNum, genre, id, location, handleFilmCardClick}) 
         if (genre === ALL_GENRES) {
           return films.slice(0, filmsVisibleNum);
         }
-        return films.slice().filter((film) => film.genre === genre).slice(0, filmsVisibleNum);
+        return filmsFiltered.slice(0, filmsVisibleNum);
 
       case FilmsListLocation.FILM_PAGE:
-        return films.slice().filter((film) => film.genre === genre && film.id !== id);
+        return filmsSimilar;
 
       default: return [];
     }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list.jsx';
 import Logo from '../logo/logo.jsx';
@@ -11,11 +11,21 @@ import Loading from '../loading/loading.jsx';
 import {genreSelect} from '../../store/action.js';
 import {ALL_GENRES} from '../../const.js';
 import {fetchPromoFilm} from '../../store/api-actions.js';
+import {makeGetFilms, makeGetIsPromoFilmLoadedIndicator, makeGetAreFilmsLoadedIndicator, getPromoFilm} from '../../store/data-reducer/selectors.js';
 
 const Main = ({currentLocation}) => {
 
-  const {promoFilm, films, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const promoFilm = useSelector((state) => getPromoFilm(state));
   const {initialFilmsVisibleNum, filmsToShowPerClickNum} = useSelector((state) => state.UTILITY);
+
+  const getFilms = useMemo(makeGetFilms, []);
+  const films = useSelector((state) => getFilms(state));
+
+  const getIsPromoFilmLoadedIndicator = useMemo(makeGetIsPromoFilmLoadedIndicator, []);
+  const ispromoFilmLoaded = useSelector((state) => getIsPromoFilmLoadedIndicator(state));
+
+  const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
+  const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
@@ -24,7 +34,7 @@ const Main = ({currentLocation}) => {
   const dispatch = useDispatch();
 
   const onLoadPromoFilm = () => {
-    if (!isLoadedIndicator.ispromoFilmLoaded) {
+    if (!ispromoFilmLoaded) {
       dispatch(fetchPromoFilm());
     }
   };
@@ -44,9 +54,9 @@ const Main = ({currentLocation}) => {
   useEffect(() => {
     onLoadPromoFilm();
     setFilmsToShow(films);
-  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
+  }, [ispromoFilmLoaded, areFilmsLoaded]);
 
-  if (!isLoadedIndicator.ispromoFilmLoaded) {
+  if (!ispromoFilmLoaded) {
     return (<Loading />);
   }
 

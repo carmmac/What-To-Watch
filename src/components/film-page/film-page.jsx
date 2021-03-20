@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
 import {Link} from 'react-router-dom';
@@ -10,10 +10,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
 import {AuthorizationStatus} from '../../const';
+import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 
 const FilmPage = ({match: {params}, currentLocation}) => {
 
-  const {film, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
+  const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
+
+  const getFilm = useMemo(makeGetFilm, []);
+  const film = useSelector((state) => getFilm(state));
   const {authorizationStatus} = useSelector((state) => state.USER);
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
   const dispatch = useDispatch();
@@ -24,7 +29,7 @@ const FilmPage = ({match: {params}, currentLocation}) => {
   );
 
   const onFilmLoad = () => {
-    if (!isLoadedIndicator.isFilmLoaded) {
+    if (!isFilmLoaded) {
       dispatch(fetchFilm(filmId));
     }
   };
@@ -32,9 +37,9 @@ const FilmPage = ({match: {params}, currentLocation}) => {
   useEffect(() => {
     window.scrollTo(0, 0);
     onFilmLoad();
-  }, [isLoadedIndicator.isFilmLoaded]);
+  }, [isFilmLoaded]);
 
-  if (!isLoadedIndicator.isFilmLoaded) {
+  if (!isFilmLoaded) {
     return <Loading />;
   }
 

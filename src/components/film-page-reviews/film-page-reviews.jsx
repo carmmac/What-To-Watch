@@ -4,17 +4,20 @@ import ReviewItem from "../review-item/review-item";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchReviews} from "../../store/api-actions";
 import Loading from "../loading/loading";
+import {getAreReviewsLoadedIndicator, getReviews} from "../../store/data-reducer/selectors";
 
 const FilmPageReviews = ({id}) => {
-  const {reviews, isLoadedIndicator} = useSelector((state) => state.DATA);
+  const reviews = useSelector((state) => getReviews(state));
+  const areReviewsLoaded = useSelector((state) => getAreReviewsLoadedIndicator(state));
+
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!isLoadedIndicator.areReviewsLoaded) {
+    if (!areReviewsLoaded) {
       dispatch(fetchReviews(id));
     }
-  }, [isLoadedIndicator.areReviewsLoaded]);
+  }, [areReviewsLoaded]);
 
-  if (!isLoadedIndicator.areReviewsLoaded) {
+  if (!areReviewsLoaded) {
     return <Loading />;
   }
   return (

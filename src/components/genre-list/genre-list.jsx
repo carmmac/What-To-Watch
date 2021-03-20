@@ -1,9 +1,10 @@
 import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
+import {getGenres} from '../../store/utility-reducer/selectors';
 
 const GenreList = ({currentGenre, handleGenreSelect}) => {
-  const {genres} = useSelector((state) => state.DATA);
+  const genres = useSelector((state) => getGenres(state));
 
   return (
     <ul className="catalog__genres-list">
