@@ -21,10 +21,9 @@ const getFilmsFilteredByGenre = createSelector(
 const getFilmsSimilar = createSelector(
     [
       getFilms,
-      (_, genre) => genre,
-      (_, id) => id,
+      (_, genre, id) => ({genre, id}),
     ],
-    (films, genre, id) => films.filter((film) => film.genre === genre && film.id !== id)
+    (films, {genre, id}) => films.filter((film) => film.genre === genre && film.id !== id)
 );
 
 const getFilm = createSelector(
@@ -40,6 +39,7 @@ const getReviews = createSelector(
 const makeGetFilms = () => getFilms;
 const makeGetFilmsFilteredByGenre = () => getFilmsFilteredByGenre;
 const makeGetFilmsSimilar = () => getFilmsSimilar;
+const makeGetFilm = () => getFilm;
 
 const makeGetAreFilmsLoadedIndicator = () => (
   createSelector(
@@ -66,8 +66,6 @@ const getAreReviewsLoadedIndicator = createSelector(
     (state) => state.DATA.isLoadedIndicator.areReviewsLoaded,
     (areReviewsLoaded) => areReviewsLoaded,
 );
-
-const makeGetFilm = () => getFilm;
 
 export {
   getPromoFilm,
