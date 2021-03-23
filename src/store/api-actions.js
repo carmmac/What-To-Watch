@@ -59,7 +59,7 @@ const fetchFavoriteFilms = () => (next, _getState, api) => (
     .catch(() => {})
 );
 
-const postFvoriteFilm = (id, status) => (next, _getState, api) => (
+const postFilmToFavorites = (id, status) => (next, _getState, api) => (
   api.post(`${APIRoute.FAVORITE}${id}/${!status ? 1 : 0}`)
     .then(({data}) => adaptFilmToClient(data))
     .then((film) => next(postFavoriteFilm(film)))
@@ -76,5 +76,5 @@ export {
   fetchReviews,
   postReview,
   fetchFavoriteFilms,
-  postFvoriteFilm,
+  postFilmToFavorites,
 };

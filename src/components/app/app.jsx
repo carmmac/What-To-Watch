@@ -10,12 +10,15 @@ import NotFoundScreen from '../not-found/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchFilmsList} from '../../store/api-actions.js';
-import {makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
+import {fetchFavoriteFilms, fetchFilmsList} from '../../store/api-actions.js';
+import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
 
 const App = () => {
   const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
   const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
+
+  const getAreFavoriteFilmsLoadedIndicator = useMemo(makeGetAreFavoriteFilmsLoadedIndicator, []);
+  const areFavoriteFilmsLoaded = useSelector((state) => getAreFavoriteFilmsLoadedIndicator(state));
 
   const getFilms = useMemo(makeGetFilms, []);
   const films = useSelector((state) => getFilms(state));
@@ -28,7 +31,16 @@ const App = () => {
     }
   };
 
-  useEffect(() => onLoadFilms(), [areFilmsLoaded]);
+  const onLoadFavoriteFilms = () => {
+    if (!areFavoriteFilmsLoaded) {
+      dispatch(fetchFavoriteFilms());
+    }
+  };
+
+  useEffect(() => {
+    onLoadFilms();
+    onLoadFavoriteFilms();
+  }, [areFilmsLoaded, areFavoriteFilmsLoaded]);
 
   return (
     <BrowserRouter>

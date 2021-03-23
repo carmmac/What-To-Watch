@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
@@ -9,9 +8,10 @@ import FilmPageTabs from '../film-page-tabs/film-page-tabs';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
-import {AuthorizationStatus} from '../../const';
 import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 import WithIdFiltration from '../../hocs/with-id-filtration';
+import FilmDescription from '../film-description/film-description';
+import {DescriptionBlockVersion} from '../../const';
 
 const FilmPage = ({match: {params}}) => {
 
@@ -20,7 +20,6 @@ const FilmPage = ({match: {params}}) => {
 
   const getFilm = useMemo(makeGetFilm, []);
   const film = useSelector((state) => getFilm(state));
-  const {authorizationStatus} = useSelector((state) => state.USER);
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
   const dispatch = useDispatch();
 
@@ -55,32 +54,7 @@ const FilmPage = ({match: {params}}) => {
         </header>
 
         <div className="movie-card__wrap">
-          <div className="movie-card__desc">
-            <h2 className="movie-card__title">{film.name}</h2>
-            <p className="movie-card__meta">
-              <span className="movie-card__genre">{film.genre}</span>
-              <span className="movie-card__year">{film.released}</span>
-            </p>
-
-            <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
-                </svg>
-                <span>Play</span>
-              </button>
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
-                </svg>
-                <span>My list</span>
-              </button>
-              {
-                (authorizationStatus === AuthorizationStatus.AUTH &&
-                <Link to={`${filmId}/review`} className="btn movie-card__button">Add review</Link>)
-              }
-            </div>
-          </div>
+          <FilmDescription film={film} version={DescriptionBlockVersion.FILM_PAGE} />
         </div>
       </div>
 
