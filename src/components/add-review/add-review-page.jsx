@@ -1,34 +1,43 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {filmPropTypes} from '../../prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import ReviewForm from '../review-form/review-form';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link, useHistory} from 'react-router-dom';
 import {fetchFilm, postReview} from '../../store/api-actions';
 import Loading from '../loading/loading';
+import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 
-const AddReviewPage = ({film, match: {params}, onReviewPost, isLoadedIndicator, onLoadFilm}) => {
+const AddReviewPage = ({match: {params}}) => {
+
+  const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
+  const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
+
+  const getFilm = useMemo(makeGetFilm, []);
+  const film = useSelector((state) => getFilm(state));
+
+  const dispatch = useDispatch();
   const {id: filmId} = params;
   const history = useHistory();
+
   const handleReviewSubmit = (rating, comment) => {
     const newReview = {
       rating,
       comment,
     };
-    onReviewPost(filmId, newReview);
+    dispatch(postReview(filmId, newReview));
     history.push(`/films/${filmId}`);
   };
 
   useEffect(() => {
-    if (!isLoadedIndicator.isFilmLoaded) {
-      onLoadFilm(filmId);
+    if (!isFilmLoaded) {
+      dispatch(fetchFilm(filmId));
     }
-  }, [isLoadedIndicator.isFilmLoaded]);
+  }, [isFilmLoaded]);
 
-  if (!isLoadedIndicator.isFilmLoaded) {
+  if (!isFilmLoaded) {
     return <Loading />;
   }
 
@@ -65,27 +74,8 @@ const AddReviewPage = ({film, match: {params}, onReviewPost, isLoadedIndicator, 
   );
 };
 
-const mapStateToProps = (state) => ({
-  film: state.film,
-  isLoadedIndicator: state.isLoadedIndicator,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onReviewPost(filmId, newReview) {
-    dispatch(postReview(filmId, newReview));
-  },
-  onLoadFilm(filmId) {
-    dispatch(fetchFilm(filmId));
-  },
-});
-
 AddReviewPage.propTypes = {
-  film: PropTypes.shape(filmPropTypes),
   match: PropTypes.object,
-  onReviewPost: PropTypes.func.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadFilm: PropTypes.func.isRequired,
 };
 
-export {AddReviewPage};
-export default connect(mapStateToProps, mapDispatchToProps)(AddReviewPage);
+export default AddReviewPage;

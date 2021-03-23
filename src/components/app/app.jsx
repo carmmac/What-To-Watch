@@ -1,7 +1,5 @@
-import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect, useMemo} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import {filmsPropTypes} from '../../prop-types.js';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -11,11 +9,27 @@ import AddReviewPage from '../add-review/add-review-page.jsx';
 import NotFoundScreen from '../not-found/not-found-screen.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilmsList} from '../../store/api-actions.js';
+import {makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
 
-const App = ({films, isLoadedIndicator, onLoadFilms}) => {
-  useEffect(() => onLoadFilms(), [isLoadedIndicator.areFilmsLoaded]);
+const App = () => {
+  const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
+  const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
+
+  const getFilms = useMemo(makeGetFilms, []);
+  const films = useSelector((state) => getFilms(state));
+
+  const dispatch = useDispatch();
+
+  const onLoadFilms = () => {
+    if (!areFilmsLoaded) {
+      dispatch(fetchFilmsList());
+    }
+  };
+
+  useEffect(() => onLoadFilms(), [areFilmsLoaded]);
+
   return (
     <BrowserRouter>
       <Switch>
@@ -27,7 +41,6 @@ const App = ({films, isLoadedIndicator, onLoadFilms}) => {
         </Route>
         <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
           <UserListPage
-            films={films}
             {...routerProps}
           />}
         />
@@ -55,30 +68,4 @@ const App = ({films, isLoadedIndicator, onLoadFilms}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  isLoadedIndicator: state.isLoadedIndicator,
-});
-
-const mergeProps = (stateProps, dispatchProps) => {
-  const {areFilmsLoaded} = stateProps.isLoadedIndicator;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    areFilmsLoaded,
-    onLoadFilms() {
-      if (!areFilmsLoaded) {
-        dispatch(fetchFilmsList());
-      }
-    },
-  };
-};
-
-App.propTypes = {
-  films: filmsPropTypes,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadFilms: PropTypes.func.isRequired,
-};
-
-export {App};
-export default connect(mapStateToProps, null, mergeProps)(App);
+export default App;

@@ -1,5 +1,5 @@
 const INITIAL_FILMS_VISIBLE_NUM = 8;
-const FILMS_TO_SHOW_NUM = 8;
+const FILMS_TO_SHOW_PER_CLICK_NUM = 8;
 const DEFAULT_RATING = 3;
 const RatingScore = {
   MIN: 1,
@@ -40,16 +40,12 @@ const APIRoute = {
   LOGIN: `/login`,
   LOGOUT: `/logout`,
   REVIEWS: `/comments/`,
-};
-const FilmsListLocation = {
-  MAIN: `MAIN`,
-  FILM_PAGE: `FILM_PAGE`,
-  USER_LIST: `USER_LIST`,
+  FAVORITE: `/favorite/`,
 };
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
-  FILMS_TO_SHOW_NUM,
+  FILMS_TO_SHOW_PER_CLICK_NUM,
   DEFAULT_RATING,
   RatingScore,
   FilmPageTab,
@@ -59,5 +55,4 @@ export {
   AuthorizationStatus,
   AppRoute,
   APIRoute,
-  FilmsListLocation,
 };

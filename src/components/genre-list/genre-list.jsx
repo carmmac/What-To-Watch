@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {getGenres} from '../../store/utility-reducer/selectors';
 
-const GenreList = ({genres, currentGenre, handleGenreSelect}) => {
+const GenreList = ({currentGenre, handleGenreSelect}) => {
+  const genres = useSelector((state) => getGenres(state));
+
   return (
     <ul className="catalog__genres-list">
       {genres.map((genreItem, i) =>
@@ -22,15 +25,9 @@ const GenreList = ({genres, currentGenre, handleGenreSelect}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  currentGenre: state.currentGenre,
-  genres: state.genres,
-});
-
 GenreList.propTypes = {
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentGenre: PropTypes.string.isRequired,
   handleGenreSelect: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(GenreList);
+export default memo(GenreList);

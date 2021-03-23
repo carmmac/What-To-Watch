@@ -1,11 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Link} from 'react-router-dom';
 import {logout} from '../../store/api-actions';
 
-const UserBlock = ({authorizationStatus, onLogout}) => {
+const UserBlock = () => {
+  const {authorizationStatus} = useSelector((state) => state.USER);
+  const dispatch = useDispatch();
+  const onLogout = () => dispatch(logout());
   return <>
     {
       authorizationStatus === AuthorizationStatus.AUTH &&
@@ -25,20 +27,4 @@ const UserBlock = ({authorizationStatus, onLogout}) => {
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLogout() {
-    dispatch(logout());
-  }
-});
-
-UserBlock.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  onLogout: PropTypes.func.isRequired,
-};
-
-export {UserBlock};
-export default connect(mapStateToProps, mapDispatchToProps)(UserBlock);
+export default UserBlock;

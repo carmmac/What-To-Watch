@@ -1,29 +1,46 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmsList from '../films-list/films-list';
-import {filmPropTypes} from '../../prop-types';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import FilmPageTabs from '../film-page-tabs/film-page-tabs';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../loading/loading';
 import {fetchFilm} from '../../store/api-actions';
-import {AuthorizationStatus, FilmsListLocation} from '../../const';
+import {AuthorizationStatus} from '../../const';
+import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import WithIdFiltration from '../../hocs/with-id-filtration';
 
-const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authorizationStatus}) => {
+const FilmPage = ({match: {params}}) => {
+
+  const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
+  const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
+
+  const getFilm = useMemo(makeGetFilm, []);
+  const film = useSelector((state) => getFilm(state));
+  const {authorizationStatus} = useSelector((state) => state.USER);
   const [filmId, setFilmId] = useState(parseInt(params.id, 10));
-  const handleFilmCardClick = (newId) => {
-    setFilmId(newId);
+  const dispatch = useDispatch();
+
+  const handleFilmCardClick = useCallback(
+      (newId) => setFilmId(newId),
+      []
+  );
+
+  const onFilmLoad = () => {
+    if (!isFilmLoaded) {
+      dispatch(fetchFilm(filmId));
+    }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    onLoadFilm();
-  }, [isLoadedIndicator.isFilmLoaded]);
+    onFilmLoad();
+  }, [isFilmLoaded]);
 
-  if (!isLoadedIndicator.isFilmLoaded) {
+  if (!isFilmLoaded) {
     return <Loading />;
   }
 
@@ -81,7 +98,12 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authori
     <div className="page-content">
       <section className="catalog catalog--like-this">
         <h2 className="catalog__title">More like this</h2>
-        <FilmsList id={filmId} genre={film.genre} location={FilmsListLocation.FILM_PAGE} handleFilmCardClick={handleFilmCardClick} />
+        <WithIdFiltration
+          component={FilmsList}
+          id={filmId}
+          genre={film.genre}
+          handleFilmCardClick={handleFilmCardClick}
+        />
       </section>
 
       <footer className="page-footer">
@@ -101,31 +123,8 @@ const FilmPage = ({film, isLoadedIndicator, match: {params}, onLoadFilm, authori
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  film: state.film,
-  isLoadedIndicator: state.isLoadedIndicator,
-  authorizationStatus: state.authorizationStatus,
-});
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const {id: filmId} = ownProps.match.params;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    ...ownProps,
-    onLoadFilm() {
-      dispatch(fetchFilm(filmId));
-    },
-  };
-};
-
 FilmPage.propTypes = {
-  film: PropTypes.shape(filmPropTypes),
   match: PropTypes.object.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadFilm: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
 };
 
-export {FilmPage};
-export default connect(mapStateToProps, null, mergeProps)(FilmPage);
+export default FilmPage;

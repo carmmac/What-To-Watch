@@ -1,40 +1,50 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect, useMemo, useState} from 'react';
 import FilmsList from '../films-list/films-list.jsx';
-import {filmPropTypes, filmsPropTypes, reviewsPropTypes} from '../../prop-types.js';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import FilmBackgroundBlock from '../film-bg/film-background-block.jsx';
 import GenreList from '../genre-list/genre-list.jsx';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
-import {fetchPromoFilm} from '../../store/api-actions.js';
 import Loading from '../loading/loading.jsx';
-import {ActionCreator} from '../../store/action.js';
-import {ALL_GENRES, FilmsListLocation} from '../../const.js';
+import {genreSelect} from '../../store/action.js';
+import {ALL_GENRES} from '../../const.js';
+import {fetchPromoFilm} from '../../store/api-actions.js';
+import {makeGetFilms, makeGetIsPromoFilmLoadedIndicator, makeGetAreFilmsLoadedIndicator, getPromoFilm} from '../../store/data-reducer/selectors.js';
+import WithGenreFiltration from '../../hocs/with-genre-filtration.jsx';
 
-const Main = (props) => {
-  const {
-    promoFilm,
-    films,
-    initialFilmsVisibleNum,
-    filmsToShowNum,
-    isLoadedIndicator,
-    onLoadPromoFilm,
-    getGenresFromFilms,
-    onGenreSelect,
-  } = props;
+const Main = () => {
+
+  const promoFilm = useSelector((state) => getPromoFilm(state));
+  const {initialFilmsVisibleNum, filmsToShowPerClickNum} = useSelector((state) => state.UTILITY);
+
+  const getFilms = useMemo(makeGetFilms, []);
+  const films = useSelector((state) => getFilms(state));
+
+  const getIsPromoFilmLoadedIndicator = useMemo(makeGetIsPromoFilmLoadedIndicator, []);
+  const ispromoFilmLoaded = useSelector((state) => getIsPromoFilmLoadedIndicator(state));
+
+  const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
+  const areFilmsLoaded = useSelector((state) => getAreFilmsLoadedIndicator(state));
 
   const [filmsToShow, setFilmsToShow] = useState(films);
   const [filmsVisibleNum, setFilmsVisibleNum] = useState(initialFilmsVisibleNum);
   const [currentGenre, setCurrentGenre] = useState(ALL_GENRES);
 
+  const dispatch = useDispatch();
+
+  const onLoadPromoFilm = () => {
+    if (!ispromoFilmLoaded) {
+      dispatch(fetchPromoFilm());
+    }
+  };
+
   const handleLoadMoreFilmsClick = () => {
-    setFilmsVisibleNum(filmsVisibleNum + filmsToShowNum);
+    setFilmsVisibleNum(filmsVisibleNum + filmsToShowPerClickNum);
   };
 
   const handleGenreSelect = (newGenre) => {
-    onGenreSelect(newGenre);
+    dispatch(genreSelect(newGenre));
     setFilmsToShow(
         newGenre === ALL_GENRES ? films : films.filter((film) => film.genre === newGenre)
     );
@@ -42,15 +52,11 @@ const Main = (props) => {
   };
 
   useEffect(() => {
-    if (!isLoadedIndicator.ispromoFilmLoaded) {
-      onLoadPromoFilm();
-    }
-
+    onLoadPromoFilm();
     setFilmsToShow(films);
-    getGenresFromFilms();
-  }, [isLoadedIndicator.ispromoFilmLoaded, isLoadedIndicator.areFilmsLoaded]);
+  }, [ispromoFilmLoaded, areFilmsLoaded]);
 
-  if (!isLoadedIndicator.ispromoFilmLoaded) {
+  if (!ispromoFilmLoaded) {
     return (<Loading />);
   }
 
@@ -99,9 +105,9 @@ const Main = (props) => {
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <GenreList handleGenreSelect={handleGenreSelect} />
+        <GenreList currentGenre={currentGenre} handleGenreSelect={handleGenreSelect} />
 
-        <FilmsList genre={currentGenre} filmsVisibleNum={filmsVisibleNum} location={FilmsListLocation.MAIN} />
+        <WithGenreFiltration component={FilmsList} genre={currentGenre} filmsVisibleNum={filmsVisibleNum} />
 
         {
           filmsToShow.length > filmsVisibleNum &&
@@ -126,48 +132,4 @@ const Main = (props) => {
   </>;
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-  promoFilm: state.promoFilm,
-  reviews: state.reviews,
-  initialFilmsVisibleNum: state.initialFilmsVisibleNum,
-  filmsToShowNum: state.filmsToShowNum,
-  isLoadedIndicator: state.isLoadedIndicator,
-  currentGenre: state.currentGenre,
-});
-
-const mergeProps = (stateProps, dispatchProps) => {
-  const {films} = stateProps;
-  const {ispromoFilmLoaded} = stateProps.isLoadedIndicator;
-  const {dispatch} = dispatchProps;
-  return {
-    ...stateProps,
-    ispromoFilmLoaded,
-    onLoadPromoFilm() {
-      if (!ispromoFilmLoaded) {
-        dispatch(fetchPromoFilm());
-      }
-    },
-    getGenresFromFilms() {
-      dispatch(ActionCreator.getGenresFromFilms(films));
-    },
-    onGenreSelect(genre) {
-      dispatch(ActionCreator.genreSelect(genre));
-    },
-  };
-};
-
-Main.propTypes = {
-  promoFilm: PropTypes.shape(filmPropTypes),
-  films: PropTypes.arrayOf(PropTypes.shape(filmsPropTypes)),
-  reviews: PropTypes.arrayOf(PropTypes.shape(reviewsPropTypes)),
-  initialFilmsVisibleNum: PropTypes.number.isRequired,
-  filmsToShowNum: PropTypes.number.isRequired,
-  isLoadedIndicator: PropTypes.object.isRequired,
-  onLoadPromoFilm: PropTypes.func.isRequired,
-  getGenresFromFilms: PropTypes.func.isRequired,
-  onGenreSelect: PropTypes.func.isRequired,
-};
-
-export {Main};
-export default connect(mapStateToProps, null, mergeProps)(Main);
+export default Main;

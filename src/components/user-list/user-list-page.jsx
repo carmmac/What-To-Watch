@@ -1,10 +1,29 @@
-import React from 'react';
-import {filmsPropTypes} from '../../prop-types.js';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchFavoriteFilms} from '../../store/api-actions.js';
 import FilmsList from '../films-list/films-list.jsx';
+import Loading from '../loading/loading.jsx';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 
-const UserListPage = ({films}) => {
+const UserListPage = (currentLocation) => {
+
+  const {isLoadedIndicator} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
+
+  const onLoadFavoriteFilms = () => {
+    if (!isLoadedIndicator.areFavoriteFilmsLoaded) {
+      dispatch(fetchFavoriteFilms());
+    }
+  };
+
+  useEffect(() => onLoadFavoriteFilms(), [isLoadedIndicator.areFavoriteFilmsLoaded]);
+
+  if (!isLoadedIndicator.areFavoriteFilmsLoaded) {
+    return <Loading />;
+  }
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -15,7 +34,7 @@ const UserListPage = ({films}) => {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmsList films={films} />
+        <FilmsList location={currentLocation} />
       </section>
 
       <footer className="page-footer">
@@ -35,8 +54,7 @@ const UserListPage = ({films}) => {
   );
 };
 
-UserListPage.propTypes = {
-  films: filmsPropTypes,
-};
+UserListPage.propTypes = {currentLocation: PropTypes.string.isRequired};
+
 
 export default UserListPage;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import PropTypes from 'prop-types';
 import FilmPageNav from '../film-page-nav/film-page-nav.jsx';
 import FilmPageOverview from '../film-page-overview/film-page-overview.jsx';
@@ -10,9 +10,10 @@ import {FilmPageTab} from '../../const.js';
 const FilmPageTabs = ({film, filmId}) => {
   const [selectedTab, setSelectedTab] = useState(FilmPageTab.OVERVIEW);
 
-  const handleTabSelect = (tabName) => {
-    setSelectedTab(tabName);
-  };
+  const handleTabSelect = useCallback(
+      (tabName) => setSelectedTab(tabName),
+      []
+  );
 
   return (
     <div className="movie-card__desc">
