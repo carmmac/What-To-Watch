@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {filmPropTypes} from '../../prop-types';
-import {postFvoriteFilm} from '../../store/api-actions';
+import {postFilmToFavorites} from '../../store/api-actions';
 import {AuthorizationStatus, DescriptionBlockVersion} from '../../const';
 import {Link} from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const FilmDescription = ({film, version}) => {
   const {id, isFavorite: status} = film;
 
   const handleFavoriteClick = () => {
-    dispatch(postFvoriteFilm(id, status));
+    dispatch(postFilmToFavorites(film.id, film.isFavorite));
   };
 
   const renderButtonSection = () => {
