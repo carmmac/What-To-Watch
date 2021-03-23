@@ -42,6 +42,9 @@ const APIRoute = {
   REVIEWS: `/comments/`,
   FAVORITE: `/favorite/`,
 };
+const DescriptionBlockVersion = {
+  FILM_PAGE: `FILM_PAGE`,
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -55,4 +58,5 @@ export {
   AuthorizationStatus,
   AppRoute,
   APIRoute,
+  DescriptionBlockVersion,
 };
