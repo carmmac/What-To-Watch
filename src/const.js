@@ -45,6 +45,19 @@ const APIRoute = {
 const DescriptionBlockVersion = {
   FILM_PAGE: `FILM_PAGE`,
 };
+const FilmRatingText = {
+  BAD: `Bad`,
+  NORMAL: `Normal`,
+  GOOD: `Good`,
+  VERY_GOOD: `Very good`,
+  AWESOME: `Awesome`,
+};
+const FilmRatingLevel = {
+  BAD: 3,
+  NORMAL: 5,
+  GOOD: 8,
+  AWESOME: 10,
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -59,4 +72,6 @@ export {
   AppRoute,
   APIRoute,
   DescriptionBlockVersion,
+  FilmRatingText,
+  FilmRatingLevel,
 };

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {FilmRatingLevel, FilmRatingText} from './const';
 
 const getRandomNum = (min, max) => {
   return Math.random() * (max - min + 1) + min;
@@ -31,6 +32,25 @@ const humanizeTimeForPlayer = (duration) => {
     return `${time.hours}:${time.minutes}:00`;
   }
   return `${time.minutes}:00`;
+};
+
+const humanizeFilmRating = (ratingScore) => {
+  if (ratingScore <= FilmRatingLevel.BAD) {
+    return FilmRatingText.BAD;
+  }
+  if (ratingScore > FilmRatingLevel.BAD && ratingScore <= FilmRatingLevel.NORMAL) {
+    return FilmRatingText.NORMAL;
+  }
+  if (ratingScore > FilmRatingLevel.NORMAL && ratingScore <= FilmRatingLevel.GOOD) {
+    return FilmRatingText.GOOD;
+  }
+  if (ratingScore > FilmRatingLevel.GOOD && ratingScore < FilmRatingLevel.AWESOME) {
+    return FilmRatingText.VERY_GOOD;
+  }
+  if (ratingScore === FilmRatingLevel.AWESOME) {
+    return FilmRatingText.AWESOME;
+  }
+  return ``;
 };
 
 const adaptFilmToClient = (film) => {
@@ -98,4 +118,5 @@ export {
   adaptFilmToServer,
   humanizeTimeForDescription,
   humanizeTimeForPlayer,
+  humanizeFilmRating,
 };
