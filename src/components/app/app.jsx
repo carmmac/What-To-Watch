@@ -11,7 +11,7 @@ import PrivateRoute from '../private-route/private-route.jsx';
 import {AppRoute} from '../../const.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFavoriteFilms, fetchFilmsList} from '../../store/api-actions.js';
-import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetAreFilmsLoadedIndicator, makeGetFilms} from '../../store/data-reducer/selectors.js';
+import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetAreFilmsLoadedIndicator} from '../../store/data-reducer/selectors.js';
 
 const App = () => {
   const getAreFilmsLoadedIndicator = useMemo(makeGetAreFilmsLoadedIndicator, []);
@@ -19,9 +19,6 @@ const App = () => {
 
   const getAreFavoriteFilmsLoadedIndicator = useMemo(makeGetAreFavoriteFilmsLoadedIndicator, []);
   const areFavoriteFilmsLoaded = useSelector((state) => getAreFavoriteFilmsLoadedIndicator(state));
-
-  const getFilms = useMemo(makeGetFilms, []);
-  const films = useSelector((state) => getFilms(state));
 
   const dispatch = useDispatch();
 
@@ -68,7 +65,6 @@ const App = () => {
         />
         <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
           <Player
-            films={films}
             {...routerProps}
           />}
         />
