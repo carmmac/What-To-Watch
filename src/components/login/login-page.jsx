@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Redirect, useHistory} from 'react-router';
+import {Redirect} from 'react-router';
 import Logo from '../logo/logo';
 import {login} from '../../store/api-actions';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,7 +11,6 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const loginRef = useRef();
   const passwordRef = useRef();
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -19,7 +18,6 @@ const LoginPage = () => {
       email: loginRef.current.value,
       password: passwordRef.current.value,
     }));
-    history.push(AppRoute.ROOT);
   };
 
   return (

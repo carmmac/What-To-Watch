@@ -1,6 +1,6 @@
-import {APIRoute, AuthorizationStatus} from "../const";
+import {APIRoute, AppRoute, AuthorizationStatus} from "../const";
 import {adaptFilmToClient} from "../utils";
-import {getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, requireAuthorization} from "./action";
+import {getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, redirectToRoute, requireAuthorization} from "./action";
 
 const fetchFilmsList = () => (next, _getState, api) => (
   api.get(APIRoute.FILMS)
@@ -38,6 +38,7 @@ const chechAuth = () => (next, _getState, api) => (
 const login = ({email, password}) => (next, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
     .then(() => next(requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => next(redirectToRoute(AppRoute.ROOT)))
     .catch(() => {})
 );
 
