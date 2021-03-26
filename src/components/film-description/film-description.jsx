@@ -5,17 +5,13 @@ import {filmPropTypes} from '../../prop-types';
 import {postFilmToFavorites} from '../../store/api-actions';
 import {AuthorizationStatus, DescriptionBlockVersion} from '../../const';
 import {Link} from 'react-router-dom';
-import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetFavoriteFilms} from '../../store/data-reducer/selectors';
-import Loading from '../loading/loading';
+import {makeGetFavoriteFilms} from '../../store/data-reducer/selectors';
 import {clearData} from '../../store/action';
 
 const FilmDescription = ({film, version}) => {
 
   const {authorizationStatus} = useSelector((state) => state.USER);
   const dispatch = useDispatch();
-
-  const getAreFavoriteFilmsLoadedIndicator = useMemo(makeGetAreFavoriteFilmsLoadedIndicator, []);
-  const areFavoriteFilmsLoaded = useSelector((state) => getAreFavoriteFilmsLoadedIndicator(state));
 
   const getFavoriteFilms = useMemo(makeGetFavoriteFilms, []);
   const favoriteFilms = useSelector((state) => getFavoriteFilms(state));
@@ -27,10 +23,6 @@ const FilmDescription = ({film, version}) => {
   const handleFavoriteClick = () => {
     dispatch(postFilmToFavorites(film.id, film.isFavorite));
   };
-
-  if (!areFavoriteFilmsLoaded) {
-    return <Loading />;
-  }
 
   const renderPrivateButtonSection = () => {
     return <>
