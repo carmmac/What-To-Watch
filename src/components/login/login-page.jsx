@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Redirect} from 'react-router';
 import Logo from '../logo/logo';
 import {login} from '../../store/api-actions';
@@ -11,13 +11,52 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const loginRef = useRef();
   const passwordRef = useRef();
+  const [isInvalidEmail, setIsInvalidEmail] = useState(false);
+  const [isInValidPassword, setIsInvalidPassword] = useState(false);
+
+  const emailValidation = () => {
+    if (!loginRef.current.validity.valid) {
+      setIsInvalidEmail(true);
+      return false;
+    }
+    setIsInvalidEmail(false);
+    return true;
+  };
+
+  const passwordValidation = () => {
+    if (!passwordRef.current.validity.valid) {
+      setIsInvalidPassword(true);
+      return false;
+    }
+    setIsInvalidPassword(false);
+    return true;
+  };
+
+  const checkFormValidity = () => {
+    return emailValidation() && passwordValidation();
+  };
+
+  const renderValidationErrorMessage = () => {
+    return (
+      <div className="sign-in__message">
+        {
+          (isInvalidEmail && <p>Please enter a valid email address</p>)
+          ||
+          (isInValidPassword && <p>Please enter a password</p>)
+        }
+      </div>
+    );
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(login({
-      email: loginRef.current.value,
-      password: passwordRef.current.value,
-    }));
+    const isFormValid = checkFormValidity();
+    if (isFormValid) {
+      dispatch(login({
+        email: loginRef.current.value,
+        password: passwordRef.current.value,
+      }));
+    }
   };
 
   return (
@@ -34,29 +73,32 @@ const LoginPage = () => {
         </header>
 
         <div className="sign-in user-page__content">
-          <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+          <form action="#" className="sign-in__form" onSubmit={handleSubmit} noValidate>
+            {renderValidationErrorMessage()}
             <div className="sign-in__fields">
               <div className="sign-in__field">
                 <input
                   className="sign-in__input"
                   type="email"
                   placeholder="Email address"
-                  name="user-email"
+                  name="userEmail"
                   id="user-email"
                   ref={loginRef}
+                  required
                 />
-                <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+                <label className="sign-in__label visually-hidden" htmlFor="userEmail">Email address</label>
               </div>
               <div className="sign-in__field">
                 <input
                   className="sign-in__input"
                   type="password"
                   placeholder="Password"
-                  name="user-password"
+                  name="userPassword"
                   id="user-password"
                   ref={passwordRef}
+                  required
                 />
-                <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+                <label className="sign-in__label visually-hidden" htmlFor="userPassword">Password</label>
               </div>
             </div>
             <div className="sign-in__submit">
