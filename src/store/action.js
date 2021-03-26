@@ -34,6 +34,7 @@ const requireAuthorization = createAction(ActionType.REQUIRED_AUTH, (status), ({
 const redirectToRoute = createAction(ActionType.REDIRECT, (url) => ({payload: url}));
 
 export {
+  ActionType,
   genreSelect,
   getFilmsList,
   getPromoFilm,

@@ -29,7 +29,7 @@ const fetchFilm = (id) => (next, _getState, api) => (
     .catch(() => {})
 );
 
-const chechAuth = () => (next, _getState, api) => (
+const checkAuth = () => (next, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => next(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
@@ -70,7 +70,7 @@ const postFilmToFavorites = (id, status) => (next, _getState, api) => (
 export {
   fetchFilmsList,
   fetchPromoFilm,
-  chechAuth,
+  checkAuth,
   login,
   logout,
   fetchFilm,

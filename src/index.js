@@ -4,7 +4,7 @@ import App from './components/app/app';
 import {Provider} from 'react-redux';
 import rootReducer from './store/root-reducer';
 import {createApi} from './services/api';
-import {chechAuth} from './store/api-actions';
+import {checkAuth} from './store/api-actions';
 import {requireAuthorization} from './store/action';
 import {AuthorizationStatus} from './const';
 import {configureStore} from '@reduxjs/toolkit';
@@ -23,7 +23,7 @@ const store = configureStore({
     })
 });
 
-store.dispatch(chechAuth());
+store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
