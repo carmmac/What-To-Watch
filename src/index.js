@@ -8,6 +8,7 @@ import {checkAuth} from './store/api-actions';
 import {requireAuthorization} from './store/action';
 import {AuthorizationStatus} from './const';
 import {configureStore} from '@reduxjs/toolkit';
+import {BrowserRouter} from 'react-router-dom';
 
 const api = createApi(
     () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH))
@@ -27,7 +28,9 @@ store.dispatch(checkAuth());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>,
     document.querySelector(`#root`)
 );

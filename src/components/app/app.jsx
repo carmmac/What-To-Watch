@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Main from '../main/main.jsx';
 import FilmPage from '../film-page/film-page.jsx';
 import Player from '../player/player.jsx';
@@ -40,39 +40,37 @@ const App = () => {
   }, [areFilmsLoaded, areFavoriteFilmsLoaded]);
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={AppRoute.ROOT}>
-          <Main />
-        </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          <LoginPage />
-        </Route>
-        <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
-          <UserListPage
-            {...routerProps}
-          />}
-        />
-        <Route exact path={AppRoute.FILM} render={(routerProps) =>
-          <FilmPage
-            {...routerProps}
-          />}
-        />
-        <PrivateRoute exact path={AppRoute.REVIEW} render={(routerProps) =>
-          <AddReviewPage
-            {...routerProps}
-          />}
-        />
-        <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
-          <Player
-            {...routerProps}
-          />}
-        />
-        <Route>
-          <NotFoundScreen />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={AppRoute.ROOT}>
+        <Main />
+      </Route>
+      <Route exact path={AppRoute.LOGIN}>
+        <LoginPage />
+      </Route>
+      <PrivateRoute exact path={AppRoute.MY_LIST} render={(routerProps) =>
+        <UserListPage
+          {...routerProps}
+        />}
+      />
+      <Route exact path={AppRoute.FILM} render={(routerProps) =>
+        <FilmPage
+          {...routerProps}
+        />}
+      />
+      <PrivateRoute exact path={AppRoute.REVIEW} render={(routerProps) =>
+        <AddReviewPage
+          {...routerProps}
+        />}
+      />
+      <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
+        <Player
+          {...routerProps}
+        />}
+      />
+      <Route>
+        <NotFoundScreen />
+      </Route>
+    </Switch>
   );
 };
 
