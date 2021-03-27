@@ -12,6 +12,7 @@ import {ALL_GENRES} from '../../const.js';
 import {fetchPromoFilm} from '../../store/api-actions.js';
 import {makeGetFilms, makeGetIsPromoFilmLoadedIndicator, makeGetAreFilmsLoadedIndicator, getPromoFilm} from '../../store/data-reducer/selectors.js';
 import WithGenreFiltration from '../../hocs/with-genre-filtration.jsx';
+import FilmDescription from '../film-description/film-description.jsx';
 
 const Main = () => {
 
@@ -76,28 +77,7 @@ const Main = () => {
               height="327" />
           </div>
 
-          <div className="movie-card__desc">
-            <h2 className="movie-card__title">{promoFilm.name}</h2>
-            <p className="movie-card__meta">
-              <span className="movie-card__genre">{promoFilm.genre}</span>
-              <span className="movie-card__year">{promoFilm.released}</span>
-            </p>
-
-            <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
-                </svg>
-                <span>Play</span>
-              </button>
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
-                </svg>
-                <span>My list</span>
-              </button>
-            </div>
-          </div>
+          <FilmDescription film={promoFilm} />
         </div>
       </div>
     </section>

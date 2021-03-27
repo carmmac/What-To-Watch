@@ -26,6 +26,11 @@ const getFilmsSimilar = createSelector(
     (films, {genre, id}) => films.filter((film) => film.genre === genre && film.id !== id)
 );
 
+const getFavoriteFilms = createSelector(
+    (state) => state.DATA.favoriteFilms,
+    (favoriteFilms) => favoriteFilms
+);
+
 const getFilm = createSelector(
     (state) => state.DATA.film,
     (film) => film
@@ -40,6 +45,7 @@ const makeGetFilms = () => getFilms;
 const makeGetFilmsFilteredByGenre = () => getFilmsFilteredByGenre;
 const makeGetFilmsSimilar = () => getFilmsSimilar;
 const makeGetFilm = () => getFilm;
+const makeGetFavoriteFilms = () => getFavoriteFilms;
 
 const makeGetAreFilmsLoadedIndicator = () => (
   createSelector(
@@ -67,6 +73,13 @@ const getAreReviewsLoadedIndicator = createSelector(
     (areReviewsLoaded) => areReviewsLoaded,
 );
 
+const makeGetAreFavoriteFilmsLoadedIndicator = () => (
+  createSelector(
+      (state) => state.DATA.isLoadedIndicator.areFavoriteFilmsLoaded,
+      (areFavoriteFilmsLoaded) => areFavoriteFilmsLoaded
+  )
+);
+
 export {
   getPromoFilm,
   getFilms,
@@ -77,10 +90,12 @@ export {
   makeGetFilms,
   makeGetFilmsFilteredByGenre,
   makeGetFilmsSimilar,
+  makeGetFavoriteFilms,
   makeGetIsFilmLoadedIndicator,
   makeGetFilm,
 
   makeGetAreFilmsLoadedIndicator,
   makeGetIsPromoFilmLoadedIndicator,
   getAreReviewsLoadedIndicator,
+  makeGetAreFavoriteFilmsLoadedIndicator,
 };

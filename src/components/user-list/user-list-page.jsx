@@ -1,26 +1,20 @@
-import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchFavoriteFilms} from '../../store/api-actions.js';
+import React, {useMemo} from 'react';
+import {useSelector} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import Loading from '../loading/loading.jsx';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
+import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetFavoriteFilms} from '../../store/data-reducer/selectors.js';
 
-const UserListPage = (currentLocation) => {
+const UserListPage = () => {
 
-  const {isLoadedIndicator} = useSelector((state) => state.DATA);
-  const dispatch = useDispatch();
+  const getAreFavoriteFilmsLoadedIndicator = useMemo(makeGetAreFavoriteFilmsLoadedIndicator, []);
+  const areFavoriteFilmsLoaded = useSelector((state) => getAreFavoriteFilmsLoadedIndicator(state));
 
-  const onLoadFavoriteFilms = () => {
-    if (!isLoadedIndicator.areFavoriteFilmsLoaded) {
-      dispatch(fetchFavoriteFilms());
-    }
-  };
+  const getFavoriteFilms = useMemo(makeGetFavoriteFilms, []);
+  const favoriteFilms = useSelector((state) => getFavoriteFilms(state));
 
-  useEffect(() => onLoadFavoriteFilms(), [isLoadedIndicator.areFavoriteFilmsLoaded]);
-
-  if (!isLoadedIndicator.areFavoriteFilmsLoaded) {
+  if (!areFavoriteFilmsLoaded) {
     return <Loading />;
   }
 
@@ -34,7 +28,7 @@ const UserListPage = (currentLocation) => {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmsList location={currentLocation} />
+        <FilmsList films={favoriteFilms} />
       </section>
 
       <footer className="page-footer">
@@ -53,8 +47,5 @@ const UserListPage = (currentLocation) => {
     </div>
   );
 };
-
-UserListPage.propTypes = {currentLocation: PropTypes.string.isRequired};
-
 
 export default UserListPage;
