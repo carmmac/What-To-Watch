@@ -2,7 +2,7 @@ import {createReducer} from "@reduxjs/toolkit";
 import {DEFAULT_GENRE} from "../../const";
 import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm} from "../action";
 
-const initialState = {
+export const initialState = {
   promoFilm: undefined,
   film: undefined,
   films: [],

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading component render test by snapshot 1`] = `
+<div>
+  <div
+    style="width: 100%; height: 25vh; position: relative;"
+  >
+    <div
+      class="lds-dual-ring"
+    />
+  </div>
+</div>
+`;

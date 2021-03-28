@@ -40,7 +40,7 @@ const FilmPageReviews = ({id}) => {
         {
           authorizationStatus === AuthorizationStatus.AUTH && renderReviews()
           ||
-          <Link to={AppRoute.REVIEW} style={{color: `#252525`}}>Sign in to add the first review</Link>
+          <Link to={AppRoute.LOGIN} style={{color: `#252525`}}>Sign in to add the first review</Link>
         }
       </ul>
     </div>

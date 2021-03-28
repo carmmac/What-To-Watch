@@ -1,8 +1,9 @@
 import React from 'react';
+import {loadingContainerStyles} from './loading-styles';
 
 const Loading = () => {
   return (
-    <div style={{width: `100%`, height: `25vh`, position: `relative`}}>
+    <div style={loadingContainerStyles}>
       <div className="lds-dual-ring"></div>
     </div>
   );

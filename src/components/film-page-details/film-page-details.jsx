@@ -17,7 +17,7 @@ const FilmPageDetails = ({film}) => {
           <ul className="movie-card__details-value" style={{padding: 0, margin: 0}}>
             {film.starring.map((star, i) =>
               <li
-                key={star + i}
+                key={`star_${i}`}
                 style={{listStyleType: `none`, listStylePosition: `outside`}}
               >{star}
               </li>)}

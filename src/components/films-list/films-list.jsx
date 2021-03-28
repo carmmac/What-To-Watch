@@ -7,7 +7,7 @@ const FilmsList = ({films, handleFilmCardClick}) => {
 
   return (
     <div className="catalog__movies-list">
-      {films.map((film) => <FilmCard handleFilmCardClick={handleFilmCardClick} key={film.id} {...film} />)}
+      {films.map((film) => <FilmCard handleFilmCardClick={handleFilmCardClick} key={`filmcard_${film.id}`} {...film} />)}
     </div>
   );
 };

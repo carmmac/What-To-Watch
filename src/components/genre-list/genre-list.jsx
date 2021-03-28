@@ -11,7 +11,7 @@ const GenreList = ({currentGenre, handleGenreSelect}) => {
       {genres.map((genreItem, i) =>
         <li
           className={`catalog__genres-item ${currentGenre === genreItem ? `catalog__genres-item--active` : ``}`}
-          key={genreItem + i}>
+          key={`genreItem_${i}`}>
           <span
             className="catalog__genres-link"
             style={{cursor: `pointer`}}
