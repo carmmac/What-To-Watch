@@ -5,7 +5,7 @@ import FilmPageDetails from './film-page-details';
 import {fakeFilm, history} from "../../utils-testing";
 import {humanizeTimeForDescription} from "../../utils";
 
-test(`FilmPageDetails render test`, () => {
+test(`FilmPageDetails renders itself correctly`, () => {
   render(
       <Router history={history} >
         <FilmPageDetails film={fakeFilm} />

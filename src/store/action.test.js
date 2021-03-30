@@ -4,8 +4,8 @@ import {
   genreSelect,
 } from './action';
 
-describe(`Action creators testing`, () => {
-  it(`Action creator genre selection should return correct action`, () => {
+describe(`Action creator`, () => {
+  it(`"Genre Select" should return correct action`, () => {
     const expectedAction = {
       type: ActionType.GENRE_SELECT,
       payload: `Drama`,
@@ -13,7 +13,7 @@ describe(`Action creators testing`, () => {
     expect(genreSelect(`Drama`)).toEqual(expectedAction);
   });
 
-  it(`Action creator clearing data should return correct action`, () => {
+  it(`"Clear Data" should return correct action`, () => {
     const expectedAction = {
       type: ActionType.CLEAR_DATA,
     };

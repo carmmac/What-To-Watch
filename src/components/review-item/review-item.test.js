@@ -16,7 +16,7 @@ const fakeReview = {
   "date": `2021-03-07T08:04:28.658Z`
 };
 
-test(`ReviewItem render test`, () => {
+test(`ReviewItem renders itself correctly`, () => {
   render(
       <Router history={history}>
         <ReviewItem review={fakeReview} />

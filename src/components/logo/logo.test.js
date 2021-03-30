@@ -4,7 +4,7 @@ import {Router} from 'react-router-dom';
 import Logo from './logo';
 import {history} from '../../utils-testing';
 
-test(`Logo component render test by snapshot`, () => {
+test(`Logo component renders itself correctly by snapshot`, () => {
   const {container} = render(
       <Router history={history}>
         <Logo />

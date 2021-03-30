@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Logo component render test by snapshot 1`] = `
+exports[`Logo component renders itself correctly by snapshot 1`] = `
 <div>
   <div
     class="logo"

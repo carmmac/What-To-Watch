@@ -7,7 +7,7 @@ import {history} from '../../utils-testing';
 const backgroundImage = `fake`;
 const name = `fake`;
 
-test(`FilmBackgroundBlock render test`, () => {
+test(`FilmBackgroundBlock renders itself correctly`, () => {
   render(
       <Router history={history}>
         <FilmBackgroundBlock backgroundImage={backgroundImage} name={name} />

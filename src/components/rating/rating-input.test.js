@@ -7,10 +7,10 @@ import {history} from '../../utils-testing';
 const fakeRatingScore = 5;
 const fakeIsChecked = false;
 
-describe(`RatingInput test`, () => {
+describe(`RatingInput`, () => {
   const ratingChangeHandler = jest.fn();
 
-  it(`RatingInput render test`, () => {
+  it(`renders itself correctly`, () => {
     render(
         <Router history={history}>
           <RatingInput
@@ -23,7 +23,7 @@ describe(`RatingInput test`, () => {
     expect(screen.getByLabelText(`Rating ${fakeRatingScore}`)).toBeInTheDocument();
   });
 
-  it(`RatingInput user click test`, () => {
+  it(`toggles radio input`, () => {
     render(
         <Router history={history}>
           <RatingInput

@@ -5,7 +5,7 @@ import FilmPageOverview from './film-page-overview';
 import {humanizeFilmRating} from '../../utils';
 import {fakeFilm, history} from '../../utils-testing';
 
-it(`FilmPageOverview render test`, () => {
+it(`FilmPageOverview renders itself correctly`, () => {
   render(
       <Router history={history}>
         <FilmPageOverview film={fakeFilm} />

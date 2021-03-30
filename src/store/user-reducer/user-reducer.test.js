@@ -9,13 +9,13 @@ const api = createApi(() => {});
 const apiMock = new MockAdapter(api);
 const dispatch = jest.fn();
 
-describe(`Reducer "User" testing`, () => {
-  it(`Reducer without additional parameters should return initial state`, () => {
+describe(`Reducer "User"`, () => {
+  it(`should return initial state without additional parameters`, () => {
     expect(userReducer(undefined, {}))
       .toEqual({authorizationStatus: AuthorizationStatus.WAITING_AUTH});
   });
 
-  it(`Reducer should update user's authorization status`, () => {
+  it(`should update user's authorization status`, () => {
     const state = {authorizationStatus: AuthorizationStatus.WAITING_AUTH};
     const requiredAuthorizationAction = {
       type: ActionType.REQUIRED_AUTH,
@@ -26,8 +26,8 @@ describe(`Reducer "User" testing`, () => {
   });
 });
 
-describe(`Reducer "User" async testing`, () => {
-  it(`Should make a correct API call to /login`, () => {
+describe(`Reducer "User" async`, () => {
+  it(`should make a correct API call to /login`, () => {
     const checkAuthLoader = checkAuth();
 
     apiMock.onGet(APIRoute.LOGIN).reply(200, [{fake: true}]);

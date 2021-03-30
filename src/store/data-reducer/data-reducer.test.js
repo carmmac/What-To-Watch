@@ -13,13 +13,13 @@ const api = createApi(() => {});
 const apiMock = new MockAdapter(api);
 const dispatch = jest.fn();
 
-describe(`Reducer "Data" testing`, () => {
-  it(`Reducer without additional parameters should return initial state`, () => {
+describe(`Reducer "Data"`, () => {
+  it(`should return initial state without additional parameters`, () => {
     expect(dataReducer(undefined, {}))
       .toEqual(initialState);
   });
 
-  it(`Reducer should restore initial state of film`, () => {
+  it(`should restore initial state of film`, () => {
     const state = {
       film: {},
       reviews: [{}, {}],
@@ -40,7 +40,7 @@ describe(`Reducer "Data" testing`, () => {
       });
   });
 
-  it(`Reducer should update films after loading`, () => {
+  it(`should update films after loading`, () => {
     const state = {
       films: [],
       genres: [],
@@ -62,7 +62,7 @@ describe(`Reducer "Data" testing`, () => {
       });
   });
 
-  it(`Reducer should update promo film after loading`, () => {
+  it(`should update promo film after loading`, () => {
     const state = {
       promoFilm: undefined,
       isLoadedIndicator: {
@@ -82,7 +82,7 @@ describe(`Reducer "Data" testing`, () => {
       });
   });
 
-  it(`Reducer should update film after loading`, () => {
+  it(`should update film after loading`, () => {
     const state = {
       film: undefined,
       isLoadedIndicator: {
@@ -102,7 +102,7 @@ describe(`Reducer "Data" testing`, () => {
       });
   });
 
-  it(`Reducer should update reviews after loading`, () => {
+  it(`should update reviews after loading`, () => {
     const state = {
       reviews: [],
       isLoadedIndicator: {
@@ -122,7 +122,7 @@ describe(`Reducer "Data" testing`, () => {
       });
   });
 
-  it(`Reducer should update favorite films after loading`, () => {
+  it(`should update favorite films after loading`, () => {
     const state = {
       favoriteFilms: [],
       isLoadedIndicator: {
@@ -143,8 +143,8 @@ describe(`Reducer "Data" testing`, () => {
   });
 });
 
-describe(`Reducer "Data" async testing`, () => {
-  it(`Reducer should make a correct API call to /films`, () => {
+describe(`Reducer "Data" async`, () => {
+  it(`should make a correct API call to /films`, () => {
     const filmsLoader = fetchFilmsList();
 
     apiMock.onGet(APIRoute.FILMS).reply(200, films);
