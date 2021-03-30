@@ -14,4 +14,5 @@ test(`FilmBackgroundBlock renders itself correctly`, () => {
       </Router>
   );
   expect(screen.getByRole(`img`)).toBeInTheDocument();
+  expect(screen.getByAltText(name)).toBeInTheDocument();
 });
