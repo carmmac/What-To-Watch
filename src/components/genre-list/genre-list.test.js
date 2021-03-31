@@ -11,7 +11,7 @@ let store;
 const fakeGenres = [DEFAULT_GENRE, `Drama`, `Action`, `Comedy`];
 const fakeCurrentGenre = `Comedy`;
 
-describe(`GenreList test`, () => {
+describe(`GenreList`, () => {
   jest.spyOn(redux, `useSelector`);
   jest.spyOn(redux, `useDispatch`);
 
@@ -23,7 +23,7 @@ describe(`GenreList test`, () => {
     });
   });
 
-  it(`GenreList render test`, () => {
+  it(`renders itself correctly`, () => {
     const activeGenreTabClassName = `catalog__genres-item--active`;
     render(
         <Provider store={store}>
@@ -39,7 +39,7 @@ describe(`GenreList test`, () => {
     expect(screen.getByText(fakeCurrentGenre).parentElement.classList.contains(activeGenreTabClassName)).toBe(true);
   });
 
-  it(`Should select new genre when clicked`, () => {
+  it(`should select new genre when clicked`, () => {
     const genreSelectHandlerdler = jest.fn();
     render(
         <Provider store={store}>

@@ -24,7 +24,7 @@ describe(`FilmPageOverview`, () => {
     expect(screen.getByText(selectedTab).parentElement.classList.contains(activeTabClassName)).toBe(true);
   });
 
-  it(`FilmPageOverview renders itself correctly`, () => {
+  it(`should select new tab when clicked`, () => {
     const tabSelectHandler = jest.fn();
     render(
         <Router history={history}>
