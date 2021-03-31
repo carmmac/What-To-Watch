@@ -12,15 +12,7 @@ const FilmPageTab = {
 };
 const ALL_GENRES = `All genres`;
 const DEFAULT_GENRE = ALL_GENRES;
-const genres = [
-  `Action`,
-  `Drama`,
-  `Adventure`,
-  `Crime`,
-  `Comedy`,
-  `Fantasy`,
-  `Thriller`,
-];
+
 const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
@@ -67,7 +59,6 @@ export {
   FilmPageTab,
   DEFAULT_GENRE,
   ALL_GENRES,
-  genres,
   AuthorizationStatus,
   AppRoute,
   APIRoute,

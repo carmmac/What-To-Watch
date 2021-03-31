@@ -11,7 +11,7 @@ const FilmPageNav = ({selectedTab, handleTabSelect}) => {
         return (
           <li
             className={`movie-nav__item ${selectedTab === name ? `movie-nav__item--active` : ``}`}
-            key={name + i}>
+            key={`tabname_${name}${i}`}>
             <span
               className="movie-nav__link"
               style={{cursor: `pointer`}}

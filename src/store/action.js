@@ -10,6 +10,7 @@ const ActionType = {
   CLEAR_DATA: `filmPage/clearData`,
   GET_FAVORITE_FILMS: `data/getFavoriteFilms`,
   POST_FAVORITE_FILM: `data/postFavoriteFilm`,
+  REDIRECT: `REDIRECT`,
 };
 
 const genreSelect = createAction(ActionType.GENRE_SELECT, (genre) => ({payload: genre}));
@@ -30,7 +31,10 @@ const clearData = createAction(ActionType.CLEAR_DATA);
 
 const requireAuthorization = createAction(ActionType.REQUIRED_AUTH, (status), ({payload: status}));
 
+const redirectToRoute = createAction(ActionType.REDIRECT, (url) => ({payload: url}));
+
 export {
+  ActionType,
   genreSelect,
   getFilmsList,
   getPromoFilm,
@@ -40,4 +44,5 @@ export {
   requireAuthorization,
   getFavoriteFilms,
   postFavoriteFilm,
+  redirectToRoute,
 };
