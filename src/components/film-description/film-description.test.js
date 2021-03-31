@@ -4,15 +4,14 @@ import {Router} from 'react-router-dom';
 import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 import {fakeFilm, history, mockStore} from '../../utils-testing';
-import {AuthorizationStatus, DescriptionBlockVersion} from '../../const';
+import {AppRoute, AuthorizationStatus, DescriptionBlockVersion} from '../../const';
 import FilmDescription from './film-description';
 
-
 let store;
+let mockDispatch;
+let useDispatchSpy;
 const fakeFavoriteFilms = [{id: 0, isFavorite: true}, {id: 2, isFavorite: true}, {id: 3, isFavorite: true}];
-const useDispatchSpy = jest.spyOn(redux, `useDispatch`);
-const mockDispatch = jest.fn();
-useDispatchSpy.mockReturnValue(mockDispatch);
+
 jest.spyOn(redux, `useSelector`);
 
 describe(`FilmDescription for unauthorized user`, () => {
@@ -64,6 +63,7 @@ describe(`FilmDescription for authorized user`, () => {
       USER: {authorizationStatus: AuthorizationStatus.AUTH},
       DATA: {favoriteFilms: fakeFavoriteFilms}
     });
+    history.push(AppRoute.ROOT);
   });
 
   it(`renders itself correctly at main page`, () => {
@@ -120,6 +120,11 @@ describe(`FilmDescription for authorized user`, () => {
 
 
 describe(`FilmDescription for authorized user - user actions`, () => {
+  beforeEach(() => {
+    useDispatchSpy = jest.spyOn(redux, `useDispatch`);
+    mockDispatch = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatch);
+  });
   afterEach(() => useDispatchSpy.mockClear());
 
   it(`dispatches an action after My list button click`, () => {
