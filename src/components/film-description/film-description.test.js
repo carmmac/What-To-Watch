@@ -40,7 +40,7 @@ describe(`FilmDescription for unauthorized user`, () => {
     expect(screen.queryByText(`Add review`)).not.toBeInTheDocument();
   });
 
-  it(`redirects to film player page after Play button click`, () => {
+  it(`redirects to film player page after "Play" button click`, () => {
     render(
         <Provider store={store}>
           <Router history={history}>
@@ -64,7 +64,6 @@ describe(`FilmDescription for authorized user`, () => {
       USER: {authorizationStatus: AuthorizationStatus.AUTH},
       DATA: {favoriteFilms: fakeFavoriteFilms}
     });
-    useDispatchSpy.mockClear();
   });
 
   it(`renders itself correctly at main page`, () => {
@@ -102,7 +101,32 @@ describe(`FilmDescription for authorized user`, () => {
     }));
   });
 
+  it(`redirects to review form page after "Add review" button click`, () => {
+    render(
+        <Provider store={store}>
+          <Router history={history}>
+            <FilmDescription
+              film={fakeFilm}
+              version={DescriptionBlockVersion.FILM_PAGE}
+            />
+          </Router>
+        </Provider>
+    );
+
+    fireEvent.click(screen.getByText(`Add review`));
+    expect(history.location.pathname).toBe(`/${fakeFilm.id}/review`);
+  });
+});
+
+
+describe(`FilmDescription for authorized user - user actions`, () => {
+  afterEach(() => useDispatchSpy.mockClear());
+
   it(`dispatches an action after My list button click`, () => {
+    store = mockStore({
+      USER: {authorizationStatus: AuthorizationStatus.AUTH},
+      DATA: {favoriteFilms: []}
+    });
     render(
         <Provider store={store}>
           <Router history={history}>
