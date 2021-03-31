@@ -1,4 +1,5 @@
 import {createMemoryHistory} from "history";
+import configureStore from "redux-mock-store";
 
 const fakeFilm = {
   id: 1,
@@ -26,7 +27,10 @@ const fakeFilm = {
 
 const history = createMemoryHistory();
 
+const mockStore = configureStore({});
+
 export {
   fakeFilm,
   history,
+  mockStore,
 };
