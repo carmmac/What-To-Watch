@@ -18,7 +18,9 @@ const FilmPageReviews = ({id}) => {
   const renderReviews = () => {
     if (reviews.length === 0) {
       return (
-        <Link to={`${id}/review`} style={{color: `#252525`}}>Add the first review</Link>
+        authorizationStatus === AuthorizationStatus.AUTH
+          ? <Link to={`${id}/review`} style={{color: `#252525`}}>Add the first review</Link>
+          : <Link to={AppRoute.LOGIN} style={{color: `#252525`}}>Sign in to add the first review</Link>
       );
     }
     return (
@@ -38,9 +40,7 @@ const FilmPageReviews = ({id}) => {
     <div className="movie-card__reviews movie-card__row">
       <ul className="movie-card__reviews-col" style={{width: `100%`, maxWidth: `100%`}}>
         {
-          authorizationStatus === AuthorizationStatus.AUTH && renderReviews()
-          ||
-          <Link to={AppRoute.LOGIN} style={{color: `#252525`}}>Sign in to add the first review</Link>
+          renderReviews()
         }
       </ul>
     </div>
