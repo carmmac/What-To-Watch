@@ -80,6 +80,11 @@ const makeGetAreFavoriteFilmsLoadedIndicator = () => (
   )
 );
 
+const getHasRequestSucceededIndicator = createSelector(
+    (state) => state.DATA.hasRequestSucceededIndicator,
+    (hasRequestSucceededIndicator) => hasRequestSucceededIndicator,
+);
+
 export {
   getPromoFilm,
   getFilms,
@@ -98,4 +103,5 @@ export {
   makeGetIsPromoFilmLoadedIndicator,
   getAreReviewsLoadedIndicator,
   makeGetAreFavoriteFilmsLoadedIndicator,
+  getHasRequestSucceededIndicator,
 };

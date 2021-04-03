@@ -1,12 +1,13 @@
-import React, {useRef, useState} from 'react';
+import React, {memo, useCallback, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {DEFAULT_RATING, RatingScore} from '../../const';
 import RatingInput from '../rating/rating-input';
 
 const ReviewForm = ({handleReviewSubmit}) => {
   const [userRating, setUserRating] = useState(DEFAULT_RATING);
+  const [isDisabled, setIsDisabled] = useState(false);
   const reviewTextRef = useRef();
-  const handleUserRatingChange = (newRating) => setUserRating(newRating);
+  const handleUserRatingChange = useCallback((newRating) => setUserRating(newRating), []);
 
   const renderRatingInput = (ratingValue) => {
     let isChecked = false;
@@ -18,7 +19,12 @@ const ReviewForm = ({handleReviewSubmit}) => {
       ratingScore={ratingValue}
       handleUserRatingChange={handleUserRatingChange}
       isChecked={isChecked}
+      isDisabled={isDisabled}
     />;
+  };
+
+  const unblockForm = () => {
+    setIsDisabled(false);
   };
 
   return (
@@ -27,7 +33,8 @@ const ReviewForm = ({handleReviewSubmit}) => {
       className="add-review__form"
       onSubmit={(evt) => {
         evt.preventDefault();
-        handleReviewSubmit(userRating, reviewTextRef.current.value);
+        setIsDisabled(true);
+        handleReviewSubmit(userRating, reviewTextRef.current.value, unblockForm);
       }}
     >
       <div className="rating">
@@ -41,6 +48,7 @@ const ReviewForm = ({handleReviewSubmit}) => {
           name="review-text"
           id="review-text"
           placeholder="Review text"
+          disabled={isDisabled}
           ref={reviewTextRef}>
         </textarea>
         <div className="add-review__submit">
@@ -53,4 +61,4 @@ const ReviewForm = ({handleReviewSubmit}) => {
 
 ReviewForm.propTypes = {handleReviewSubmit: PropTypes.func.isRequired};
 
-export default ReviewForm;
+export default memo(ReviewForm);

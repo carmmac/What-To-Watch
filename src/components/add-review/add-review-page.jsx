@@ -5,12 +5,15 @@ import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import ReviewForm from '../review-form/review-form';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {fetchFilm, postReview} from '../../store/api-actions';
 import Loading from '../loading/loading';
-import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import {getHasRequestSucceededIndicator, makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import AddReviewMessage from './add-review-message';
 
 const AddReviewPage = ({match: {params}}) => {
+
+  const hasRequestSucceededIndicator = useSelector((state) => getHasRequestSucceededIndicator(state));
 
   const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
   const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
@@ -20,15 +23,13 @@ const AddReviewPage = ({match: {params}}) => {
 
   const dispatch = useDispatch();
   const {id: filmId} = params;
-  const history = useHistory();
 
-  const handleReviewSubmit = (rating, comment) => {
+  const handleReviewSubmit = (rating, comment, unblockFormCallback) => {
     const newReview = {
       rating,
       comment,
     };
-    dispatch(postReview(filmId, newReview));
-    history.push(`/films/${filmId}`);
+    dispatch(postReview(filmId, newReview, unblockFormCallback));
   };
 
   useEffect(() => {
@@ -69,6 +70,11 @@ const AddReviewPage = ({match: {params}}) => {
       <div className="add-review">
         <ReviewForm handleReviewSubmit={handleReviewSubmit} />
       </div>
+
+      {
+        hasRequestSucceededIndicator !== undefined &&
+        <AddReviewMessage status={hasRequestSucceededIndicator} />
+      }
 
     </section>
   );

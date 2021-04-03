@@ -1,6 +1,6 @@
 import {createReducer} from "@reduxjs/toolkit";
 import {DEFAULT_GENRE} from "../../const";
-import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm} from "../action";
+import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, setGoodRequest, setBadRequest, resetRequestStatus} from "../action";
 
 export const initialState = {
   promoFilm: undefined,
@@ -16,6 +16,7 @@ export const initialState = {
     areReviewsLoaded: false,
     areFavoriteFilmsLoaded: false,
   },
+  hasRequestSucceededIndicator: undefined,
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -51,6 +52,15 @@ const dataReducer = createReducer(initialState, (builder) => {
   })
   .addCase(postFavoriteFilm, (state, action) => {
     state.favoriteFilms.push(action.payload);
+  })
+  .addCase(setBadRequest, (state) => {
+    state.hasRequestSucceededIndicator = false;
+  })
+  .addCase(setGoodRequest, (state) => {
+    state.hasRequestSucceededIndicator = true;
+  })
+  .addCase(resetRequestStatus, (state) => {
+    state.hasRequestSucceededIndicator = initialState.hasRequestSucceededIndicator;
   });
 });
 

@@ -1,7 +1,7 @@
-export const AddReviewErrorMessageStyle = {
+export const AddReviewMessageStyle = {
   width: `fit-content`,
   marginLeft: `auto`,
   marginRight: `auto`,
   marginTop: `20px`,
-  color: `#E92D05`,
+  color: `#252525`,
 };
