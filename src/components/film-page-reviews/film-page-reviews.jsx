@@ -7,6 +7,7 @@ import Loading from "../loading/loading";
 import {getAreReviewsLoadedIndicator, getReviews} from "../../store/data-reducer/selectors";
 import {Link} from "react-router-dom";
 import {AppRoute, AuthorizationStatus} from "../../const";
+import {FilmPageReviewsStyle} from "./film-page-reviews-style";
 
 const FilmPageReviews = ({id}) => {
   const reviews = useSelector((state) => getReviews(state));
@@ -18,7 +19,9 @@ const FilmPageReviews = ({id}) => {
   const renderReviews = () => {
     if (reviews.length === 0) {
       return (
-        <Link to={`${id}/review`} style={{color: `#252525`}}>Add the first review</Link>
+        authorizationStatus === AuthorizationStatus.AUTH
+          ? <Link to={`${id}/review`} style={FilmPageReviewsStyle.LINK}>Add the first review</Link>
+          : <Link to={AppRoute.LOGIN} style={FilmPageReviewsStyle.LINK}>Sign in to add the first review</Link>
       );
     }
     return (
@@ -36,11 +39,9 @@ const FilmPageReviews = ({id}) => {
   }
   return (
     <div className="movie-card__reviews movie-card__row">
-      <ul className="movie-card__reviews-col" style={{width: `100%`, maxWidth: `100%`}}>
+      <ul className="movie-card__reviews-col" style={FilmPageReviewsStyle.COL}>
         {
-          authorizationStatus === AuthorizationStatus.AUTH && renderReviews()
-          ||
-          <Link to={AppRoute.LOGIN} style={{color: `#252525`}}>Sign in to add the first review</Link>
+          renderReviews()
         }
       </ul>
     </div>

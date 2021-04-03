@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {makeGetAreFilmsLoadedIndicator, makeGetFilmsSimilar} from '../store/data-reducer/selectors';
 import Loading from '../components/loading/loading';
+import {SIMILAR_FILMS_VISIBLE_NUM} from '../const';
 
 const WithIdFiltration = ({component: Component, genre, id, handleFilmCardClick}) => {
 
@@ -11,7 +12,7 @@ const WithIdFiltration = ({component: Component, genre, id, handleFilmCardClick}
 
   const getFilmsSimilar = useMemo(makeGetFilmsSimilar, []);
 
-  const filmsSimilar = useSelector((state) => getFilmsSimilar(state, genre, id));
+  const filmsSimilar = useSelector((state) => getFilmsSimilar(state, genre, id)).slice(0, SIMILAR_FILMS_VISIBLE_NUM);
 
   if (!areFilmsLoaded) {
     return <Loading />;

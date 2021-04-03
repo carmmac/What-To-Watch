@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {filmPropTypes} from '../../prop-types';
 import {humanizeTimeForDescription} from '../../utils';
+import {FilmPageDetailsStyle} from './film-page-details-style';
 
 const FilmPageDetails = ({film}) => {
 
@@ -12,9 +13,9 @@ const FilmPageDetails = ({film}) => {
           <strong className="movie-card__details-name">Director</strong>
           <span className="movie-card__details-value">{film.director}</span>
         </p>
-        <div className="movie-card__details-item" style={{margin: `19px 0`}}>
+        <div className="movie-card__details-item" style={FilmPageDetailsStyle.FilmDetails.ITEM}>
           <strong className="movie-card__details-name">Starring</strong>
-          <ul className="movie-card__details-value" style={{padding: 0, margin: 0}}>
+          <ul className="movie-card__details-value" style={FilmPageDetailsStyle.FilmDetails.VALUE}>
             {film.starring.map((star, i) =>
               <li
                 key={`star_${i}`}

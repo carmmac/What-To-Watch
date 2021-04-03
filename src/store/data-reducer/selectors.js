@@ -80,6 +80,11 @@ const makeGetAreFavoriteFilmsLoadedIndicator = () => (
   )
 );
 
+const getRequestStatus = createSelector(
+    (state) => state.DATA.requestStatus,
+    (requestStatus) => requestStatus,
+);
+
 export {
   getPromoFilm,
   getFilms,
@@ -98,4 +103,5 @@ export {
   makeGetIsPromoFilmLoadedIndicator,
   getAreReviewsLoadedIndicator,
   makeGetAreFavoriteFilmsLoadedIndicator,
+  getRequestStatus,
 };

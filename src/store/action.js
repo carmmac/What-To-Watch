@@ -11,6 +11,9 @@ const ActionType = {
   GET_FAVORITE_FILMS: `data/getFavoriteFilms`,
   POST_FAVORITE_FILM: `data/postFavoriteFilm`,
   REDIRECT: `REDIRECT`,
+  SET_BAD_REQUEST: `request/badRequest`,
+  SET_GOOD_REQUEST: `request/goodRequest`,
+  RESET_REQUEST_STATUS: `request/resetRequestStatus`
 };
 
 const genreSelect = createAction(ActionType.GENRE_SELECT, (genre) => ({payload: genre}));
@@ -33,6 +36,12 @@ const requireAuthorization = createAction(ActionType.REQUIRED_AUTH, (status), ({
 
 const redirectToRoute = createAction(ActionType.REDIRECT, (url) => ({payload: url}));
 
+const setBadRequest = createAction(ActionType.SET_BAD_REQUEST);
+
+const setGoodRequest = createAction(ActionType.SET_GOOD_REQUEST);
+
+const resetRequestStatus = createAction(ActionType.RESET_REQUEST_STATUS);
+
 export {
   ActionType,
   genreSelect,
@@ -45,4 +54,7 @@ export {
   getFavoriteFilms,
   postFavoriteFilm,
   redirectToRoute,
+  setBadRequest,
+  setGoodRequest,
+  resetRequestStatus,
 };

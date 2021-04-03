@@ -11,7 +11,7 @@ import {fetchFilm} from '../../store/api-actions';
 import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 import WithIdFiltration from '../../hocs/with-id-filtration';
 import FilmDescription from '../film-description/film-description';
-import {DescriptionBlockVersion} from '../../const';
+import {ComponentStyle, DescriptionBlockVersion} from '../../const';
 
 const FilmPage = ({match: {params}}) => {
 
@@ -61,8 +61,7 @@ const FilmPage = ({match: {params}}) => {
       <div className="movie-card__wrap movie-card__translate-top">
         <div className="movie-card__info">
           <div className="movie-card__poster movie-card__poster--big">
-            <img src={film.posterImage} alt={film.name} width="218"
-              height="327" />
+            <img src={film.posterImage} alt={film.name} style={ComponentStyle.POSTER_IMG} />
           </div>
           <FilmPageTabs film={film} filmId={filmId} />
         </div>

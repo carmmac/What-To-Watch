@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 
-const RatingInput = ({ratingScore, handleUserRatingChange, isChecked}) => {
+const RatingInput = ({ratingScore, handleUserRatingChange, isChecked, isDisabled}) => {
   return <>
     <input
       className="rating__input"
@@ -10,6 +10,7 @@ const RatingInput = ({ratingScore, handleUserRatingChange, isChecked}) => {
       name="rating"
       value={ratingScore}
       defaultChecked={isChecked}
+      disabled={isDisabled}
       onChange={({target}) => {
         const value = parseInt(target.value, 10);
         handleUserRatingChange(value);
@@ -23,6 +24,7 @@ RatingInput.propTypes = {
   ratingScore: PropTypes.number.isRequired,
   handleUserRatingChange: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 };
 
-export default RatingInput;
+export default memo(RatingInput);

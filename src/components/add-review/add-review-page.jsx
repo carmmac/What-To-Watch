@@ -5,12 +5,16 @@ import UserBlock from '../user-block/user-block';
 import FilmBackgroundBlock from '../film-bg/film-background-block';
 import ReviewForm from '../review-form/review-form';
 import {useDispatch, useSelector} from 'react-redux';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {fetchFilm, postReview} from '../../store/api-actions';
 import Loading from '../loading/loading';
-import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import {getRequestStatus, makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
+import AddReviewMessage from './add-review-message';
+import {ComponentStyle, RequestStatus} from '../../const';
 
 const AddReviewPage = ({match: {params}}) => {
+
+  const requestStatus = useSelector((state) => getRequestStatus(state));
 
   const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
   const isFilmLoaded = useSelector((state) => getIsFilmLoadedIndicator(state));
@@ -20,15 +24,13 @@ const AddReviewPage = ({match: {params}}) => {
 
   const dispatch = useDispatch();
   const {id: filmId} = params;
-  const history = useHistory();
 
-  const handleReviewSubmit = (rating, comment) => {
+  const handleReviewSubmit = (rating, comment, callback) => {
     const newReview = {
       rating,
       comment,
     };
-    dispatch(postReview(filmId, newReview));
-    history.push(`/films/${filmId}`);
+    dispatch(postReview(filmId, newReview, callback));
   };
 
   useEffect(() => {
@@ -62,13 +64,18 @@ const AddReviewPage = ({match: {params}}) => {
         </header>
 
         <div className="movie-card__poster movie-card__poster--small">
-          <img src={film.posterImage} alt={film.name} width="218" height="327" />
+          <img src={film.posterImage} alt={film.name} style={ComponentStyle.POSTER_IMG} />
         </div>
       </div>
 
       <div className="add-review">
         <ReviewForm handleReviewSubmit={handleReviewSubmit} />
       </div>
+
+      {
+        requestStatus !== RequestStatus.VOID &&
+        <AddReviewMessage requestStatus={requestStatus} />
+      }
 
     </section>
   );

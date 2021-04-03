@@ -62,10 +62,13 @@ const App = () => {
           {...routerProps}
         />}
       />
-      <Route exact path={AppRoute.PLAYER} render={(routerProps) =>
-        <Player
-          {...routerProps}
-        />}
+      <Route exact
+        path={AppRoute.PLAYER}
+        render={(routerProps) =>
+          <Player
+            onExitBtnClick={() => routerProps.history.push(`/films/${routerProps.match.params.id}`)}
+            {...routerProps}
+          />}
       />
       <Route>
         <NotFoundScreen />

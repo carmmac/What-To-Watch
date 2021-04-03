@@ -53,6 +53,11 @@ const humanizeFilmRating = (ratingScore) => {
   return ``;
 };
 
+const getNewTimeForPlayer = (togglerPositionInPercent, totalRunTime) => {
+  const totalRunTimeInSeconds = totalRunTime * 60;
+  return Math.floor((totalRunTimeInSeconds * togglerPositionInPercent) / 100);
+};
+
 const adaptFilmToClient = (film) => {
   const adaptedFilm = Object.assign(
       {},
@@ -119,4 +124,5 @@ export {
   humanizeTimeForDescription,
   humanizeTimeForPlayer,
   humanizeFilmRating,
+  getNewTimeForPlayer,
 };

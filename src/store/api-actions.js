@@ -1,6 +1,6 @@
-import {APIRoute, AppRoute, AuthorizationStatus} from "../const";
+import {APIRoute, AppRoute, AuthorizationStatus, REDIRECT_AFTER_REVIEW_POST_TIMEOUT} from "../const";
 import {adaptFilmToClient} from "../utils";
-import {getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, redirectToRoute, requireAuthorization} from "./action";
+import {getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, redirectToRoute, requireAuthorization, resetRequestStatus, setBadRequest, setGoodRequest} from "./action";
 
 const fetchFilmsList = () => (next, _getState, api) => (
   api.get(APIRoute.FILMS)
@@ -47,10 +47,16 @@ const logout = () => (next, _getState, api) => (
     .then(() => next(requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
 
-const postReview = (id, {rating, comment}) => (next, _getState, api) => (
+const postReview = (id, {rating, comment}, callback) => (next, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}${id}`, {rating, comment})
     .then(({data}) => next(getReviews(data)))
-    .catch(() => {})
+    .then(() => next(setGoodRequest()))
+    .then(() => setTimeout(() => {
+      next(redirectToRoute(`/films/${id}`));
+      next(resetRequestStatus());
+    }, REDIRECT_AFTER_REVIEW_POST_TIMEOUT))
+    .catch(() => next(setBadRequest()))
+    .finally(() => callback())
 );
 
 const fetchFavoriteFilms = () => (next, _getState, api) => (

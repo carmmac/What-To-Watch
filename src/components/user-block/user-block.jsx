@@ -1,8 +1,9 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus, ComponentStyle} from '../../const';
 import {Link} from 'react-router-dom';
 import {logout} from '../../store/api-actions';
+import {UserBlockStyle} from './user-block-style';
 
 const UserBlock = () => {
   const {authorizationStatus} = useSelector((state) => state.USER);
@@ -12,10 +13,10 @@ const UserBlock = () => {
     {
       authorizationStatus === AuthorizationStatus.AUTH &&
       <div className="user-block">
-        <span className="user-block__link" style={{cursor: `pointer`, marginBottom: `10px`}} onClick={onLogout} >Sign out</span>
+        <span className="user-block__link" style={UserBlockStyle.LINK} onClick={onLogout} >Sign out</span>
         <div className="user-block__avatar">
           <Link to={AppRoute.MY_LIST}>
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+            <img src="img/avatar.jpg" alt="User avatar" style={ComponentStyle.USER_AVATAR} />
           </Link>
         </div>
       </div>

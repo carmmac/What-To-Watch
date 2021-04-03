@@ -6,6 +6,7 @@ import {history} from '../../utils-testing';
 
 const fakeRatingScore = 5;
 const fakeIsChecked = false;
+const fakeIsDisabled = false;
 
 describe(`RatingInput`, () => {
   const ratingChangeHandler = jest.fn();
@@ -17,6 +18,7 @@ describe(`RatingInput`, () => {
             ratingScore={fakeRatingScore}
             handleUserRatingChange={ratingChangeHandler}
             isChecked={fakeIsChecked}
+            isDisabled={fakeIsDisabled}
           />
         </Router>
     );
@@ -30,6 +32,7 @@ describe(`RatingInput`, () => {
             ratingScore={fakeRatingScore}
             handleUserRatingChange={ratingChangeHandler}
             isChecked={fakeIsChecked}
+            isDisabled={fakeIsDisabled}
           />
         </Router>
     );
