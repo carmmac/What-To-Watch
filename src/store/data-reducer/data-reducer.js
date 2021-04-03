@@ -1,4 +1,5 @@
 import {createReducer} from "@reduxjs/toolkit";
+import {RequestStatus} from "../../const";
 import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, setGoodRequest, setBadRequest, resetRequestStatus} from "../action";
 
 export const initialState = {
@@ -15,7 +16,7 @@ export const initialState = {
     areReviewsLoaded: false,
     areFavoriteFilmsLoaded: false,
   },
-  hasRequestSucceededIndicator: undefined,
+  requestStatus: RequestStatus.VOID,
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -53,13 +54,13 @@ const dataReducer = createReducer(initialState, (builder) => {
     state.favoriteFilms.push(action.payload);
   })
   .addCase(setBadRequest, (state) => {
-    state.hasRequestSucceededIndicator = false;
+    state.requestStatus = RequestStatus.ERROR;
   })
   .addCase(setGoodRequest, (state) => {
-    state.hasRequestSucceededIndicator = true;
+    state.requestStatus = RequestStatus.SUCCESS;
   })
   .addCase(resetRequestStatus, (state) => {
-    state.hasRequestSucceededIndicator = initialState.hasRequestSucceededIndicator;
+    state.requestStatus = initialState.requestStatus;
   });
 });
 

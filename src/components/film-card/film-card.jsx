@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import PlayerPreview from '../player-preview/player-preview';
 import {useDispatch} from 'react-redux';
 import {clearData} from '../../store/action';
-import {START_PREVIEW_PLAYER_TIMEOUT} from '../../const';
+import {ComponentStyle, START_PREVIEW_PLAYER_TIMEOUT} from '../../const';
 
 const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick}) => {
   const [startPlayer, setStartPlayer] = useState(false);
@@ -25,15 +25,7 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
         previewVideoLink={previewVideoLink}
         previewImage={previewImage}
       />
-      : <img src={previewImage} alt={name} width="280" height="175" />;
-  };
-
-  const onFilmCardClick = () => {
-    setStartPlayer(false);
-    dispatch(clearData());
-    if (handleFilmCardClick) {
-      handleFilmCardClick(id);
-    }
+      : <img src={previewImage} alt={name} style={ComponentStyle.FILM_CARD_IMG} />;
   };
 
   return (
@@ -54,7 +46,13 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
           <Link
             className="small-movie-card__link"
             to={`/films/${id}`}
-            onClick={() => onFilmCardClick()}>
+            onClick={() => {
+              setStartPlayer(false);
+              dispatch(clearData());
+              if (handleFilmCardClick) {
+                handleFilmCardClick(id);
+              }
+            }}>
             {name}
           </Link>
         </h3>

@@ -56,6 +56,26 @@ const FilmRatingLevel = {
   GOOD: 8,
   AWESOME: 10,
 };
+const RequestStatus = {
+  VOID: `VOID`,
+  SUCCESS: `SUCCESS`,
+  ERROR: `ERROR`,
+};
+
+const ComponentStyle = {
+  FILM_CARD_IMG: {
+    width: `280px`,
+    height: `175px`,
+  },
+  POSTER_IMG: {
+    width: `218px`,
+    height: `327px`,
+  },
+  USER_AVATAR: {
+    width: `63px`,
+    height: `63px`,
+  },
+};
 
 export {
   INITIAL_FILMS_VISIBLE_NUM,
@@ -77,4 +97,6 @@ export {
   DescriptionBlockVersion,
   FilmRatingText,
   FilmRatingLevel,
+  RequestStatus,
+  ComponentStyle,
 };

@@ -47,7 +47,7 @@ const logout = () => (next, _getState, api) => (
     .then(() => next(requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
 
-const postReview = (id, {rating, comment}, unblockFormCallback) => (next, _getState, api) => (
+const postReview = (id, {rating, comment}, callback) => (next, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}${id}`, {rating, comment})
     .then(({data}) => next(getReviews(data)))
     .then(() => next(setGoodRequest()))
@@ -56,7 +56,7 @@ const postReview = (id, {rating, comment}, unblockFormCallback) => (next, _getSt
       next(resetRequestStatus());
     }, REDIRECT_AFTER_REVIEW_POST_TIMEOUT))
     .catch(() => next(setBadRequest()))
-    .finally(() => unblockFormCallback())
+    .finally(() => callback())
 );
 
 const fetchFavoriteFilms = () => (next, _getState, api) => (

@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import LoadMoreButton from '../load-more-button/load-more-button.jsx';
 import Loading from '../loading/loading.jsx';
 import {genreSelect} from '../../store/action.js';
-import {ALL_GENRES} from '../../const.js';
+import {ALL_GENRES, ComponentStyle} from '../../const.js';
 import {fetchPromoFilm} from '../../store/api-actions.js';
 import {makeGetFilms, makeGetIsPromoFilmLoadedIndicator, makeGetAreFilmsLoadedIndicator, getPromoFilm} from '../../store/data-reducer/selectors.js';
 import WithGenreFiltration from '../../hocs/with-genre-filtration.jsx';
@@ -73,8 +73,7 @@ const Main = () => {
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
-            <img src={promoFilm.posterImage} alt={promoFilm.name + ` poster`} width="218"
-              height="327" />
+            <img src={promoFilm.posterImage} alt={promoFilm.name + ` poster`} style={ComponentStyle.POSTER_IMG} />
           </div>
 
           <FilmDescription film={promoFilm} />

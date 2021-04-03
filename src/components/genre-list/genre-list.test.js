@@ -34,7 +34,7 @@ describe(`GenreList`, () => {
           </Router>
         </Provider>
     );
-    expect(fakeGenres.every((item) => screen.getByText(item)));
+    expect(fakeGenres.every((item) => expect(screen.getByText(item)).toBeInTheDocument()));
     expect(screen.getByText(fakeCurrentGenre).parentElement.classList.contains(activeGenreTabClassName)).toBe(true);
   });
 

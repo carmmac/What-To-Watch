@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {AddReviewMessageStyle} from './add-review-message-style';
+import {RequestStatus} from '../../const';
 
-const AddReviewMessage = ({status}) => {
-  const renderMessage = () => {
-    if (status === true) {
+const AddReviewMessage = ({requestStatus}) => {
+  const getMessage = () => {
+    if (requestStatus === RequestStatus.SUCCESS) {
       return `Comment posted!`;
     }
     return `Something has gone wrong...`;
   };
   return (
     <div style={AddReviewMessageStyle}>
-      {renderMessage()}
+      {getMessage()}
     </div>
   );
 };
 
 AddReviewMessage.propTypes = {
-  status: PropTypes.bool.isRequired,
+  requestStatus: PropTypes.string.isRequired,
 };
 
 export default AddReviewMessage;

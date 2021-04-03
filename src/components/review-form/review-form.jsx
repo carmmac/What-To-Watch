@@ -25,8 +25,9 @@ const ReviewForm = ({handleReviewSubmit}) => {
     />;
   };
 
-  const unblockForm = () => {
+  const enableForm = () => {
     setIsInputDisabled(false);
+    setIsSubmitDisabled(false);
   };
 
   const checkFormValidity = () => {
@@ -43,7 +44,7 @@ const ReviewForm = ({handleReviewSubmit}) => {
         evt.preventDefault();
         setIsInputDisabled(true);
         setIsSubmitDisabled(true);
-        handleReviewSubmit(userRating, reviewTextRef.current.value, unblockForm);
+        handleReviewSubmit(userRating, reviewTextRef.current.value, enableForm);
       }}
     >
       <div className="rating">
