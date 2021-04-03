@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import PlayerPreview from '../player-preview/player-preview';
 import {useDispatch} from 'react-redux';
 import {clearData} from '../../store/action';
+import {START_PREVIEW_PLAYER_TIMEOUT} from '../../const';
 
 const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick}) => {
   const [startPlayer, setStartPlayer] = useState(false);
@@ -18,11 +19,28 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
     };
   });
 
+  const renderFilmCardContent = () => {
+    return startPlayer
+      ? <PlayerPreview
+        previewVideoLink={previewVideoLink}
+        previewImage={previewImage}
+      />
+      : <img src={previewImage} alt={name} width="280" height="175" />;
+  };
+
+  const onFilmCardClick = () => {
+    setStartPlayer(false);
+    dispatch(clearData());
+    if (handleFilmCardClick) {
+      handleFilmCardClick(id);
+    }
+  };
+
   return (
     <article
       className="small-movie-card catalog__movies-card"
       onMouseEnter={() => {
-        setTimerId(() => setTimeout(() => setStartPlayer(true), 1000));
+        setTimerId(() => setTimeout(() => setStartPlayer(true), START_PREVIEW_PLAYER_TIMEOUT));
       }}
       onMouseLeave={() => {
         clearTimeout(timerId);
@@ -31,35 +49,16 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
       }}
     >
       <div className="small-movie-card__image">
-        {
-          startPlayer
-            ? <PlayerPreview
-              previewVideoLink={previewVideoLink}
-              previewImage={previewImage}
-            />
-            : <img src={previewImage} alt={name} width="280" height="175" />
-        }
+        {renderFilmCardContent()}
+        <h3 className="small-movie-card__title">
+          <Link
+            className="small-movie-card__link"
+            to={`/films/${id}`}
+            onClick={() => onFilmCardClick()}>
+            {name}
+          </Link>
+        </h3>
       </div>
-      <h3 className="small-movie-card__title">
-        {
-          handleFilmCardClick
-            ? <Link
-              className="small-movie-card__link"
-              to={`/films/${id}`}
-              onClick={() => {
-                setStartPlayer(false);
-                handleFilmCardClick(id);
-                dispatch(clearData());
-              }}>{name}</Link>
-            : <Link
-              className="small-movie-card__link"
-              to={`/films/${id}`}
-              onClick={() => {
-                setStartPlayer(false);
-                dispatch(clearData());
-              }}>{name}</Link>
-        }
-      </h3>
     </article>
   );
 };
