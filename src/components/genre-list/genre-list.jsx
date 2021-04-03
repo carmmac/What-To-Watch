@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {getGenres} from '../../store/utility-reducer/selectors';
 import classNames from 'classnames';
 import {DEFAULT_GENRE, GENRES_MAX_VISIBLE_NUM} from '../../const';
+import {GenreListStyle} from './genre-list-style';
 
 const GenreList = ({currentGenre, handleGenreSelect}) => {
   const genres = useSelector((state) => getGenres(state)).slice(0, GENRES_MAX_VISIBLE_NUM);
@@ -23,7 +24,7 @@ const GenreList = ({currentGenre, handleGenreSelect}) => {
           key={`genreItem_${i}`}>
           <span
             className="catalog__genres-link"
-            style={{cursor: `pointer`}}
+            style={GenreListStyle.ITEM}
             onClick={({target}) => {
               handleGenreSelect(target.textContent);
             }}

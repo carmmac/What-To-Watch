@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
+import {NotFoundScreenStyle} from './not-found-screen-style';
 
 const NotFoundScreen = () => {
   return (
@@ -18,7 +19,7 @@ const NotFoundScreen = () => {
         <UserBlock/>
       </header>
 
-      <div className="movie-card__wrap" style={{height: `100vh`}}>
+      <div className="movie-card__wrap" style={NotFoundScreenStyle}>
         <h1>404 Not Found</h1>
         <Link to="/">Вернуться на главную</Link>
       </div>
