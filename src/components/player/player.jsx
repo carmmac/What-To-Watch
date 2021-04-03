@@ -4,7 +4,7 @@ import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reduce
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilm} from '../../store/api-actions';
 import Loading from '../loading/loading';
-import {humanizeTimeForPlayer} from '../../utils';
+import {humanizeTimeForPlayer, getNewTimeForPlayer} from '../../utils';
 
 const Player = ({match: {params}, onExitBtnClick}) => {
   const dispatch = useDispatch();
@@ -16,8 +16,11 @@ const Player = ({match: {params}, onExitBtnClick}) => {
   const film = useSelector((state) => getFilm(state));
 
   const videoRef = useRef();
+  const progressBarRef = useRef();
+  const togglerRef = useRef();
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [togglerStyle, setTogglerStyle] = useState({left: `0%`});
 
   const onFilmLoad = () => {
     if (!isFilmLoaded) {
@@ -63,6 +66,38 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     videoRef.current.requestFullscreen();
   };
 
+  const timeChangeHandler = (evt) => {
+    evt.preventDefault();
+    const maxTime = progressBarRef.current.offsetWidth;
+    let startCoords = evt.clientX;
+    const moveAt = (value) => {
+      setTogglerStyle({left: `${value}px`});
+    };
+
+    const mouseMoveHandler = (moveEvt) => {
+      moveEvt.preventDefault();
+      let togglerShift = Math.floor((togglerRef.current.offsetLeft * 100) / maxTime);
+      videoRef.current.currentTime = getNewTimeForPlayer(togglerShift, film.runTime);
+      const shift = startCoords - moveEvt.clientX;
+      startCoords = moveEvt.clientX;
+      let moveValue = togglerRef.current.offsetLeft - shift;
+      if (moveValue > 0 && moveValue < (maxTime)) {
+        moveAt((moveValue));
+      } else {
+        moveAt((moveValue) > 0 ? maxTime : 0);
+      }
+    };
+
+    const mouseUpHandler = (upEvt) => {
+      upEvt.preventDefault();
+      document.removeEventListener(`mousemove`, mouseMoveHandler);
+      document.removeEventListener(`mouseup`, mouseUpHandler);
+    };
+
+    document.addEventListener(`mousemove`, mouseMoveHandler);
+    document.addEventListener(`mouseup`, mouseUpHandler);
+  };
+
   if (!isFilmLoaded) {
     return <Loading />;
   }
@@ -76,8 +111,8 @@ const Player = ({match: {params}, onExitBtnClick}) => {
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value="30" max="100"></progress>
-            <div className="player__toggler">Toggler</div>
+            <progress className="player__progress" ref={progressBarRef}></progress>
+            <div className="player__toggler" style={togglerStyle} ref={togglerRef} onMouseDown={timeChangeHandler}>Toggler</div>
           </div>
           <div className="player__time-value">{humanizeTimeForPlayer(film.runTime)}</div>
         </div>
