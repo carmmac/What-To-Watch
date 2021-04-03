@@ -1,5 +1,4 @@
 import {createReducer} from "@reduxjs/toolkit";
-import {DEFAULT_GENRE} from "../../const";
 import {clearData, getFavoriteFilms, getFilm, getFilmsList, getPromoFilm, getReviews, postFavoriteFilm, setGoodRequest, setBadRequest, resetRequestStatus} from "../action";
 
 export const initialState = {
@@ -23,7 +22,7 @@ const dataReducer = createReducer(initialState, (builder) => {
   builder.addCase(getFilmsList, (state, action) => {
     state.films = action.payload;
     state.isLoadedIndicator.areFilmsLoaded = true;
-    state.genres = [DEFAULT_GENRE, ...new Set(action.payload.reduce((acc, film) => {
+    state.genres = [...new Set(action.payload.reduce((acc, film) => {
       acc.push(film.genre);
       return acc;
     }, []))];

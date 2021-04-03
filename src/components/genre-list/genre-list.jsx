@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {getGenres} from '../../store/utility-reducer/selectors';
 import classNames from 'classnames';
+import {DEFAULT_GENRE, GENRES_MAX_VISIBLE_NUM} from '../../const';
 
 const GenreList = ({currentGenre, handleGenreSelect}) => {
-  const genres = useSelector((state) => getGenres(state));
+  const genres = useSelector((state) => getGenres(state)).slice(0, GENRES_MAX_VISIBLE_NUM);
+  genres.unshift(DEFAULT_GENRE);
   const cn = classNames;
 
   return (
