@@ -4,11 +4,10 @@ import {Router} from 'react-router-dom';
 import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 import GenreList from './genre-list';
-import {DEFAULT_GENRE} from '../../const';
 import {history, mockStore} from '../../utils-testing';
 
 let store;
-const fakeGenres = [DEFAULT_GENRE, `Drama`, `Action`, `Comedy`];
+const fakeGenres = [`Drama`, `Action`, `Comedy`];
 const fakeCurrentGenre = `Comedy`;
 
 describe(`GenreList`, () => {

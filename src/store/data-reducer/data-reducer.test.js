@@ -1,7 +1,7 @@
 import {ActionType} from '../action';
 import {initialState} from './data-reducer';
 import dataReducer from './data-reducer';
-import {DEFAULT_GENRE, APIRoute} from '../../const';
+import {APIRoute} from '../../const';
 import {createApi} from '../../services/api';
 import MockAdapter from 'axios-mock-adapter';
 import {fetchFilmsList} from '../api-actions';
@@ -55,7 +55,7 @@ describe(`Reducer "Data"`, () => {
     expect(dataReducer(state, loadFilmsAction))
       .toEqual({
         films,
-        genres: [DEFAULT_GENRE, films[0].genre, films[1].genre],
+        genres: [films[0].genre, films[1].genre],
         isLoadedIndicator: {
           areFilmsLoaded: true,
         },
