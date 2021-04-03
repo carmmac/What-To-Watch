@@ -4,10 +4,9 @@ import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reduce
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilm} from '../../store/api-actions';
 import Loading from '../loading/loading';
-import {useHistory} from 'react-router';
 import {humanizeTimeForPlayer} from '../../utils';
 
-const Player = ({match: {params}}) => {
+const Player = ({match: {params}, onExitBtnClick}) => {
   const dispatch = useDispatch();
 
   const getIsFilmLoadedIndicator = useMemo(makeGetIsFilmLoadedIndicator, []);
@@ -16,7 +15,6 @@ const Player = ({match: {params}}) => {
   const getFilm = useMemo(makeGetFilm, []);
   const film = useSelector((state) => getFilm(state));
 
-  const history = useHistory();
   const videoRef = useRef();
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -65,10 +63,6 @@ const Player = ({match: {params}}) => {
     videoRef.current.requestFullscreen();
   };
 
-  const onExitBtnClick = () => {
-    history.push(`/films/${params.id}`);
-  };
-
   if (!isFilmLoaded) {
     return <Loading />;
   }
@@ -108,6 +102,7 @@ const Player = ({match: {params}}) => {
 
 Player.propTypes = {
   match: PropTypes.object.isRequired,
+  onExitBtnClick: PropTypes.func.isRequired,
 };
 
 export default Player;
