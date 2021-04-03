@@ -1,6 +1,6 @@
 import React, {memo, useCallback, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import {DEFAULT_RATING, RatingScore} from '../../const';
+import {DEFAULT_RATING, RatingScore, REVIEW_TEXT_MAX_LENGTH, REVIEW_TEXT_MIN_LENGTH} from '../../const';
 import RatingInput from '../rating/rating-input';
 
 const ReviewForm = ({handleReviewSubmit}) => {
@@ -49,7 +49,9 @@ const ReviewForm = ({handleReviewSubmit}) => {
           id="review-text"
           placeholder="Review text"
           disabled={isDisabled}
-          ref={reviewTextRef}>
+          ref={reviewTextRef}
+          maxLength={REVIEW_TEXT_MAX_LENGTH}
+          minLength={REVIEW_TEXT_MIN_LENGTH}>
         </textarea>
         <div className="add-review__submit">
           <button className="add-review__btn" type="submit">Post</button>
