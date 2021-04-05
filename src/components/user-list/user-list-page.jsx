@@ -1,10 +1,11 @@
-import React, {useMemo} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useMemo} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import FilmsList from '../films-list/films-list.jsx';
 import Loading from '../loading/loading.jsx';
 import Logo from '../logo/logo.jsx';
 import UserBlock from '../user-block/user-block.jsx';
 import {makeGetAreFavoriteFilmsLoadedIndicator, makeGetFavoriteFilms} from '../../store/data-reducer/selectors.js';
+import {fetchFavoriteFilms} from '../../store/api-actions.js';
 
 const UserListPage = () => {
 
@@ -13,6 +14,18 @@ const UserListPage = () => {
 
   const getFavoriteFilms = useMemo(makeGetFavoriteFilms, []);
   const favoriteFilms = useSelector((state) => getFavoriteFilms(state));
+
+  const dispatch = useDispatch();
+
+  const onLoadFavoriteFilms = () => {
+    if (!areFavoriteFilmsLoaded) {
+      dispatch(fetchFavoriteFilms());
+    }
+  };
+
+  useEffect(() => {
+    onLoadFavoriteFilms();
+  }, [areFavoriteFilmsLoaded]);
 
   if (!areFavoriteFilmsLoaded) {
     return <Loading />;
