@@ -22,18 +22,20 @@ const Player = ({match: {params}, onExitBtnClick}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [togglerStyle, setTogglerStyle] = useState({left: `0%`});
 
+  const onVideoStartPlaying = () => {
+    setIsPlaying(true);
+  };
+
   const onFilmLoad = () => {
     if (!isFilmLoaded) {
       dispatch(fetchFilm(params.id));
+    } else {
+      videoRef.current.addEventListener(`playing`, onVideoStartPlaying);
     }
   };
 
   useEffect(() => {
     onFilmLoad();
-
-    return () => {
-      videoRef.current.pause();
-    };
   }, [isFilmLoaded]);
 
   const renderPlayBtn = () => {
@@ -104,9 +106,14 @@ const Player = ({match: {params}, onExitBtnClick}) => {
 
   return (
     <div className="player">
-      <video ref={videoRef} src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
+      <video autoPlay={true} ref={videoRef} src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
 
-      <button type="button" className="player__exit" onClick={onExitBtnClick}>Exit</button>
+      <button type="button" className="player__exit" onClick={() => {
+        videoRef.current.pause();
+        videoRef.current.removeEventListener(`playing`, onVideoStartPlaying);
+        videoRef.current = null;
+        onExitBtnClick();
+      }}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
