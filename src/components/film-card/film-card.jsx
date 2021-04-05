@@ -25,18 +25,7 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
         previewVideoLink={previewVideoLink}
         previewImage={previewImage}
       />
-      : <Link
-        className="small-movie-card__link"
-        to={`/films/${id}`}
-        onClick={() => {
-          setStartPlayer(false);
-          dispatch(clearData());
-          if (handleFilmCardClick) {
-            handleFilmCardClick(id);
-          }
-        }}>
-        <img src={previewImage} alt={name} style={ComponentStyle.FILM_CARD_IMG} />
-      </Link>;
+      : <img src={previewImage} alt={name} style={ComponentStyle.FILM_CARD_IMG} />;
   };
 
   return (
@@ -51,23 +40,23 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
         setStartPlayer(false);
       }}
     >
-      <div className="small-movie-card__image">
-        {renderFilmCardContent()}
-        <h3 className="small-movie-card__title">
-          <Link
-            className="small-movie-card__link"
-            to={`/films/${id}`}
-            onClick={() => {
-              setStartPlayer(false);
-              dispatch(clearData());
-              if (handleFilmCardClick) {
-                handleFilmCardClick(id);
-              }
-            }}>
+      <Link
+        className="small-movie-card__link"
+        to={`/films/${id}`}
+        onClick={() => {
+          setStartPlayer(false);
+          dispatch(clearData());
+          if (handleFilmCardClick) {
+            handleFilmCardClick(id);
+          }
+        }}>
+        <div className="small-movie-card__image">
+          {renderFilmCardContent()}
+          <h3 className="small-movie-card__title">
             {name}
-          </Link>
-        </h3>
-      </div>
+          </h3>
+        </div>
+      </Link>
     </article>
   );
 };
