@@ -71,6 +71,10 @@ const ComponentStyle = {
     width: `218px`,
     height: `327px`,
   },
+  POSTER_IMG_BIG: {
+    width: `273px`,
+    height: `410px`,
+  },
   USER_AVATAR: {
     width: `63px`,
     height: `63px`,

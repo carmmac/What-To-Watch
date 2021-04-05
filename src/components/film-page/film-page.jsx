@@ -61,7 +61,7 @@ const FilmPage = ({match: {params}}) => {
       <div className="movie-card__wrap movie-card__translate-top">
         <div className="movie-card__info">
           <div className="movie-card__poster movie-card__poster--big">
-            <img src={film.posterImage} alt={film.name} style={ComponentStyle.POSTER_IMG} />
+            <img src={film.posterImage} alt={film.name} style={ComponentStyle.POSTER_IMG_BIG} />
           </div>
           <FilmPageTabs film={film} filmId={filmId} />
         </div>
