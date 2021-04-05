@@ -25,7 +25,18 @@ const FilmCard = ({id, name, previewImage, previewVideoLink, handleFilmCardClick
         previewVideoLink={previewVideoLink}
         previewImage={previewImage}
       />
-      : <img src={previewImage} alt={name} style={ComponentStyle.FILM_CARD_IMG} />;
+      : <Link
+        className="small-movie-card__link"
+        to={`/films/${id}`}
+        onClick={() => {
+          setStartPlayer(false);
+          dispatch(clearData());
+          if (handleFilmCardClick) {
+            handleFilmCardClick(id);
+          }
+        }}>
+        <img src={previewImage} alt={name} style={ComponentStyle.FILM_CARD_IMG} />
+      </Link>;
   };
 
   return (
