@@ -26,12 +26,35 @@ const humanizeTimeForDescription = (duration) => {
   return `${time.minutes}m`;
 };
 
-const humanizeTimeForPlayer = (duration) => {
+const humanizeFilmTotalDurationForPlayer = (duration) => {
   const time = parseFilmDuration(duration);
   if (time.hours > 0) {
     return `${time.hours}:${time.minutes}:00`;
   }
   return `${time.minutes}:00`;
+};
+
+const humanizeTimeForPlayer = (timeInSeconds) => {
+  const minutes = Math.trunc(timeInSeconds / 60);
+  const hours = Math.trunc(minutes / 60);
+  const seconds = Math.trunc(timeInSeconds % 60);
+
+  return (
+    `${
+      Math.trunc(hours)
+    }:${
+      Math.trunc(minutes)
+        .toLocaleString(`en-US`, {
+          minimumIntegerDigits: 2,
+          useGrouping: false
+        })
+    }:${
+      Math.trunc(seconds)
+        .toLocaleString(`en-US`, {
+          minimumIntegerDigits: 2,
+          useGrouping: false
+        })
+    }`);
 };
 
 const humanizeFilmRating = (ratingScore) => {
@@ -54,8 +77,11 @@ const humanizeFilmRating = (ratingScore) => {
 };
 
 const getNewTimeForPlayer = (togglerPositionInPercent, totalRunTime) => {
-  const totalRunTimeInSeconds = totalRunTime * 60;
-  return Math.floor((totalRunTimeInSeconds * togglerPositionInPercent) / 100);
+  return Math.floor((totalRunTime * togglerPositionInPercent) / 100);
+};
+
+const getValuePercentFromTotal = (value, totalValue) => {
+  return (value * 100) / totalValue;
 };
 
 const adaptFilmToClient = (film) => {
@@ -122,7 +148,9 @@ export {
   adaptFilmToClient,
   adaptFilmToServer,
   humanizeTimeForDescription,
+  humanizeFilmTotalDurationForPlayer,
   humanizeTimeForPlayer,
   humanizeFilmRating,
   getNewTimeForPlayer,
+  getValuePercentFromTotal,
 };

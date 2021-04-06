@@ -4,7 +4,8 @@ import {makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reduce
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFilm} from '../../store/api-actions';
 import Loading from '../loading/loading';
-import {humanizeTimeForPlayer, getNewTimeForPlayer} from '../../utils';
+import {humanizeTimeForPlayer, humanizeFilmTotalDurationForPlayer, getNewTimeForPlayer, getValuePercentFromTotal} from '../../utils';
+import {PlayerStyle} from './player-style';
 
 const Player = ({match: {params}, onExitBtnClick}) => {
   const dispatch = useDispatch();
@@ -18,19 +19,33 @@ const Player = ({match: {params}, onExitBtnClick}) => {
   const videoRef = useRef();
   const progressBarRef = useRef();
   const togglerRef = useRef();
+  const playerTimeRef = useRef();
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(null);
+  const [playerTime, setPlayerTime] = useState(humanizeTimeForPlayer(0));
   const [togglerStyle, setTogglerStyle] = useState({left: `0%`});
+  // console.log(togglerStyle);
 
   const onVideoStartPlaying = () => {
+    setIsLoading(false);
     setIsPlaying(true);
+  };
+
+  const onVideoTimeUpdate = () => {
+    setPlayerTime(humanizeTimeForPlayer(videoRef.current.duration - videoRef.current.currentTime));
+    setTogglerStyle({left: `${getValuePercentFromTotal(videoRef.current.currentTime, videoRef.current.duration)}%`});
+  };
+
+  const onVideoLoading = () => {
+    setIsLoading(true);
   };
 
   const onFilmLoad = () => {
     if (!isFilmLoaded) {
       dispatch(fetchFilm(params.id));
     } else {
-      videoRef.current.addEventListener(`playing`, onVideoStartPlaying);
+      setPlayerTime(humanizeFilmTotalDurationForPlayer(film.runTime));
     }
   };
 
@@ -73,13 +88,13 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     const maxTime = progressBarRef.current.offsetWidth;
     let startCoords = evt.clientX;
     const moveAt = (value) => {
-      setTogglerStyle({left: `${value}px`});
+      setTogglerStyle({left: `${getValuePercentFromTotal(value, maxTime)}%`});
     };
 
     const mouseMoveHandler = (moveEvt) => {
       moveEvt.preventDefault();
-      let togglerShift = Math.floor((togglerRef.current.offsetLeft * 100) / maxTime);
-      videoRef.current.currentTime = getNewTimeForPlayer(togglerShift, film.runTime);
+      let togglerShift = Math.floor(getValuePercentFromTotal(togglerRef.current.offsetLeft, maxTime));
+      videoRef.current.currentTime = getNewTimeForPlayer(togglerShift, videoRef.current.duration);
       const shift = startCoords - moveEvt.clientX;
       startCoords = moveEvt.clientX;
       let moveValue = togglerRef.current.offsetLeft - shift;
@@ -106,11 +121,26 @@ const Player = ({match: {params}, onExitBtnClick}) => {
 
   return (
     <div className="player">
-      <video autoPlay={true} ref={videoRef} src={film.videoLink} className="player__video" poster={film.backgroundImage}></video>
+      <video
+        className="player__video"
+        poster={film.backgroundImage}
+        onPlaying={onVideoStartPlaying}
+        onTimeUpdate={onVideoTimeUpdate}
+        onLoadStart={onVideoLoading}
+        autoPlay={true}
+        ref={videoRef}
+        src={film.videoLink}>
+      </video>
+
+      {
+        isLoading &&
+        <div style={PlayerStyle.LOADING_CONTAINER}>
+          <Loading/>
+        </div>
+      }
 
       <button type="button" className="player__exit" onClick={() => {
         videoRef.current.pause();
-        videoRef.current.removeEventListener(`playing`, onVideoStartPlaying);
         videoRef.current = null;
         onExitBtnClick();
       }}>Exit</button>
@@ -121,7 +151,7 @@ const Player = ({match: {params}, onExitBtnClick}) => {
             <progress className="player__progress" ref={progressBarRef}></progress>
             <div className="player__toggler" style={togglerStyle} ref={togglerRef} onMouseDown={timeChangeHandler}>Toggler</div>
           </div>
-          <div className="player__time-value">{humanizeTimeForPlayer(film.runTime)}</div>
+          <div className="player__time-value" ref={playerTimeRef}>{playerTime}</div>
         </div>
 
         <div className="player__controls-row">
