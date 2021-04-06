@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {FilmRatingLevel, FilmRatingText} from './const';
+import {DEBOUNCE_INTERVAL, FilmRatingLevel, FilmRatingText} from './const';
 
 const getRandomNum = (min, max) => {
   return Math.random() * (max - min + 1) + min;
@@ -84,6 +84,18 @@ const getValuePercentFromTotal = (value, totalValue) => {
   return (value * 100) / totalValue;
 };
 
+const debounce = (callback) => {
+  let lastTimeout = null;
+  return (...params) => {
+    if (lastTimeout) {
+      clearTimeout(lastTimeout);
+    }
+    lastTimeout = setTimeout(() => {
+      callback(...params);
+    }, DEBOUNCE_INTERVAL);
+  };
+};
+
 const adaptFilmToClient = (film) => {
   const adaptedFilm = Object.assign(
       {},
@@ -153,4 +165,5 @@ export {
   humanizeFilmRating,
   getNewTimeForPlayer,
   getValuePercentFromTotal,
+  debounce,
 };

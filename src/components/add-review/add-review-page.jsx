@@ -11,6 +11,7 @@ import Loading from '../loading/loading';
 import {getRequestStatus, makeGetFilm, makeGetIsFilmLoadedIndicator} from '../../store/data-reducer/selectors';
 import AddReviewMessage from './add-review-message';
 import {ComponentStyle, RequestStatus} from '../../const';
+import {debounce} from '../../utils';
 
 const AddReviewPage = ({match: {params}}) => {
 
@@ -69,7 +70,7 @@ const AddReviewPage = ({match: {params}}) => {
       </div>
 
       <div className="add-review">
-        <ReviewForm handleReviewSubmit={handleReviewSubmit} />
+        <ReviewForm handleReviewSubmit={debounce(handleReviewSubmit)} />
       </div>
 
       {

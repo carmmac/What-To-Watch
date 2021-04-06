@@ -55,8 +55,10 @@ const postReview = (id, {rating, comment}, callback) => (next, _getState, api) =
       next(redirectToRoute(`/films/${id}`));
       next(resetRequestStatus());
     }, REDIRECT_AFTER_REVIEW_POST_TIMEOUT))
-    .catch(() => next(setBadRequest()))
-    .finally(() => callback())
+    .catch(() => {
+      next(setBadRequest());
+      callback();
+    })
 );
 
 const fetchFavoriteFilms = () => (next, _getState, api) => (

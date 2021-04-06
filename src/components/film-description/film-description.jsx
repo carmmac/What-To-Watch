@@ -7,6 +7,7 @@ import {AuthorizationStatus, DescriptionBlockVersion} from '../../const';
 import {Link} from 'react-router-dom';
 import {makeGetFavoriteFilms} from '../../store/data-reducer/selectors';
 import {clearData} from '../../store/action';
+import {debounce} from '../../utils';
 
 const FilmDescription = ({film, version}) => {
 
@@ -28,7 +29,7 @@ const FilmDescription = ({film, version}) => {
     return <>
       {
         (!isFilmFavorite() &&
-        <button className="btn btn--list movie-card__button" type="button" onClick={handleFavoriteClick}>
+        <button className="btn btn--list movie-card__button" type="button" onClick={debounce(handleFavoriteClick)}>
           <svg viewBox="0 0 19 20" width="19" height="20">
             <use xlinkHref="#add"></use>
           </svg>
