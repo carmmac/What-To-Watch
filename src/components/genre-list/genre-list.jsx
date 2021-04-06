@@ -13,7 +13,7 @@ const GenreList = ({currentGenre, handleGenreSelect}) => {
 
   return (
     <ul className="catalog__genres-list">
-      {genres.map((genreItem, i) =>
+      {genres.map((genreItem) =>
         <li
           className={
             cn(
@@ -21,7 +21,7 @@ const GenreList = ({currentGenre, handleGenreSelect}) => {
                 `catalog__genres-item`
             )
           }
-          key={`genreItem_${i}`}>
+          key={`genreItem_${genreItem}`}>
           <span
             className="catalog__genres-link"
             style={GenreListStyle.ITEM}

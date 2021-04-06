@@ -17,7 +17,7 @@ const ReviewForm = ({handleReviewSubmit}) => {
       isChecked = true;
     }
     return <RatingInput
-      key={`review_input${ratingValue}`}
+      key={`review_input_${ratingValue}`}
       ratingScore={ratingValue}
       handleUserRatingChange={handleUserRatingChange}
       isChecked={isChecked}

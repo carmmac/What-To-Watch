@@ -25,7 +25,7 @@ const FilmPageReviews = ({id}) => {
       );
     }
     return (
-      reviews.map((review, i) => <ReviewItem key={`review-${i}`} review={review} />)
+      reviews.map((review) => <ReviewItem key={`review_${review.id}`} review={review} />)
     );
   };
   useEffect(() => {

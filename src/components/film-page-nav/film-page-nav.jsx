@@ -10,7 +10,7 @@ const FilmPageNav = ({selectedTab, handleTabSelect}) => {
 
   return (
     <ul className="movie-nav__list">
-      {tabNames.map((name, i) => {
+      {tabNames.map((name) => {
         return (
           <li
             className={
@@ -19,7 +19,7 @@ const FilmPageNav = ({selectedTab, handleTabSelect}) => {
                   `movie-nav__item`
               )
             }
-            key={`tabname_${name}${i}`}>
+            key={`tabname_${name}`}>
             <span
               className="movie-nav__link"
               style={FilmPageNavStyle.LINK}
