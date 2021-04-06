@@ -1,14 +1,25 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import {Router} from 'react-router-dom';
+import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 import {fakeFilm, history, mockStore} from '../../utils-testing';
 import {AuthorizationStatus} from '../../const';
 import UserListPage from './user-list-page';
 
 let store;
+let mockDispatch;
+let useDispatchSpy;
 
 describe(`UserListPage`, () => {
+  beforeEach(() => {
+    useDispatchSpy = jest.spyOn(redux, `useDispatch`);
+    mockDispatch = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatch);
+  });
+  afterEach(() => {
+    useDispatchSpy.mockClear();
+  });
   it(`renders itself correctly before favorite films are loaded`, () => {
     store = mockStore({
       USER: {authorizationStatus: AuthorizationStatus.AUTH},

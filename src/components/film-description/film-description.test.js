@@ -1,10 +1,10 @@
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import {act, fireEvent, render, screen} from '@testing-library/react';
 import {Router} from 'react-router-dom';
 import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 import {fakeFilm, history, mockStore} from '../../utils-testing';
-import {AppRoute, AuthorizationStatus, DescriptionBlockVersion} from '../../const';
+import {AppRoute, AuthorizationStatus, DEBOUNCE_INTERVAL, DescriptionBlockVersion} from '../../const';
 import FilmDescription from './film-description';
 
 let store;
@@ -124,8 +124,12 @@ describe(`FilmDescription for authorized user - user actions`, () => {
     useDispatchSpy = jest.spyOn(redux, `useDispatch`);
     mockDispatch = jest.fn();
     useDispatchSpy.mockReturnValue(mockDispatch);
+    jest.useFakeTimers();
   });
-  afterEach(() => useDispatchSpy.mockClear());
+  afterEach(() => {
+    useDispatchSpy.mockClear();
+    jest.useRealTimers();
+  });
 
   it(`dispatches an action after My list button click`, () => {
     store = mockStore({
@@ -142,6 +146,9 @@ describe(`FilmDescription for authorized user - user actions`, () => {
 
     const myListButtonElement = screen.getByText(`My list`).parentElement;
     fireEvent.click(myListButtonElement);
+    act(() => {
+      jest.advanceTimersByTime(DEBOUNCE_INTERVAL);
+    });
     expect(mockDispatch).toHaveBeenCalled();
   });
 
