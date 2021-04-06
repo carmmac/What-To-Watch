@@ -24,8 +24,7 @@ const Player = ({match: {params}, onExitBtnClick}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(null);
   const [playerTime, setPlayerTime] = useState(humanizeTimeForPlayer(0));
-  const [togglerStyle, setTogglerStyle] = useState({left: `0%`});
-  // console.log(togglerStyle);
+  const [togglerStyle, setTogglerStyle] = useState({left: `0px`});
 
   const onVideoStartPlaying = () => {
     setIsLoading(false);
@@ -34,7 +33,7 @@ const Player = ({match: {params}, onExitBtnClick}) => {
 
   const onVideoTimeUpdate = () => {
     setPlayerTime(humanizeTimeForPlayer(videoRef.current.duration - videoRef.current.currentTime));
-    setTogglerStyle({left: `${getValuePercentFromTotal(videoRef.current.currentTime, videoRef.current.duration)}%`});
+    setTogglerStyle({left: `${(videoRef.current.currentTime * progressBarRef.current.offsetWidth) / videoRef.current.duration}px`});
   };
 
   const onVideoLoading = () => {
@@ -88,12 +87,12 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     const maxTime = progressBarRef.current.offsetWidth;
     let startCoords = evt.clientX;
     const moveAt = (value) => {
-      setTogglerStyle({left: `${getValuePercentFromTotal(value, maxTime)}%`});
+      setTogglerStyle({left: `${value}px`});
     };
 
     const mouseMoveHandler = (moveEvt) => {
       moveEvt.preventDefault();
-      let togglerShift = Math.floor(getValuePercentFromTotal(togglerRef.current.offsetLeft, maxTime));
+      let togglerShift = getValuePercentFromTotal(togglerRef.current.offsetLeft, maxTime);
       videoRef.current.currentTime = getNewTimeForPlayer(togglerShift, videoRef.current.duration);
       const shift = startCoords - moveEvt.clientX;
       startCoords = moveEvt.clientX;
