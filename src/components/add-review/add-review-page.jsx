@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
@@ -33,6 +33,8 @@ const AddReviewPage = ({match: {params}}) => {
     };
     dispatch(postReview(filmId, newReview, callback));
   };
+
+  const debouncedReviewSubmitHandler = useCallback(debounce(handleReviewSubmit));
 
   useEffect(() => {
     if (!isFilmLoaded) {
@@ -70,7 +72,7 @@ const AddReviewPage = ({match: {params}}) => {
       </div>
 
       <div className="add-review">
-        <ReviewForm handleReviewSubmit={debounce(handleReviewSubmit)} />
+        <ReviewForm handleReviewSubmit={debouncedReviewSubmitHandler} />
       </div>
 
       {

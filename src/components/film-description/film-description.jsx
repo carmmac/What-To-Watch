@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {filmPropTypes} from '../../prop-types';
@@ -25,11 +25,13 @@ const FilmDescription = ({film, version}) => {
     dispatch(postFilmToFavorites(film.id, film.isFavorite));
   };
 
+  const debouncedFavoriteClickHandler = useCallback(debounce(handleFavoriteClick));
+
   const renderPrivateButtonSection = () => {
     return <>
       {
         (!isFilmFavorite() &&
-        <button className="btn btn--list movie-card__button" type="button" onClick={debounce(handleFavoriteClick)}>
+        <button className="btn btn--list movie-card__button" type="button" onClick={debouncedFavoriteClickHandler}>
           <svg viewBox="0 0 19 20" width="19" height="20">
             <use xlinkHref="#add"></use>
           </svg>
