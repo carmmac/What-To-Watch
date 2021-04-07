@@ -77,7 +77,7 @@ const humanizeFilmRating = (ratingScore) => {
 };
 
 const getNewTimeForPlayer = (togglerPositionInPercent, totalRunTime) => {
-  return Math.floor((totalRunTime * togglerPositionInPercent) / 100);
+  return (totalRunTime * togglerPositionInPercent) / 100;
 };
 
 const getValuePercentFromTotal = (value, totalValue) => {
