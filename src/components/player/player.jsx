@@ -87,25 +87,27 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     const maxTime = progressBarRef.current.offsetWidth;
     let startCoords = evt.clientX;
     const moveAt = (value) => {
-      setTogglerStyle({left: `${(value * 100) / maxTime}%`});
+      setTogglerStyle({left: `${value}px`});
     };
 
     const mouseMoveHandler = (moveEvt) => {
       moveEvt.preventDefault();
+      videoRef.current.pause();
       let togglerShift = getValuePercentFromTotal(togglerRef.current.offsetLeft, maxTime);
       videoRef.current.currentTime = getNewTimeForPlayer(togglerShift, videoRef.current.duration);
       const shift = startCoords - moveEvt.clientX;
       startCoords = moveEvt.clientX;
       let moveValue = togglerRef.current.offsetLeft - shift;
-      if (moveValue > 0 && moveValue < (maxTime)) {
-        moveAt((moveValue));
+      if (moveValue > 0 && moveValue < maxTime) {
+        moveAt(moveValue);
       } else {
-        moveAt((moveValue) > 0 ? maxTime : 0);
+        moveAt(moveValue > 0 ? maxTime : 0);
       }
     };
 
     const mouseUpHandler = (upEvt) => {
       upEvt.preventDefault();
+      videoRef.current.play();
       document.removeEventListener(`mousemove`, mouseMoveHandler);
       document.removeEventListener(`mouseup`, mouseUpHandler);
     };
