@@ -31,14 +31,16 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     setIsPlaying(true);
   };
 
+  const onVideoCanPlay = () => setIsLoading(false);
+
+  const onVideoEnded = () => setIsPlaying(false);
+
   const onVideoTimeUpdate = () => {
     setPlayerTime(humanizeTimeForPlayer(videoRef.current.duration - videoRef.current.currentTime));
     setTogglerStyle({left: `${(videoRef.current.currentTime * progressBarRef.current.offsetWidth) / videoRef.current.duration}px`});
   };
 
-  const onVideoLoading = () => {
-    setIsLoading(true);
-  };
+  const onVideoLoading = () => setIsLoading(true);
 
   const onFilmLoad = () => {
     if (!isFilmLoaded) {
@@ -48,9 +50,7 @@ const Player = ({match: {params}, onExitBtnClick}) => {
     }
   };
 
-  useEffect(() => {
-    onFilmLoad();
-  }, [isFilmLoaded]);
+  useEffect(() => onFilmLoad(), [isFilmLoaded]);
 
   const renderPlayBtn = () => {
     return isPlaying
@@ -123,9 +123,11 @@ const Player = ({match: {params}, onExitBtnClick}) => {
       <video
         className="player__video"
         poster={film.backgroundImage}
+        onCanPlayThrough={onVideoCanPlay}
         onPlaying={onVideoStartPlaying}
         onTimeUpdate={onVideoTimeUpdate}
         onLoadStart={onVideoLoading}
+        onEnded={onVideoEnded}
         autoPlay={true}
         ref={videoRef}
         src={film.videoLink}>
