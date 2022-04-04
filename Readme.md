@@ -5,6 +5,7 @@
 - установить зависимости;
 - __npm run start__ запускает webpack dev server в режиме development;
 - __npm run build__ собирает продакш версию проекта;
+- __npm run test__ запускает тесты;
 
 ### Технологии:
 
